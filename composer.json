@@ -1,0 +1,30 @@
+{
+    "authors": [
+        {
+            "name": "Diego Rin Martín",
+            "email": "diego.rin@scalefast.com",
+            "homepage": "https://diego.ninja"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "rmccue/requests": "^1.8",
+        "doctrine/collections": "^1.6",
+        "nesbot/carbon": "^2.53"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ninja\\Redmine\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ninja\\Redmine\\Tests\\": "tests/"
+        }
+    }
+}
