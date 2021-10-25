@@ -16,13 +16,8 @@ abstract class AbstractRepository implements RepositoryInterface
     public const DEFAULT_LIMIT = 25;
     public const DEFAULT_OFFSET = 0;
 
-    public const REDMINE_FORMAT_JSON = "json";
-    public const REDMINE_FORMAT_XML = "xml";
-
-    public const DEFAULT_FORMAT = "json";
-
     protected array $fetch_relations = [];
-    protected array $allowed_filters = [];
+    protected static array $allowed_filters = [];
 
     public function __construct(
         protected Client $client,
@@ -33,53 +28,66 @@ abstract class AbstractRepository implements RepositoryInterface
     /**
      * @throws JsonException
      */
-    public function create(AbstractModel $model): AbstractModel
+    public function create(AbstractModel $model): ?AbstractModel
     {
         $model_class = $this->getModelClass();
         if (!$model instanceof $model_class) {
             throw new Error('Wrong model class for ' . $this->getEndpoint() . " api. Expected " . $this->getModelClass());
         }
 
-        $data = $this->client->post(
-            $this->getEndpoint() . "." . $this->getFormat(),
+        $api_response = $this->client->post(
+            $this->getEndpoint() . "." . $this->client->getFormat(),
             json_encode($model->getPayload(), JSON_THROW_ON_ERROR)
         );
 
-        $model = new $model_class();
-        $model->fromArray($data[$model->getName()]);
+        if ($api_response->isSuccess()) {
+            $model = new $model_class();
+            $model->fromArray($api_response->getData()[$model->getName()]);
 
-        return $model;
+            return $model;
+        }
+
+        return null;
 
     }
 
     /**
      * @throws JsonException
      */
-    public function get(int $id): AbstractModel
+    public function get(int $id): ?AbstractModel
     {
         $params = [];
-        $endpoint_url = $this->getEndpoint() . "/" . $id . "." . $this->getFormat();
+        $endpoint_url = $this->getEndpoint() . "/" . $id . "." . $this->client->getFormat();
 
         if (!empty($this->fetch_relations)) {
             $params["include"] = implode(",", $this->fetch_relations);
         }
 
-        $data = $this->client->get($this->constructEndpointUrl($endpoint_url, $params));
+        $api_response = $this->client->get($this->constructEndpointUrl($endpoint_url, $params));
 
-        $model_class = $this->getModelClass();
-        $model = new $model_class();
-        $model->fromArray($data[$model->getEntityName()]);
+        if ($api_response->isSuccess()) {
+            $model_class = $this->getModelClass();
+            $model = new $model_class();
+            $model->fromArray($api_response->getData()[$model->getEntityName()]);
 
-        return $model;
+            return $model;
+
+        }
+
+        return null;
+
     }
 
+    /**
+     * @throws JsonException
+     */
     public function all(): ArrayCollection
     {
         $ret = new ArrayCollection();
 
-        $response = $this->client->get($this->getEndpoint() . "." . $this->getFormat());
-        if (isset($response[$this->getEndpoint()])) {
-            $ret = $this->populateCollection($response[$this->getEndpoint()], $ret);
+        $api_response = $this->client->get($this->getEndpoint() . "." . $this->client->getFormat());
+        if (isset($api_response->getData()[$this->getEndpoint()])) {
+            $ret = $this->populateCollection($api_response->getData()[$this->getEndpoint()], $ret);
         }
 
         return $ret;
@@ -96,12 +104,12 @@ abstract class AbstractRepository implements RepositoryInterface
             throw new Error('Wrong model class for ' . $this->getEndpoint() . " api. Expected " . $this->getModelClass());
         }
 
-        $response = $this->client->put(
-            $this->getEndpoint() . "/" . $model->getId() . "." . $this->getFormat(),
+        $api_response = $this->client->put(
+            $this->getEndpoint() . "/" . $model->getId() . "." . $this->client->getFormat(),
             json_encode($model->getPayload(), JSON_THROW_ON_ERROR)
         );
 
-        if ($response->success) {
+        if ($api_response->isSuccess()) {
             return $this->get($model->getId());
         }
 
@@ -110,8 +118,8 @@ abstract class AbstractRepository implements RepositoryInterface
 
     public function delete(AbstractModel $model): void
     {
-        $endpoint_url = $this->getEndpoint() . "/" . $model->getId() . "." . $this->getFormat();
-        $data = $this->client->delete($endpoint_url);
+        $endpoint_url = $this->getEndpoint() . "/" . $model->getId() . "." . $this->client->getFormat();
+        $api_response = $this->client->delete($endpoint_url);
 
     }
 
@@ -146,7 +154,7 @@ abstract class AbstractRepository implements RepositoryInterface
     {
         $ret = new ArrayCollection();
 
-        $search_endpoint = $this->getEndpoint() . "." . $this->getFormat();
+        $search_endpoint = $this->getEndpoint() . "." . $this->client->getFormat();
 
         if (!empty($this->fetch_relations)) {
             $params["include"] = implode(",", $this->fetch_relations);
@@ -178,10 +186,12 @@ abstract class AbstractRepository implements RepositoryInterface
             $params[self::SEARCH_PARAM_LIMIT] = $_limit;
             $params[self::SEARCH_PARAM_OFFSET] = $offset;
 
-            $new_response = $this->client->get($this->constructEndpointUrl($search_endpoint, $params));
+            $api_response = $this->client->get($this->constructEndpointUrl($search_endpoint, $params));
 
-            $ret = $this->populateCollection($new_response[$this->getEndpoint()], $ret);
-            $offset += $_limit;
+            if ($api_response->isSuccess()) {
+                $ret = $this->populateCollection($api_response->getData()[$this->getEndpoint()], $ret);
+                $offset += $_limit;
+            }
         }
 
         return $ret;
@@ -194,11 +204,6 @@ abstract class AbstractRepository implements RepositoryInterface
         }
 
         throw new Error('Mandatory constant API_ENDPOINT not defined in class: ' . get_class($this));
-    }
-
-    protected function getFormat(): string
-    {
-        return $this->options["format"] ?? self::DEFAULT_FORMAT;
     }
 
     protected function populateCollection(array $items, ArrayCollection $collection): ArrayCollection
@@ -214,20 +219,27 @@ abstract class AbstractRepository implements RepositoryInterface
         return $collection;
     }
 
-    protected function isNotNull($var): bool
+    protected function isValidParameter(mixed $parameter, string $parameter_name): bool
     {
-        return
-            false !== $var &&
-            null !== $var &&
-            '' !== $var &&
-            !((is_array($var) || is_object($var)) && empty($var));
+        $is_valid =
+            false !== $parameter &&
+            null !== $parameter &&
+            '' !== $parameter &&
+            !((is_array($parameter) || is_object($parameter)) && empty($parameter));
+
+        if (!empty(self::$allowed_filters)) {
+            return $is_valid && in_array($parameter_name, self::$allowed_filters, true);
+        }
+
+        return $is_valid;
     }
 
     protected function sanitizeParams(array $defaults, array $params): array
     {
         return array_filter(
             array_merge($defaults, $params),
-            [$this, 'isNotNull']
+            [$this, 'isValidParameter'],
+            ARRAY_FILTER_USE_BOTH
         );
     }
 

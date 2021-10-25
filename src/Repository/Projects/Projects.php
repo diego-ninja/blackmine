@@ -34,7 +34,7 @@ class Projects extends AbstractRepository
 
     public function archive(Project $project): Project
     {
-        $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/archive" . "." . $this->getFormat();
+        $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/archive" . "." . $this->client->getFormat();
         $data = $this->client->put($endpoint,'', ["Content-Length" => 0]);
 
         return $project;
@@ -42,7 +42,7 @@ class Projects extends AbstractRepository
 
     public function unArchive(Project $project): Project
     {
-        $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/unarchive" . "." . $this->getFormat();
+        $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/unarchive" . "." . $this->client->getFormat();
         $data = $this->client->put($endpoint,'', ["Content-Length" => 0]);
 
         return $project;

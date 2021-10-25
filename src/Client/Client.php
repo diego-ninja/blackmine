@@ -3,8 +3,8 @@
 namespace Ninja\Redmine\Client;
 
 use JsonException;
+use Ninja\Redmine\Client\Response\ApiResponse;
 use Requests;
-use Requests_Response;
 use Ninja\Redmine\Repository\AbstractRepository;
 use Ninja\Redmine\Repository\Issues\Issues;
 use Ninja\Redmine\Repository\Projects\Projects;
@@ -18,6 +18,7 @@ class Client implements ClientInterface
     public function __construct(
         protected string $base_url,
         protected string $api_key,
+        protected string $format = ClientInterface::REDMINE_FORMAT_JSON,
         protected array $headers = []
     ) {
         $this->initRedmineHeaders();
@@ -37,30 +38,62 @@ class Client implements ClientInterface
     /**
      * @throws JsonException
      */
-    public function post(string $endpoint, string $body = '', array $headers = []): array
+    public function post(string $endpoint, string $body = '', array $headers = []): ApiResponse
     {
         $response = Requests::post($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers), $body);
-        return json_decode($response->body, true, 512, JSON_THROW_ON_ERROR);
+
+        $api_response = new ApiResponse();
+        $api_response->setStatus($response->status_code);
+        $api_response->setData(json_decode($response->body, true, 512, JSON_THROW_ON_ERROR));
+
+        return $api_response;
     }
 
     /**
      * @throws JsonException
      */
-    public function get(string $endpoint, array $headers = []): array
+    public function get(string $endpoint, array $headers = []): ApiResponse
     {
         $response = Requests::get($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
-        echo($response->body);
-        return json_decode($response->body, true, 512, JSON_THROW_ON_ERROR);
+
+        $api_response = new ApiResponse();
+        $api_response->setStatus($response->status_code);
+        $api_response->setData(json_decode($response->body, true, 512, JSON_THROW_ON_ERROR));
+
+        return $api_response;
     }
 
-    public function put(string $endpoint, ?string $body = null, array $headers = []): Requests_Response
+    /**
+     * @throws JsonException
+     */
+    public function put(string $endpoint, ?string $body = null, array $headers = []): ApiResponse
     {
-        return Requests::put($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers), $body);
+        $response = Requests::put($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers), $body);
+        $api_response = new ApiResponse();
+        $api_response->setStatus($response->status_code);
+        $api_response->setData(json_decode($response->body, true, 512, JSON_THROW_ON_ERROR));
+
+        return $api_response;
+
     }
 
-    public function delete(string $endpoint, array $headers = []): Requests_Response
+    /**
+     * @throws JsonException
+     */
+    public function delete(string $endpoint, array $headers = []): ApiResponse
     {
-        return Requests::delete($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
+        $response = Requests::delete($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
+        $api_response = new ApiResponse();
+        $api_response->setStatus($response->status_code);
+        $api_response->setData(json_decode($response->body, true, 512, JSON_THROW_ON_ERROR));
+
+        return $api_response;
+
+    }
+
+    public function getFormat(): string
+    {
+        return $this->format;
     }
 
     private function getRequestHeaders(array $headers): array
