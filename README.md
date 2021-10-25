@@ -48,6 +48,7 @@ As we are in a so, really so, so, so, alpha stage, of course there are no docume
 - [Time Entries API](https://www.redmine.org/projects/redmine/wiki/Rest_TimeEntries) (0%)
 - [Attachments API](https://www.redmine.org/projects/redmine/wiki/Rest_Attachments) (0%)
 - Error handling and exceptions (0%)
+- Model functionality (50%)
 - Unit tests (0%)
 
 ## Note
