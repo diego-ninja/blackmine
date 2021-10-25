@@ -1,4 +1,13 @@
 {
+    "name": "ninja/redmine-api",
+    "type": "library",
+    "description": "Redmine API Client",
+    "keywords": [
+        "redmine",
+        "api",
+        "client"
+    ],
+    "license": "MIT",
     "authors": [
         {
             "name": "Diego Rin Martín",
