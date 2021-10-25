@@ -2,10 +2,30 @@
 
 namespace Ninja\Redmine\Client\Response;
 
+use JsonException;
+use Requests_Response;
+
 class ApiResponse
 {
-    protected int $status;
-    protected ?array $data;
+    private function __construct(protected  int $status, protected ?array $data)
+    {
+
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public static function fromRequestsResponse(Requests_Response $response): self
+    {
+        $data = (str_contains( (string) $response->headers->getValues("Content-Type")[0], "application/json") && $response->body !== '') ?
+            json_decode($response->body, true, 512, JSON_THROW_ON_ERROR) :
+            [];
+
+        return new self(
+            $response->status_code,
+            $data
+        );
+    }
 
     public function getStatus(): int
     {

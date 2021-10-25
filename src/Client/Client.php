@@ -41,12 +41,7 @@ class Client implements ClientInterface
     public function post(string $endpoint, string $body = '', array $headers = []): ApiResponse
     {
         $response = Requests::post($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers), $body);
-
-        $api_response = new ApiResponse();
-        $api_response->setStatus($response->status_code);
-        $api_response->setData(json_decode($response->body, true, 512, JSON_THROW_ON_ERROR));
-
-        return $api_response;
+        return ApiResponse::fromRequestsResponse($response);
     }
 
     /**
@@ -55,12 +50,7 @@ class Client implements ClientInterface
     public function get(string $endpoint, array $headers = []): ApiResponse
     {
         $response = Requests::get($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
-
-        $api_response = new ApiResponse();
-        $api_response->setStatus($response->status_code);
-        $api_response->setData(json_decode($response->body, true, 512, JSON_THROW_ON_ERROR));
-
-        return $api_response;
+        return ApiResponse::fromRequestsResponse($response);
     }
 
     /**
@@ -69,11 +59,7 @@ class Client implements ClientInterface
     public function put(string $endpoint, ?string $body = null, array $headers = []): ApiResponse
     {
         $response = Requests::put($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers), $body);
-        $api_response = new ApiResponse();
-        $api_response->setStatus($response->status_code);
-        $api_response->setData(json_decode($response->body, true, 512, JSON_THROW_ON_ERROR));
-
-        return $api_response;
+        return ApiResponse::fromRequestsResponse($response);
 
     }
 
@@ -83,12 +69,7 @@ class Client implements ClientInterface
     public function delete(string $endpoint, array $headers = []): ApiResponse
     {
         $response = Requests::delete($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
-        $api_response = new ApiResponse();
-        $api_response->setStatus($response->status_code);
-        $api_response->setData(json_decode($response->body, true, 512, JSON_THROW_ON_ERROR));
-
-        return $api_response;
-
+        return ApiResponse::fromRequestsResponse($response);
     }
 
     public function getFormat(): string
@@ -115,6 +96,7 @@ class Client implements ClientInterface
         $this->headers[self::REDMINE_API_KEY_HEADER] = $this->api_key;
         $this->headers["Content-Type"] = "application/json";
         $this->headers["Cache-Control"] = "no-cache";
+        $this->headers["User-Agent"] = "Scalefast Gitlab Connector v1.0";
     }
 
 }

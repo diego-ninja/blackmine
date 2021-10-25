@@ -2,6 +2,7 @@
 
 namespace Ninja\Redmine\Repository\Issues;
 
+use Carbon\CarbonInterface;
 use Ninja\Redmine\Model\User\Watcher;
 use Ninja\Redmine\Repository\AbstractRepository;
 use Ninja\Redmine\Model\Issue\Attachment;
@@ -9,6 +10,7 @@ use Ninja\Redmine\Model\Issue\Changeset;
 use Ninja\Redmine\Model\Issue\Issue;
 use Ninja\Redmine\Model\Issue\Journal;
 use Ninja\Redmine\Model\Issue\Relation;
+use Ninja\Redmine\Repository\RepositoryInterface;
 
 class Issues extends AbstractRepository
 {
@@ -22,10 +24,13 @@ class Issues extends AbstractRepository
     public const ISSUE_RELATION_WATCHERS = "watchers";
 
     public const ISSUE_FILTER_ISSUE_ID = "issue_id";
+    public const ISSUE_FILTER_PARENT_ID = "parent_id";
     public const ISSUE_FILTER_PROJECT_ID = "project_id";
     public const ISSUE_FILTER_SUBPROJECT_ID = "subproject_id";
     public const ISSUE_FILTER_TRACKER_ID = "tracker_id";
     public const ISSUE_FILTER_STATUS_ID = "status_id";
+    public const ISSUE_FILTER_ASSIGNED_TO_ID = "assigned_to_id";
+
 
     protected static array $relation_class_map = [
         self::ISSUE_RELATION_CHILDREN => Issue::class,
@@ -37,15 +42,21 @@ class Issues extends AbstractRepository
     ];
 
     protected static array $allowed_filters = [
-        self::ISSUE_FILTER_ISSUE_ID,
-        self::ISSUE_FILTER_PROJECT_ID,
-        self::ISSUE_FILTER_SUBPROJECT_ID,
-        self::ISSUE_FILTER_TRACKER_ID,
-        self::ISSUE_FILTER_STATUS_ID
+        self::ISSUE_FILTER_ISSUE_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT_ARRAY,
+        self::ISSUE_FILTER_PROJECT_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
+        self::ISSUE_FILTER_SUBPROJECT_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
+        self::ISSUE_FILTER_TRACKER_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
+        self::ISSUE_FILTER_STATUS_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
+        self::ISSUE_FILTER_PARENT_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
+        self::ISSUE_FILTER_ASSIGNED_TO_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
+        self::COMMON_FILTER_CREATED_ON => CarbonInterface::class,
+        self::COMMON_FILTER_UPDATED_ON => CarbonInterface::class,
+        self::COMMON_FILTER_CUSTOM_FIELDS => RepositoryInterface::SEARCH_PARAM_TYPE_CF_ARRAY
     ];
 
     public function getModelClass(): string
     {
         return Issue::class;
     }
+
 }

@@ -10,14 +10,9 @@ use Ninja\Redmine\Model\AbstractModel;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
-    public const SEARCH_PARAM_LIMIT = "limit";
-    public const SEARCH_PARAM_OFFSET = "offset";
-
-    public const DEFAULT_LIMIT = 25;
-    public const DEFAULT_OFFSET = 0;
+    use SearchableTrait;
 
     protected array $fetch_relations = [];
-    protected static array $allowed_filters = [];
 
     public function __construct(
         protected Client $client,
@@ -54,7 +49,7 @@ abstract class AbstractRepository implements RepositoryInterface
     /**
      * @throws JsonException
      */
-    public function get(int $id): ?AbstractModel
+    public function get(mixed $id): ?AbstractModel
     {
         $params = [];
         $endpoint_url = $this->getEndpoint() . "/" . $id . "." . $this->client->getFormat();
@@ -123,78 +118,9 @@ abstract class AbstractRepository implements RepositoryInterface
 
     }
 
-    /**
-     * @param string|string[] $include
-     * @return $this
-     */
-    public function include(string | array $include): self
-    {
-        if (!is_array($include)) {
-            $include = [$include];
-        }
-
-        foreach ($include as $item) {
-            if (array_key_exists($item, static::$relation_class_map)) {
-                $this->fetch_relations[] = $item;
-            }
-        }
-
-        return $this;
-    }
-
     public static function getRelationClassFor(string $relation): ?string
     {
         return static::$relation_class_map[$relation] ?? null;
-    }
-
-    /**
-     * @throws JsonException
-     */
-    public function search(array $params = []): ArrayCollection
-    {
-        $ret = new ArrayCollection();
-
-        $search_endpoint = $this->getEndpoint() . "." . $this->client->getFormat();
-
-        if (!empty($this->fetch_relations)) {
-            $params["include"] = implode(",", $this->fetch_relations);
-        }
-
-        $defaults = [
-            self::SEARCH_PARAM_LIMIT => self::DEFAULT_LIMIT,
-            self::SEARCH_PARAM_OFFSET => self::DEFAULT_OFFSET
-        ];
-
-        if (!empty($this->includes)) {
-            $params["include"] = implode(",", $this->includes);
-        }
-
-        $params = $this->sanitizeParams($defaults, $params);
-
-        $limit = $params[self::SEARCH_PARAM_LIMIT];
-        $offset = $params[self::SEARCH_PARAM_OFFSET];
-
-        while ($limit > 0) {
-            if ($limit > 100) {
-                $_limit = 100;
-                $limit -= 100;
-            } else {
-                $_limit = $limit;
-                $limit = 0;
-            }
-
-            $params[self::SEARCH_PARAM_LIMIT] = $_limit;
-            $params[self::SEARCH_PARAM_OFFSET] = $offset;
-
-            $api_response = $this->client->get($this->constructEndpointUrl($search_endpoint, $params));
-
-            if ($api_response->isSuccess()) {
-                $ret = $this->populateCollection($api_response->getData()[$this->getEndpoint()], $ret);
-                $offset += $_limit;
-            }
-        }
-
-        return $ret;
     }
 
     protected function getEndpoint(): string
@@ -204,43 +130,6 @@ abstract class AbstractRepository implements RepositoryInterface
         }
 
         throw new Error('Mandatory constant API_ENDPOINT not defined in class: ' . get_class($this));
-    }
-
-    protected function populateCollection(array $items, ArrayCollection $collection): ArrayCollection
-    {
-        foreach ($items as $item) {
-            $object_class = $this->getModelClass();
-            $object = new $object_class();
-            $object->fromArray($item);
-
-            $collection->add($object);
-        }
-
-        return $collection;
-    }
-
-    protected function isValidParameter(mixed $parameter, string $parameter_name): bool
-    {
-        $is_valid =
-            false !== $parameter &&
-            null !== $parameter &&
-            '' !== $parameter &&
-            !((is_array($parameter) || is_object($parameter)) && empty($parameter));
-
-        if (!empty(self::$allowed_filters)) {
-            return $is_valid && in_array($parameter_name, self::$allowed_filters, true);
-        }
-
-        return $is_valid;
-    }
-
-    protected function sanitizeParams(array $defaults, array $params): array
-    {
-        return array_filter(
-            array_merge($defaults, $params),
-            [$this, 'isValidParameter'],
-            ARRAY_FILTER_USE_BOTH
-        );
     }
 
     protected function constructEndpointUrl(string $url, array $params): string

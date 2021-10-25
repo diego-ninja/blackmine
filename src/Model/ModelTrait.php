@@ -12,7 +12,7 @@ use ReflectionProperty;
 trait ModelTrait
 {
     protected static array $direct_types = [
-        "int", "string", "float", "array", "bool"
+        "int", "string", "float", "array", "bool", "mixed"
     ];
 
     public function __call(string $method, array $args): mixed
