@@ -1,14 +1,14 @@
 <?php
 
-namespace Ninja\Redmine\Model\Project;
+namespace Dentaku\Redmine\Model\Project;
 
 use Carbon\CarbonImmutable;
-use Ninja\Redmine\Collection\IdentityCollection;
-use Ninja\Redmine\Collection\RepeatableNameCollection;
-use Ninja\Redmine\Collection\RepeatableIdCollection;
-use Ninja\Redmine\Model\Identity;
-use Ninja\Redmine\Model\Issue\Assignee;
-use Ninja\Redmine\Repository\Projects\Projects;
+use Dentaku\Redmine\Collection\IdentityCollection;
+use Dentaku\Redmine\Collection\RepeatableNameCollection;
+use Dentaku\Redmine\Collection\RepeatableIdCollection;
+use Dentaku\Redmine\Model\Identity;
+use Dentaku\Redmine\Model\Issue\Assignee;
+use Dentaku\Redmine\Repository\Projects\Projects;
 
 class Project extends Identity
 {

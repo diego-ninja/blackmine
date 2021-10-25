@@ -1,11 +1,11 @@
 <?php
 
-namespace Ninja\Redmine\Model\User;
+namespace Dentaku\Redmine\Model\User;
 
 use Carbon\CarbonImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ninja\Redmine\Model\AbstractModel;
-use Ninja\Redmine\Repository\Users\Users;
+use Dentaku\Redmine\Model\AbstractModel;
+use Dentaku\Redmine\Repository\Users\Users;
 
 class User extends AbstractModel
 {

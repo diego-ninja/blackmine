@@ -1,9 +1,9 @@
 <?php
 
-namespace Ninja\Redmine\Model\Project;
+namespace Dentaku\Redmine\Model\Project;
 
-use Ninja\Redmine\Model\Identity;
-use Ninja\Redmine\Repository\Projects\TimeEntries;
+use Dentaku\Redmine\Model\Identity;
+use Dentaku\Redmine\Repository\Projects\TimeEntries;
 
 class TimeEntry extends Identity
 {

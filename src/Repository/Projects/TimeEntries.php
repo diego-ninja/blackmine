@@ -1,9 +1,9 @@
 <?php
 
-namespace Ninja\Redmine\Repository\Projects;
+namespace Dentaku\Redmine\Repository\Projects;
 
-use Ninja\Redmine\Model\Project\TimeEntry;
-use Ninja\Redmine\Repository\AbstractRepository;
+use Dentaku\Redmine\Model\Project\TimeEntry;
+use Dentaku\Redmine\Repository\AbstractRepository;
 
 class TimeEntries extends AbstractRepository
 {

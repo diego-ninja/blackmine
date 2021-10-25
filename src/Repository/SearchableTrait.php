@@ -1,11 +1,11 @@
 <?php
 
-namespace Ninja\Redmine\Repository;
+namespace Dentaku\Redmine\Repository;
 
 use Carbon\CarbonInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonException;
-use Ninja\Redmine\Model\CustomField;
+use Dentaku\Redmine\Model\CustomField;
 
 trait SearchableTrait
 {

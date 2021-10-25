@@ -1,11 +1,11 @@
 <?php
 
-namespace Ninja\Redmine\Model;
+namespace Dentaku\Redmine\Model;
 
 use Carbon\CarbonImmutable;
 use Error;
 use JsonException;
-use Ninja\Redmine\Collection\IdentityCollection;
+use Dentaku\Redmine\Collection\IdentityCollection;
 
 abstract class AbstractModel implements ModelInterface
 {

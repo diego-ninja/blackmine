@@ -1,9 +1,9 @@
 <?php
 
-namespace Ninja\Redmine\Model\User;
+namespace Dentaku\Redmine\Model\User;
 
-use Ninja\Redmine\Model\Identity;
-use Ninja\Redmine\Repository\Users\Users;
+use Dentaku\Redmine\Model\Identity;
+use Dentaku\Redmine\Repository\Users\Users;
 
 class Role extends Identity
 {

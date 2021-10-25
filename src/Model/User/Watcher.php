@@ -1,8 +1,8 @@
 <?php
 
-namespace Ninja\Redmine\Model\User;
+namespace Dentaku\Redmine\Model\User;
 
-use Ninja\Redmine\Model\Identity;
+use Dentaku\Redmine\Model\Identity;
 
 class Watcher extends Identity
 {

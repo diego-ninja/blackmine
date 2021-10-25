@@ -1,11 +1,11 @@
 <?php
 
-namespace Ninja\Redmine\Model\User;
+namespace Dentaku\Redmine\Model\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ninja\Redmine\Model\AbstractModel;
-use Ninja\Redmine\Model\Identity;
-use Ninja\Redmine\Repository\Users\Users;
+use Dentaku\Redmine\Model\AbstractModel;
+use Dentaku\Redmine\Model\Identity;
+use Dentaku\Redmine\Repository\Users\Users;
 
 class Membership extends AbstractModel
 {

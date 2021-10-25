@@ -1,14 +1,14 @@
 <?php
 
-namespace Ninja\Redmine\Client;
+namespace Dentaku\Redmine\Client;
 
 use JsonException;
-use Ninja\Redmine\Client\Response\ApiResponse;
+use Dentaku\Redmine\Client\Response\ApiResponse;
 use Requests;
-use Ninja\Redmine\Repository\AbstractRepository;
-use Ninja\Redmine\Repository\Issues\Issues;
-use Ninja\Redmine\Repository\Projects\Projects;
-use Ninja\Redmine\Repository\Users\Users;
+use Dentaku\Redmine\Repository\AbstractRepository;
+use Dentaku\Redmine\Repository\Issues\Issues;
+use Dentaku\Redmine\Repository\Projects\Projects;
+use Dentaku\Redmine\Repository\Users\Users;
 
 class Client implements ClientInterface
 {

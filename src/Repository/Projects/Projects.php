@@ -1,13 +1,13 @@
 <?php
 
-namespace Ninja\Redmine\Repository\Projects;
+namespace Dentaku\Redmine\Repository\Projects;
 
-use Ninja\Redmine\Model\Project\IssueCategory;
-use Ninja\Redmine\Model\Project\Module;
-use Ninja\Redmine\Model\Project\Project;
-use Ninja\Redmine\Model\Project\TimeEntry;
-use Ninja\Redmine\Model\Project\Tracker;
-use Ninja\Redmine\Repository\AbstractRepository;
+use Dentaku\Redmine\Model\Project\IssueCategory;
+use Dentaku\Redmine\Model\Project\Module;
+use Dentaku\Redmine\Model\Project\Project;
+use Dentaku\Redmine\Model\Project\TimeEntry;
+use Dentaku\Redmine\Model\Project\Tracker;
+use Dentaku\Redmine\Repository\AbstractRepository;
 
 class Projects extends AbstractRepository
 {

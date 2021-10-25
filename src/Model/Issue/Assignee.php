@@ -1,8 +1,8 @@
 <?php
 
-namespace Ninja\Redmine\Model\Issue;
+namespace Dentaku\Redmine\Model\Issue;
 
-use Ninja\Redmine\Model\Identity;
+use Dentaku\Redmine\Model\Identity;
 
 class Assignee extends Identity
 {

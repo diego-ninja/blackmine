@@ -1,8 +1,8 @@
 <?php
 
-namespace Ninja\Redmine\Model\Project;
+namespace Dentaku\Redmine\Model\Project;
 
-use Ninja\Redmine\Model\Identity;
+use Dentaku\Redmine\Model\Identity;
 
 class Version extends Identity
 {

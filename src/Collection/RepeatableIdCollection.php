@@ -1,6 +1,6 @@
 <?php
 
-namespace Ninja\Redmine\Collection;
+namespace Dentaku\Redmine\Collection;
 
 class RepeatableIdCollection extends IdentityCollection
 {

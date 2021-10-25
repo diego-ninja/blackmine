@@ -1,6 +1,6 @@
 <?php
 
-namespace Ninja\Redmine\Client\Response;
+namespace Dentaku\Redmine\Client\Response;
 
 use JsonException;
 use Requests_Response;

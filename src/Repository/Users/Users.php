@@ -1,13 +1,13 @@
 <?php
 
-namespace Ninja\Redmine\Repository\Users;
+namespace Dentaku\Redmine\Repository\Users;
 
-use Ninja\Redmine\Model\User\Group;
-use Ninja\Redmine\Model\User\Membership;
-use Ninja\Redmine\Model\User\Role;
-use Ninja\Redmine\Repository\AbstractRepository;
-use Ninja\Redmine\Model\User\User;
-use Ninja\Redmine\Repository\RepositoryInterface;
+use Dentaku\Redmine\Model\User\Group;
+use Dentaku\Redmine\Model\User\Membership;
+use Dentaku\Redmine\Model\User\Role;
+use Dentaku\Redmine\Repository\AbstractRepository;
+use Dentaku\Redmine\Model\User\User;
+use Dentaku\Redmine\Repository\RepositoryInterface;
 
 class Users extends AbstractRepository
 {

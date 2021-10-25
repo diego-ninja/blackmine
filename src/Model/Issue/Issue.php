@@ -1,15 +1,15 @@
 <?php
 
-namespace Ninja\Redmine\Model\Issue;
+namespace Dentaku\Redmine\Model\Issue;
 
 use Carbon\CarbonImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ninja\Redmine\Model\Project\IssueCategory;
-use Ninja\Redmine\Model\Project\Project;
-use Ninja\Redmine\Model\Project\Tracker;
-use Ninja\Redmine\Repository\Issues\Issues;
-use Ninja\Redmine\Model\AbstractModel;
-use Ninja\Redmine\Model\Identity;
+use Dentaku\Redmine\Model\Project\IssueCategory;
+use Dentaku\Redmine\Model\Project\Project;
+use Dentaku\Redmine\Model\Project\Tracker;
+use Dentaku\Redmine\Repository\Issues\Issues;
+use Dentaku\Redmine\Model\AbstractModel;
+use Dentaku\Redmine\Model\Identity;
 
 class Issue extends AbstractModel
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Ninja\Redmine\Repository;
+namespace Dentaku\Redmine\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ninja\Redmine\Model\AbstractModel;
-use Ninja\Redmine\Model\CustomField;
+use Dentaku\Redmine\Model\AbstractModel;
+use Dentaku\Redmine\Model\CustomField;
 
 interface RepositoryInterface
 {

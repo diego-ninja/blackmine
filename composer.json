@@ -1,5 +1,5 @@
 {
-    "name": "ninja/redmine-api",
+    "name": "dentaku/redmine-api",
     "type": "library",
     "description": "Redmine API Client",
     "keywords": [
@@ -28,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Ninja\\Redmine\\": "src/"
+            "Dentaku\\Redmine\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ninja\\Redmine\\Tests\\": "tests/"
+            "Dentaku\\Redmine\\Tests\\": "tests/"
         }
     }
 }

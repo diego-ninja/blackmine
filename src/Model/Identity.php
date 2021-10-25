@@ -1,6 +1,6 @@
 <?php
 
-namespace Ninja\Redmine\Model;
+namespace Dentaku\Redmine\Model;
 
 class Identity extends AbstractModel
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Ninja\Redmine\Repository\Issues;
+namespace Dentaku\Redmine\Repository\Issues;
 
 use Carbon\CarbonInterface;
-use Ninja\Redmine\Model\User\Watcher;
-use Ninja\Redmine\Repository\AbstractRepository;
-use Ninja\Redmine\Model\Issue\Attachment;
-use Ninja\Redmine\Model\Issue\Changeset;
-use Ninja\Redmine\Model\Issue\Issue;
-use Ninja\Redmine\Model\Issue\Journal;
-use Ninja\Redmine\Model\Issue\Relation;
-use Ninja\Redmine\Repository\RepositoryInterface;
+use Dentaku\Redmine\Model\User\Watcher;
+use Dentaku\Redmine\Repository\AbstractRepository;
+use Dentaku\Redmine\Model\Issue\Attachment;
+use Dentaku\Redmine\Model\Issue\Changeset;
+use Dentaku\Redmine\Model\Issue\Issue;
+use Dentaku\Redmine\Model\Issue\Journal;
+use Dentaku\Redmine\Model\Issue\Relation;
+use Dentaku\Redmine\Repository\RepositoryInterface;
 
 class Issues extends AbstractRepository
 {
