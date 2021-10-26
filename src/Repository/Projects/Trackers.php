@@ -2,15 +2,15 @@
 
 namespace Dentaku\Redmine\Repository\Projects;
 
-use Dentaku\Redmine\Model\Project\TimeEntry;
+use Dentaku\Redmine\Model\Project\Tracker;
 use Dentaku\Redmine\Repository\AbstractRepository;
 
-class TimeEntries extends AbstractRepository
+class Trackers extends AbstractRepository
 {
-    public const API_ROOT = "time_entries";
+    public const API_ROOT = "trackers";
 
     protected function getModelClass(): string
     {
-        return TimeEntry::class;
+        return Tracker::class;
     }
 }

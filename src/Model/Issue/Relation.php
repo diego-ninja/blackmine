@@ -2,16 +2,30 @@
 
 namespace Dentaku\Redmine\Model\Issue;
 
-use Dentaku\Redmine\Model\AbstractModel;
-use Dentaku\Redmine\Repository\Issues\Issues;
+use Dentaku\Redmine\Model\Identity;
+use Dentaku\Redmine\Repository\Issues\Relations;
 
-class Relation extends AbstractModel
+class Relation extends Identity
 {
     public const ENTITY_NAME = "relation";
 
+    public const RELATION_TYPE_RELATES = "relates";
+    public const RELATION_TYPE_DUPLICATES = "duplicates";
+    public const RELATION_TYPE_DUPLICATED = "duplicated";
+    public const RELATION_TYPE_BLOCKS = "blocks";
+    public const RELATION_TYPE_BLOCKED = "blocked";
+    public const RELATION_TYPE_PRECEDES = "precedes";
+    public const RELATION_TYPE_FOLLOWS = "follows";
+    public const RELATION_TYPE_COPIED_TO = "copied_to";
+    public const RELATION_TYPE_COPIED_FROM = "copied_from";
+
+    protected int $issue_id;
+    protected int $issue_to_id;
+    protected string $relation_type = self::RELATION_TYPE_RELATES;
+
     public function getRepositoryClass(): ?string
     {
-        return Issues::class;
+        return Relations::class;
     }
 
 }

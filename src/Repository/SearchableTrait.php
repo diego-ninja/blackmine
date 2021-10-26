@@ -3,6 +3,8 @@
 namespace Dentaku\Redmine\Repository;
 
 use Carbon\CarbonInterface;
+use Dentaku\Redmine\Collection\IdentityCollection;
+use Dentaku\Redmine\Model\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonException;
 use Dentaku\Redmine\Model\CustomField;
@@ -114,7 +116,7 @@ trait SearchableTrait
             $api_response = $this->client->get($this->constructEndpointUrl($search_endpoint, $search_params));
 
             if ($api_response->isSuccess()) {
-                $ret = $this->populateCollection($api_response->getData()[$this->getEndpoint()], $ret);
+                $ret = $this->getCollection($api_response->getData()[$this->getEndpoint()]);
                 $this->offset += $_limit;
             }
         }
@@ -122,17 +124,23 @@ trait SearchableTrait
         return $ret;
     }
 
-    protected function populateCollection(array $items, ArrayCollection $collection): ArrayCollection
+    protected function getCollection(array $items): ArrayCollection
     {
+        $elements = [];
+
         foreach ($items as $item) {
             $object_class = $this->getModelClass();
             $object = new $object_class();
             $object->fromArray($item);
 
-            $collection->add($object);
+            $elements[] = $object;
         }
 
-        return $collection;
+        if ($elements[0] instanceof Identity) {
+            return new IdentityCollection($elements);
+        }
+
+        return new ArrayCollection($elements);
     }
 
     protected function isValidParameter(mixed $parameter, string $parameter_name): bool

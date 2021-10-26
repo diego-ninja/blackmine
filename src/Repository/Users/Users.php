@@ -2,6 +2,7 @@
 
 namespace Dentaku\Redmine\Repository\Users;
 
+use Dentaku\Redmine\Model\CustomField;
 use Dentaku\Redmine\Model\User\Group;
 use Dentaku\Redmine\Model\User\Membership;
 use Dentaku\Redmine\Model\User\Role;
@@ -11,19 +12,21 @@ use Dentaku\Redmine\Repository\RepositoryInterface;
 
 class Users extends AbstractRepository
 {
-    public const API_ENDPOINT = "users";
+    public const API_ROOT = "users";
 
     public const USER_RELATION_MEMBERSHIPS = "memberships";
     public const USER_RELATION_GROUPS = "groups";
     public const USER_RELATION_ROLES = "roles";
+    public const USER_RELATION_CUSTOM_FIELDS = "custom_fields";
 
     public const USER_FILTER_NAME = "name";
-    public const USER_FILTER_GROUP_ID = "group";
+    public const USER_FILTER_GROUP_ID = "group_id";
 
     protected static array $relation_class_map = [
         self::USER_RELATION_MEMBERSHIPS => Membership::class,
         self::USER_RELATION_GROUPS => Group::class,
-        self::USER_RELATION_ROLES => Role::class
+        self::USER_RELATION_ROLES => Role::class,
+        self::USER_RELATION_CUSTOM_FIELDS => CustomField::class
     ];
 
     protected static array $allowed_filters = [

@@ -37,7 +37,7 @@ abstract class AbstractRepository implements RepositoryInterface
 
         if ($api_response->isSuccess()) {
             $model = new $model_class();
-            $model->fromArray($api_response->getData()[$model->getName()]);
+            $model->fromArray($api_response->getData()[$model->getEntityName()]);
 
             return $model;
         }
@@ -81,8 +81,8 @@ abstract class AbstractRepository implements RepositoryInterface
         $ret = new ArrayCollection();
 
         $api_response = $this->client->get($this->getEndpoint() . "." . $this->client->getFormat());
-        if (isset($api_response->getData()[$this->getEndpoint()])) {
-            $ret = $this->populateCollection($api_response->getData()[$this->getEndpoint()], $ret);
+        if (isset($api_response->getData()[static::API_ROOT])) {
+            $ret = $this->populateCollection($api_response->getData()[static::API_ROOT], $ret);
         }
 
         return $ret;
@@ -125,11 +125,11 @@ abstract class AbstractRepository implements RepositoryInterface
 
     protected function getEndpoint(): string
     {
-        if (defined('static::API_ENDPOINT')) {
-            return static::API_ENDPOINT;
+        if (defined('static::API_ROOT')) {
+            return static::API_ROOT;
         }
 
-        throw new Error('Mandatory constant API_ENDPOINT not defined in class: ' . get_class($this));
+        throw new Error('Mandatory constant API_ROOT not defined in class: ' . get_class($this));
     }
 
     protected function constructEndpointUrl(string $url, array $params): string

@@ -2,9 +2,9 @@
 
 namespace Dentaku\Redmine\Model\Project;
 
-use Dentaku\Redmine\Model\Identity;
+use Dentaku\Redmine\Model\NamedIdentity;
 
-class Module extends Identity
+class Module extends NamedIdentity
 {
 
 }

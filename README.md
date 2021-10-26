@@ -40,10 +40,17 @@ Dentaku Redmine uses [Requests](https://requests.ryanmccue.info/) as transport l
 
 As we are in a so, really so, so, so, alpha stage, of course there are no documentation at all or comments in the code, because comments in the code are no more than a mask for a bad code. Check the code and try to understand, is not black magic.
 
-## Things that are incomplete
+## Things that are almost complete:
+ - [Issue Categories API](https://www.redmine.org/projects/redmine/wiki/Rest_IssueCategories)
+ - [Issue Statuses API](https://www.redmine.org/projects/redmine/wiki/Rest_IssueStatuses)
+ - [Issue Relations API](https://www.redmine.org/projects/redmine/wiki/Rest_IssueRelations)
+ - [Trackers API](https://www.redmine.org/projects/redmine/wiki/Rest_Trackers)
+ - [Groups API](https://www.redmine.org/projects/redmine/wiki/Rest_Groups)
+
+## Things that are incomplete:
 - Search fluent API (80%)
 - [Issues API](https://www.redmine.org/projects/redmine/wiki/Rest_Issues) (90%)
-- [Projects API](https://www.redmine.org/projects/redmine/wiki/Rest_Projects) (70%)
+- [Projects API](https://www.redmine.org/projects/redmine/wiki/Rest_Projects) (90%)
 - [Users API](https://www.redmine.org/projects/redmine/wiki/Rest_Users) (70%)
 - [Time Entries API](https://www.redmine.org/projects/redmine/wiki/Rest_TimeEntries) (0%)
 - [Attachments API](https://www.redmine.org/projects/redmine/wiki/Rest_Attachments) (0%)

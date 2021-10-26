@@ -2,13 +2,8 @@
 
 namespace Dentaku\Redmine\Model;
 
-class CustomField extends Identity
+class CustomField extends NamedIdentity
 {
     protected mixed $value;
-
-    public function getRepositoryClass(): ?string
-    {
-        return null;
-    }
-
+    protected bool $multiple;
 }

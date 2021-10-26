@@ -4,8 +4,9 @@ namespace Dentaku\Redmine\Model;
 
 class Identity extends AbstractModel
 {
-    protected int $id;
-    protected ?string $name;
+    public function __construct(protected ?int $id = null)
+    {
+    }
 
     public function getRepositoryClass(): ?string
     {

@@ -11,7 +11,7 @@ abstract class AbstractModel implements ModelInterface
 {
     use ModelTrait;
 
-    protected static array $payload_mutations;
+    protected static array $payload_mutations = [];
 
     public function fromArray(array $data): self
     {
@@ -88,6 +88,15 @@ abstract class AbstractModel implements ModelInterface
         }
 
         throw new Error('Mandatory constant ENTITY_NAME not defined in model class: ' . get_class($this));
+    }
+
+    public function isPersisted(): bool
+    {
+        if (property_exists($this, "id")) {
+            return $this->id !== null;
+        }
+
+        return false;
     }
 
 }

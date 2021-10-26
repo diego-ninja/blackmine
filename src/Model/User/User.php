@@ -3,15 +3,16 @@
 namespace Dentaku\Redmine\Model\User;
 
 use Carbon\CarbonImmutable;
+use Dentaku\Redmine\Collection\IdentityCollection;
+use Dentaku\Redmine\Model\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Dentaku\Redmine\Model\AbstractModel;
 use Dentaku\Redmine\Repository\Users\Users;
 
-class User extends AbstractModel
+class User extends Identity
 {
     public const ENTITY_NAME = "user";
 
-    protected int $id;
     protected string $login;
     protected string $firstname;
     protected string $lastname;
@@ -19,9 +20,9 @@ class User extends AbstractModel
     protected int $status;
     protected string $api_key;
 
-    protected array $custom_fields;
-    protected ArrayCollection $memberships;
-    protected ArrayCollection $groups;
+    protected IdentityCollection $custom_fields;
+    protected IdentityCollection $memberships;
+    protected IdentityCollection $groups;
 
 
     protected CarbonImmutable $created_on;

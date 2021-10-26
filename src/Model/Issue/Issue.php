@@ -3,6 +3,7 @@
 namespace Dentaku\Redmine\Model\Issue;
 
 use Carbon\CarbonImmutable;
+use Dentaku\Redmine\Collection\IdentityCollection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Dentaku\Redmine\Model\Project\IssueCategory;
 use Dentaku\Redmine\Model\Project\Project;
@@ -11,14 +12,13 @@ use Dentaku\Redmine\Repository\Issues\Issues;
 use Dentaku\Redmine\Model\AbstractModel;
 use Dentaku\Redmine\Model\Identity;
 
-class Issue extends AbstractModel
+class Issue extends Identity
 {
     public const ENTITY_NAME = "issue";
 
-    protected int $id;
     protected Project $project;
     protected Tracker $tracker;
-    protected Identity $status;
+    protected Status $status;
     protected Identity $priority;
     protected Identity $author;
     protected Assignee $assigned_to;
@@ -29,20 +29,25 @@ class Issue extends AbstractModel
     protected CarbonImmutable $due_date;
     protected float $done_ratio;
     protected float $estimated_hours;
-    protected array $custom_fields;
     protected ?string $notes = null;
 
     protected ?Issue $parent = null;
 
+    protected ?IdentityCollection $custom_fields;
+    protected ?IdentityCollection $relations;
+
     protected ?ArrayCollection $children;
     protected ?ArrayCollection $attachments;
-    protected ?ArrayCollection $relations;
     protected ?ArrayCollection $journals;
     protected ?ArrayCollection $changesets;
     protected ?ArrayCollection $watchers;
 
     protected CarbonImmutable $created_on;
     protected CarbonImmutable $updated_on;
+
+    protected static array $payload_mutations = [
+        "parent" => "parent_issue_id"
+    ];
 
     public function comment(string $note) {
         $this->notes = $note;

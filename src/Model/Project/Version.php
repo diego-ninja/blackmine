@@ -2,9 +2,9 @@
 
 namespace Dentaku\Redmine\Model\Project;
 
-use Dentaku\Redmine\Model\Identity;
+use Dentaku\Redmine\Model\NamedIdentity;
 
-class Version extends Identity
+class Version extends NamedIdentity
 {
     public const ENTITY_NAME = "version";
 

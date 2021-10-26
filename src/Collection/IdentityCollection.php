@@ -2,6 +2,8 @@
 
 namespace Dentaku\Redmine\Collection;
 
+use Dentaku\Redmine\Model\Identity;
+use Dentaku\Redmine\Model\NamedIdentity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class IdentityCollection extends ArrayCollection
@@ -12,12 +14,46 @@ class IdentityCollection extends ArrayCollection
 
         $elements =  parent::toArray();
         foreach ($elements as $identity) {
-            $ret[] = [
-                "id" => $identity->getId(),
-                "name" => $identity->getName()
-            ];
+            $ret[] = $identity->toArray();
         }
 
         return $ret;
     }
+
+    public function find(Identity $identity): ?Identity
+    {
+        if ($identity instanceof NamedIdentity) {
+            return $this->findByName($identity->getName());
+        }
+
+        return $this->findById($identity->getId());
+    }
+
+    public function findByName(string $name): ?Identity
+    {
+        foreach (parent::toArray() as $identity) {
+            if ($identity->getName() === $name) {
+                return $identity;
+            }
+        }
+
+        return null;
+    }
+
+    public function findById(int $id): ?Identity
+    {
+        foreach (parent::toArray() as $identity) {
+            if ($identity->getId() === $id) {
+                return $identity;
+            }
+        }
+
+        return null;
+    }
+
+    public function getElements(): array
+    {
+        return parent::toArray();
+    }
+
 }

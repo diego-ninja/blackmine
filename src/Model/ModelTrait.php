@@ -4,6 +4,8 @@ namespace Dentaku\Redmine\Model;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use DateTimeImmutable;
+use Dentaku\Redmine\Tool\Inflect;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use ReflectionException;
@@ -30,9 +32,32 @@ trait ModelTrait
 
         if ($this->isGetter($method)) {
             $property = $this->getProperty($method);
-            if (property_exists($this, $this->getProperty($method))) {
+            if (property_exists($this, $property)) {
                 return $this->$property;
             }
+        }
+
+        if ($this->isAdder($method)) {
+            $property = Inflect::pluralize($this->getProperty($method));
+            if (property_exists($this, $property) && $this->$property instanceof Collection) {
+                $found = $this->$property->find($args[0]);
+                if (!$found) {
+                    $this->$property->add($args[0]);
+                }
+            }
+        }
+
+        if ($this->isRemover($method)) {
+            $property = Inflect::pluralize($this->getProperty($method));
+            if (property_exists($this, $property) && $this->$property instanceof Collection) {
+                $found = $this->$property->find($args[0]);
+                if ($found) {
+                    $key = $this->$property->indexOf($found);
+                    $this->$property->remove($key);
+                }
+
+            }
+
         }
 
         return null;
@@ -48,6 +73,16 @@ trait ModelTrait
         return str_starts_with($method, "get");
     }
 
+    protected function isAdder(string $method): bool
+    {
+        return str_starts_with($method, "add");
+    }
+
+    protected function isRemover(string $method): bool
+    {
+        return str_starts_with($method, "remove");
+    }
+
     protected function getSetter(string $property): string
     {
         return "set" . $this->camelize($property);
@@ -58,9 +93,24 @@ trait ModelTrait
         return "get" . $this->camelize($property);
     }
 
+    protected function getAdder(string $property): string
+    {
+        return "add" . $this->camelize($property);
+    }
+
+    protected function getRemover(string $property): string
+    {
+        return "remove" . $this->camelize($property);
+    }
+
     protected function getProperty(string $method): string
     {
-        return $this->snakeize(substr($method, 3));
+        $test = preg_match( '/[A-Z]/', $method, $matches, PREG_OFFSET_CAPTURE );
+        if ($test) {
+            return $this->snakeize(substr($method, $matches[0][1]));
+        }
+
+        return $method;
     }
 
     /**
@@ -90,7 +140,27 @@ trait ModelTrait
 
         }
 
+        if ($raw_value instanceof Collection && $this->isCollection($type)) {
+            if (get_class($raw_value) !== $type) {
+                if (method_exists($raw_value, "getElements")) {
+                    return new $type($raw_value->getElements());
+                }
+
+                return new $type($raw_value->toArray());
+            }
+
+            return $raw_value;
+        }
+
         if ($type === CarbonImmutable::class) {
+            if ($raw_value instanceof CarbonImmutable) {
+                return $raw_value;
+            }
+
+            if($raw_value instanceof DateTimeImmutable) {
+                return CarbonImmutable::createFromTimestamp($raw_value->getTimestamp());
+            }
+
             $timestamp = strtotime($raw_value);
             return Carbon::createFromTimestamp($timestamp)->toImmutable();
         }
@@ -135,9 +205,16 @@ trait ModelTrait
         if ($model_class) {
             $ret = new $type();
             foreach ($raw_value as $item) {
-                $model = new $model_class();
-                $model->fromArray($item);
-                $ret->add($model);
+                if ($item instanceof $model_class) {
+                    $ret->add($item);
+                }
+
+                if (is_array($item)) {
+                    $model = new $model_class();
+                    $model->fromArray($item);
+                    $ret->add($model);
+                }
+
             }
 
             return $ret;
