@@ -57,6 +57,7 @@ As we are in a so, really so, so, so, alpha stage, of course there are no docume
 - Error handling and exceptions (0%)
 - Model functionality (50%)
 - Unit tests (0%)
+- Magic methods signatures on models (0%)
 
 ## Note
 
