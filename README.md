@@ -1,6 +1,6 @@
-# Dentaku Redmine API Client
+# Blackmagic Redmine API Client
 
-Dentaku Redmine is a full featured Redmine API client written in PHP 8. Heavily based on interfaces, abstract classes and all kind of dirty tricks like magic methods and traits to allow quick reaction to the frenzy Redmine API updates activity. :D
+Blackmagic is a full featured Redmine API client written in PHP 8. Heavily based on interfaces, abstract classes and all kind of dirty tricks like magic methods and traits to allow quick reaction to the frenzy Redmine API updates activity. :D
 
 ## Quick example
 
