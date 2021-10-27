@@ -136,7 +136,7 @@ trait SearchableTrait
             $elements[] = $object;
         }
 
-        if ($elements[0] instanceof Identity) {
+        if (!empty($elements) && $elements[0] instanceof Identity) {
             return new IdentityCollection($elements);
         }
 

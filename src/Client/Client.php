@@ -2,6 +2,7 @@
 
 namespace Dentaku\Redmine\Client;
 
+use Dentaku\Redmine\Repository\CustomFields;
 use Dentaku\Redmine\Repository\Issues\Relations;
 use Dentaku\Redmine\Repository\Issues\Statuses;
 use Dentaku\Redmine\Repository\Projects\IssueCategories;
@@ -9,6 +10,7 @@ use Dentaku\Redmine\Repository\Projects\TimeEntries;
 use Dentaku\Redmine\Repository\Projects\Trackers;
 use Dentaku\Redmine\Repository\Projects\Versions;
 use Dentaku\Redmine\Repository\Users\Groups;
+use Dentaku\Redmine\Repository\Users\Roles;
 use JsonException;
 use Dentaku\Redmine\Client\Response\ApiResponse;
 use Requests;
@@ -44,6 +46,8 @@ class Client implements ClientInterface
             Relations::API_ROOT => new Relations($this),
             Groups::API_ROOT => new Groups($this),
             Versions::API_ROOT => new Versions($this),
+            Roles::API_ROOT => new Roles($this),
+            CustomFields::API_ROOT => new CustomFields($this),
             default => null,
         };
 

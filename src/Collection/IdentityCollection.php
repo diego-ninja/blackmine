@@ -20,8 +20,22 @@ class IdentityCollection extends ArrayCollection
         return $ret;
     }
 
+    public function replace(Identity $identity): void
+    {
+
+    }
+
     public function find(Identity $identity): ?Identity
     {
+        if ($this->isEmpty()) {
+            return null;
+        }
+
+        if (!$identity->isPersisted()) {
+            return null;
+        }
+
+
         if ($identity instanceof NamedIdentity) {
             return $this->findByName($identity->getName());
         }

@@ -2,6 +2,7 @@
 
 namespace Dentaku\Redmine\Repository;
 
+use Carbon\CarbonInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Dentaku\Redmine\Model\AbstractModel;
 use Dentaku\Redmine\Model\CustomField;
@@ -21,6 +22,7 @@ interface RepositoryInterface
     public const SEARCH_PARAM_TYPE_INT_ARRAY = "integer[]";
     public const SEARCH_PARAM_TYPE_STRING_ARRAY = "string[]";
     public const SEARCH_PARAM_TYPE_CF_ARRAY = CustomField::class . "[]";
+    public const SEARCH_PARAM_TYPE_DATES_ARRAY = CarbonInterface::class . "[]";
 
     public const COMMON_FILTER_CUSTOM_FIELDS = "custom_fields";
     public const COMMON_FILTER_CREATED_ON = "created_on";

@@ -6,6 +6,7 @@ use Carbon\CarbonInterface;
 use Dentaku\Redmine\Collection\IdentityCollection;
 use Dentaku\Redmine\Model\AbstractModel;
 use Dentaku\Redmine\Model\CustomField;
+use Dentaku\Redmine\Model\Project\TimeEntry;
 use Dentaku\Redmine\Model\User\Watcher;
 use Dentaku\Redmine\Repository\AbstractRepository;
 use Dentaku\Redmine\Model\Issue\Attachment;
@@ -62,18 +63,5 @@ class Issues extends AbstractRepository
     public function getModelClass(): string
     {
         return Issue::class;
-    }
-
-    public function create(AbstractModel $model): ?AbstractModel
-    {
-        /** @var Issue $issue */
-        $issue = parent::create($model);
-        if ($issue) {
-            foreach ($issue->getRelations() as $relation) {
-                $this->addRelation($issue, $relation);
-            }
-        }
-
-        return $issue;
     }
 }

@@ -37,7 +37,6 @@ abstract class AbstractRepository implements RepositoryInterface
         );
 
         if ($api_response->isSuccess()) {
-            $model = new $model_class();
             $model->fromArray($api_response->getData()[$model->getEntityName()]);
 
             $this->updateRelations($model);
@@ -87,7 +86,7 @@ abstract class AbstractRepository implements RepositoryInterface
 
         $api_response = $this->client->get($this->getEndpoint() . "." . $this->client->getFormat());
         if (isset($api_response->getData()[static::API_ROOT])) {
-            $ret = $this->populateCollection($api_response->getData()[static::API_ROOT], $ret);
+            $ret = $this->getCollection($api_response->getData()[static::API_ROOT]);
         }
 
         return $ret;
