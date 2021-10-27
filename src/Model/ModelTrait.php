@@ -85,29 +85,29 @@ trait ModelTrait
 
     protected function getSetter(string $property): string
     {
-        return "set" . $this->camelize($property);
+        return "set" . Inflect::camelize($property);
     }
 
     protected function getGetter(string $property): string
     {
-        return "get" . $this->camelize($property);
+        return "get" . Inflect::camelize($property);
     }
 
     protected function getAdder(string $property): string
     {
-        return "add" . $this->camelize($property);
+        return "add" . Inflect::camelize($property);
     }
 
     protected function getRemover(string $property): string
     {
-        return "remove" . $this->camelize($property);
+        return "remove" . Inflect::camelize($property);
     }
 
     protected function getProperty(string $method): string
     {
         $test = preg_match( '/[A-Z]/', $method, $matches, PREG_OFFSET_CAPTURE );
         if ($test) {
-            return $this->snakeize(substr($method, $matches[0][1]));
+            return Inflect::snakeize(substr($method, $matches[0][1]));
         }
 
         return $method;
@@ -170,27 +170,6 @@ trait ModelTrait
         }
 
         return null;
-    }
-
-    protected function snakeize(string $input): string
-    {
-        $pattern = '!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!';
-        preg_match_all($pattern, $input, $matches);
-        $ret = $matches[0];
-        foreach ($ret as &$match) {
-            $match = $match === strtoupper($match) ?
-                strtolower($match) :
-                lcfirst($match);
-        }
-        return implode('_', $ret);
-    }
-
-    protected function camelize(string $input, string $delimiter = "_"): string
-    {
-        $exploded_str = explode($delimiter, $input);
-        $exploded_str_camel = array_map('ucwords', $exploded_str);
-
-        return  implode("", $exploded_str_camel);
     }
 
     protected function isDirectType(string $type): bool

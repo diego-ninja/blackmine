@@ -2,10 +2,11 @@
 
 namespace Dentaku\Redmine\Model\Project;
 
+use Dentaku\Redmine\Model\FetchableInterface;
 use Dentaku\Redmine\Model\Issue\Assignee;
 use Dentaku\Redmine\Model\NamedIdentity;
 
-class IssueCategory extends NamedIdentity
+class IssueCategory extends NamedIdentity implements FetchableInterface
 {
     public const ENTITY_NAME = "issue_category";
 

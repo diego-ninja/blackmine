@@ -2,10 +2,26 @@
 
 namespace Dentaku\Redmine\Model\Project;
 
+use Carbon\CarbonImmutable;
+use Dentaku\Redmine\Model\FetchableInterface;
 use Dentaku\Redmine\Model\NamedIdentity;
 
-class Version extends NamedIdentity
+class Version extends NamedIdentity implements FetchableInterface
 {
     public const ENTITY_NAME = "version";
+
+    protected Project $project;
+    protected string $description;
+    protected string $status;
+    protected CarbonImmutable $due_date;
+    protected float $estimated_hours;
+    protected float $spent_hours;
+    protected string $sharing;
+    protected ?string $wiki_page_title;
+
+    protected CarbonImmutable $created_on;
+    protected CarbonImmutable $updated_on;
+
+
 
 }

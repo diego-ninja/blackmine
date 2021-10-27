@@ -2,10 +2,11 @@
 
 namespace Dentaku\Redmine\Model\Issue;
 
+use Dentaku\Redmine\Model\FetchableInterface;
 use Dentaku\Redmine\Model\Identity;
 use Dentaku\Redmine\Repository\Issues\Relations;
 
-class Relation extends Identity
+class Relation extends Identity implements FetchableInterface
 {
     public const ENTITY_NAME = "relation";
 

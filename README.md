@@ -46,6 +46,7 @@ As we are in a so, really so, so, so, alpha stage, of course there are no docume
  - [Issue Relations API](https://www.redmine.org/projects/redmine/wiki/Rest_IssueRelations)
  - [Trackers API](https://www.redmine.org/projects/redmine/wiki/Rest_Trackers)
  - [Groups API](https://www.redmine.org/projects/redmine/wiki/Rest_Groups)
+ - [Versions API](https://www.redmine.org/projects/redmine/wiki/Rest_Versions)
 
 ## Things that are incomplete:
 - Search fluent API (80%)

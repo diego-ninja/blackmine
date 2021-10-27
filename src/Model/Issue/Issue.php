@@ -4,6 +4,7 @@ namespace Dentaku\Redmine\Model\Issue;
 
 use Carbon\CarbonImmutable;
 use Dentaku\Redmine\Collection\IdentityCollection;
+use Dentaku\Redmine\Model\FetchableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Dentaku\Redmine\Model\Project\IssueCategory;
 use Dentaku\Redmine\Model\Project\Project;
@@ -12,7 +13,7 @@ use Dentaku\Redmine\Repository\Issues\Issues;
 use Dentaku\Redmine\Model\AbstractModel;
 use Dentaku\Redmine\Model\Identity;
 
-class Issue extends Identity
+class Issue extends Identity implements FetchableInterface
 {
     public const ENTITY_NAME = "issue";
 

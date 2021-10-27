@@ -6,6 +6,7 @@ use Carbon\CarbonImmutable;
 use Dentaku\Redmine\Collection\IdentityCollection;
 use Dentaku\Redmine\Collection\RepeatableNameCollection;
 use Dentaku\Redmine\Collection\RepeatableIdCollection;
+use Dentaku\Redmine\Model\FetchableInterface;
 use Dentaku\Redmine\Model\Identity;
 use Dentaku\Redmine\Model\Issue\Assignee;
 use Dentaku\Redmine\Model\NamedIdentity;
@@ -13,7 +14,7 @@ use Dentaku\Redmine\Model\User\Membership;
 use Dentaku\Redmine\Model\User\User;
 use Dentaku\Redmine\Repository\Projects\Projects;
 
-class Project extends NamedIdentity
+class Project extends NamedIdentity implements FetchableInterface
 {
     public const ENTITY_NAME = "project";
 
@@ -33,6 +34,7 @@ class Project extends NamedIdentity
     protected IdentityCollection $time_entry_activities;
     protected IdentityCollection $issue_categories;
     protected IdentityCollection $memberships;
+    protected IdentityCollection $versions;
 
     protected CarbonImmutable $created_on;
     protected CarbonImmutable $updated_on;

@@ -10,6 +10,7 @@ use Dentaku\Redmine\Model\AbstractModel;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
+    use RepositoryTrait;
     use SearchableTrait;
 
     protected array $fetch_relations = [];
@@ -39,6 +40,8 @@ abstract class AbstractRepository implements RepositoryInterface
             $model = new $model_class();
             $model->fromArray($api_response->getData()[$model->getEntityName()]);
 
+            $this->updateRelations($model);
+
             return $model;
         }
 
@@ -64,6 +67,8 @@ abstract class AbstractRepository implements RepositoryInterface
             $model_class = $this->getModelClass();
             $model = new $model_class();
             $model->fromArray($api_response->getData()[$model->getEntityName()]);
+
+            $this->hydrateRelations($model);
 
             return $model;
 
@@ -99,13 +104,15 @@ abstract class AbstractRepository implements RepositoryInterface
             throw new Error('Wrong model class for ' . $this->getEndpoint() . " api. Expected " . $this->getModelClass());
         }
 
+        $this->updateRelations($model);
+
         $api_response = $this->client->put(
             $this->getEndpoint() . "/" . $model->getId() . "." . $this->client->getFormat(),
             json_encode($model->getPayload(), JSON_THROW_ON_ERROR)
         );
 
         if ($api_response->isSuccess()) {
-            return $this->get($model->getId());
+            return $model;
         }
 
         return null;
@@ -143,7 +150,6 @@ abstract class AbstractRepository implements RepositoryInterface
                 '%5B%5D',
                 http_build_query($params));
     }
-
 
     abstract protected function getModelClass(): string;
 
