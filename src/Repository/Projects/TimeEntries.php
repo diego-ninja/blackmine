@@ -1,10 +1,10 @@
 <?php
 
-namespace Dentaku\Redmine\Repository\Projects;
+namespace Blackmine\Repository\Projects;
 
-use Dentaku\Redmine\Model\Project\TimeEntry;
-use Dentaku\Redmine\Repository\AbstractRepository;
-use Dentaku\Redmine\Repository\RepositoryInterface;
+use Blackmine\Model\Project\TimeEntry;
+use Blackmine\Repository\AbstractRepository;
+use Blackmine\Repository\RepositoryInterface;
 
 class TimeEntries extends AbstractRepository
 {

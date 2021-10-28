@@ -1,11 +1,11 @@
 <?php
 
-namespace Dentaku\Redmine\Model;
+namespace Blackmine\Model;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use DateTimeImmutable;
-use Dentaku\Redmine\Tool\Inflect;
+use Blackmine\Tool\Inflect;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use ReflectionException;

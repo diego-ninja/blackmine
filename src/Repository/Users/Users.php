@@ -1,14 +1,14 @@
 <?php
 
-namespace Dentaku\Redmine\Repository\Users;
+namespace Blackmine\Repository\Users;
 
-use Dentaku\Redmine\Model\CustomField;
-use Dentaku\Redmine\Model\User\Group;
-use Dentaku\Redmine\Model\User\Membership;
-use Dentaku\Redmine\Model\User\Role;
-use Dentaku\Redmine\Repository\AbstractRepository;
-use Dentaku\Redmine\Model\User\User;
-use Dentaku\Redmine\Repository\RepositoryInterface;
+use Blackmine\Model\CustomField;
+use Blackmine\Model\User\Group;
+use Blackmine\Model\User\Membership;
+use Blackmine\Model\User\Role;
+use Blackmine\Repository\AbstractRepository;
+use Blackmine\Model\User\User;
+use Blackmine\Repository\RepositoryInterface;
 
 class Users extends AbstractRepository
 {

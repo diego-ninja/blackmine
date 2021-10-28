@@ -1,19 +1,19 @@
 <?php
 
-namespace Dentaku\Redmine\Model\Issue;
+namespace Blackmine\Model\Issue;
 
 use Carbon\CarbonImmutable;
-use Dentaku\Redmine\Collection\IdentityCollection;
-use Dentaku\Redmine\Model\FetchableInterface;
-use Dentaku\Redmine\Model\NamedIdentity;
-use Dentaku\Redmine\Model\User\User;
+use Blackmine\Collection\IdentityCollection;
+use Blackmine\Model\FetchableInterface;
+use Blackmine\Model\NamedIdentity;
+use Blackmine\Model\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
-use Dentaku\Redmine\Model\Project\IssueCategory;
-use Dentaku\Redmine\Model\Project\Project;
-use Dentaku\Redmine\Model\Project\Tracker;
-use Dentaku\Redmine\Repository\Issues\Issues;
-use Dentaku\Redmine\Model\AbstractModel;
-use Dentaku\Redmine\Model\Identity;
+use Blackmine\Model\Project\IssueCategory;
+use Blackmine\Model\Project\Project;
+use Blackmine\Model\Project\Tracker;
+use Blackmine\Repository\Issues\Issues;
+use Blackmine\Model\AbstractModel;
+use Blackmine\Model\Identity;
 
 class Issue extends Identity implements FetchableInterface
 {

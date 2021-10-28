@@ -1,6 +1,6 @@
 <?php
 
-namespace Dentaku\Redmine\Model;
+namespace Blackmine\Model;
 
 use JsonSerializable;
 

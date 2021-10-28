@@ -1,20 +1,20 @@
 <?php
 
-namespace Dentaku\Redmine\Repository\Issues;
+namespace Blackmine\Repository\Issues;
 
 use Carbon\CarbonInterface;
-use Dentaku\Redmine\Collection\IdentityCollection;
-use Dentaku\Redmine\Model\AbstractModel;
-use Dentaku\Redmine\Model\CustomField;
-use Dentaku\Redmine\Model\Project\TimeEntry;
-use Dentaku\Redmine\Model\User\Watcher;
-use Dentaku\Redmine\Repository\AbstractRepository;
-use Dentaku\Redmine\Model\Issue\Attachment;
-use Dentaku\Redmine\Model\Issue\Changeset;
-use Dentaku\Redmine\Model\Issue\Issue;
-use Dentaku\Redmine\Model\Issue\Journal;
-use Dentaku\Redmine\Model\Issue\Relation;
-use Dentaku\Redmine\Repository\RepositoryInterface;
+use Blackmine\Collection\IdentityCollection;
+use Blackmine\Model\AbstractModel;
+use Blackmine\Model\CustomField;
+use Blackmine\Model\Project\TimeEntry;
+use Blackmine\Model\User\Watcher;
+use Blackmine\Repository\AbstractRepository;
+use Blackmine\Model\Issue\Attachment;
+use Blackmine\Model\Issue\Changeset;
+use Blackmine\Model\Issue\Issue;
+use Blackmine\Model\Issue\Journal;
+use Blackmine\Model\Issue\Relation;
+use Blackmine\Repository\RepositoryInterface;
 
 class Issues extends AbstractRepository
 {

@@ -1,20 +1,20 @@
 <?php
 
-namespace Dentaku\Redmine\Model\Project;
+namespace Blackmine\Model\Project;
 
 use Carbon\CarbonImmutable;
-use Dentaku\Redmine\Collection\IdentityCollection;
-use Dentaku\Redmine\Collection\RepeatableNameCollection;
-use Dentaku\Redmine\Collection\RepeatableIdCollection;
-use Dentaku\Redmine\Model\FetchableInterface;
-use Dentaku\Redmine\Model\Identity;
-use Dentaku\Redmine\Model\Issue\Assignee;
-use Dentaku\Redmine\Model\Issue\Issue;
-use Dentaku\Redmine\Model\Issue\Status;
-use Dentaku\Redmine\Model\NamedIdentity;
-use Dentaku\Redmine\Model\User\Membership;
-use Dentaku\Redmine\Model\User\User;
-use Dentaku\Redmine\Repository\Projects\Projects;
+use Blackmine\Collection\IdentityCollection;
+use Blackmine\Collection\RepeatableNameCollection;
+use Blackmine\Collection\RepeatableIdCollection;
+use Blackmine\Model\FetchableInterface;
+use Blackmine\Model\Identity;
+use Blackmine\Model\Issue\Assignee;
+use Blackmine\Model\Issue\Issue;
+use Blackmine\Model\Issue\Status;
+use Blackmine\Model\NamedIdentity;
+use Blackmine\Model\User\Membership;
+use Blackmine\Model\User\User;
+use Blackmine\Repository\Projects\Projects;
 
 /**
  * @method setIdentifier(string $identifier): void

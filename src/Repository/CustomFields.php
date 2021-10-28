@@ -1,8 +1,8 @@
 <?php
 
-namespace Dentaku\Redmine\Repository;
+namespace Blackmine\Repository;
 
-use Dentaku\Redmine\Model\CustomField;
+use Blackmine\Model\CustomField;
 
 class CustomFields extends AbstractRepository
 {

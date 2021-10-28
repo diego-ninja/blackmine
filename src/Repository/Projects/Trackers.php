@@ -1,9 +1,9 @@
 <?php
 
-namespace Dentaku\Redmine\Repository\Projects;
+namespace Blackmine\Repository\Projects;
 
-use Dentaku\Redmine\Model\Project\Tracker;
-use Dentaku\Redmine\Repository\AbstractRepository;
+use Blackmine\Model\Project\Tracker;
+use Blackmine\Repository\AbstractRepository;
 
 class Trackers extends AbstractRepository
 {

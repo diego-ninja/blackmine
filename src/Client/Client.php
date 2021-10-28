@@ -1,23 +1,23 @@
 <?php
 
-namespace Dentaku\Redmine\Client;
+namespace Blackmine\Client;
 
-use Dentaku\Redmine\Repository\CustomFields;
-use Dentaku\Redmine\Repository\Issues\Relations;
-use Dentaku\Redmine\Repository\Issues\Statuses;
-use Dentaku\Redmine\Repository\Projects\IssueCategories;
-use Dentaku\Redmine\Repository\Projects\TimeEntries;
-use Dentaku\Redmine\Repository\Projects\Trackers;
-use Dentaku\Redmine\Repository\Projects\Versions;
-use Dentaku\Redmine\Repository\Users\Groups;
-use Dentaku\Redmine\Repository\Users\Roles;
+use Blackmine\Repository\CustomFields;
+use Blackmine\Repository\Issues\Relations;
+use Blackmine\Repository\Issues\Statuses;
+use Blackmine\Repository\Projects\IssueCategories;
+use Blackmine\Repository\Projects\TimeEntries;
+use Blackmine\Repository\Projects\Trackers;
+use Blackmine\Repository\Projects\Versions;
+use Blackmine\Repository\Users\Groups;
+use Blackmine\Repository\Users\Roles;
 use JsonException;
-use Dentaku\Redmine\Client\Response\ApiResponse;
+use Blackmine\Client\Response\ApiResponse;
 use Requests;
-use Dentaku\Redmine\Repository\AbstractRepository;
-use Dentaku\Redmine\Repository\Issues\Issues;
-use Dentaku\Redmine\Repository\Projects\Projects;
-use Dentaku\Redmine\Repository\Users\Users;
+use Blackmine\Repository\AbstractRepository;
+use Blackmine\Repository\Issues\Issues;
+use Blackmine\Repository\Projects\Projects;
+use Blackmine\Repository\Users\Users;
 
 class Client implements ClientInterface
 {

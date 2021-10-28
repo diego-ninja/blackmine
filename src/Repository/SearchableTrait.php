@@ -1,13 +1,13 @@
 <?php
 
-namespace Dentaku\Redmine\Repository;
+namespace Blackmine\Repository;
 
 use Carbon\CarbonInterface;
-use Dentaku\Redmine\Collection\IdentityCollection;
-use Dentaku\Redmine\Model\Identity;
+use Blackmine\Collection\IdentityCollection;
+use Blackmine\Model\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonException;
-use Dentaku\Redmine\Model\CustomField;
+use Blackmine\Model\CustomField;
 
 trait SearchableTrait
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Dentaku\Redmine\Repository;
+namespace Blackmine\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Error;
 use JsonException;
-use Dentaku\Redmine\Client\Client;
-use Dentaku\Redmine\Model\AbstractModel;
+use Blackmine\Client\Client;
+use Blackmine\Model\AbstractModel;
 
 abstract class AbstractRepository implements RepositoryInterface
 {

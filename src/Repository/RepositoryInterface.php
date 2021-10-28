@@ -1,11 +1,11 @@
 <?php
 
-namespace Dentaku\Redmine\Repository;
+namespace Blackmine\Repository;
 
 use Carbon\CarbonInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Dentaku\Redmine\Model\AbstractModel;
-use Dentaku\Redmine\Model\CustomField;
+use Blackmine\Model\AbstractModel;
+use Blackmine\Model\CustomField;
 
 interface RepositoryInterface
 {

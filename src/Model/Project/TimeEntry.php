@@ -1,14 +1,14 @@
 <?php
 
-namespace Dentaku\Redmine\Model\Project;
+namespace Blackmine\Model\Project;
 
 use Carbon\CarbonImmutable;
-use Dentaku\Redmine\Model\FetchableInterface;
-use Dentaku\Redmine\Model\Identity;
-use Dentaku\Redmine\Model\Issue\Issue;
-use Dentaku\Redmine\Model\NamedIdentity;
-use Dentaku\Redmine\Model\User\User;
-use Dentaku\Redmine\Repository\Projects\TimeEntries;
+use Blackmine\Model\FetchableInterface;
+use Blackmine\Model\Identity;
+use Blackmine\Model\Issue\Issue;
+use Blackmine\Model\NamedIdentity;
+use Blackmine\Model\User\User;
+use Blackmine\Repository\Projects\TimeEntries;
 
 /**
  * @method setIssue(Issue $issue): void

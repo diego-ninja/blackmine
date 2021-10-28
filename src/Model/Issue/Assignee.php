@@ -1,8 +1,8 @@
 <?php
 
-namespace Dentaku\Redmine\Model\Issue;
+namespace Blackmine\Model\Issue;
 
-use Dentaku\Redmine\Model\NamedIdentity;
+use Blackmine\Model\NamedIdentity;
 
 class Assignee extends NamedIdentity
 {

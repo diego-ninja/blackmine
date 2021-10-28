@@ -1,13 +1,13 @@
 <?php
 
-namespace Dentaku\Redmine\Model\User;
+namespace Blackmine\Model\User;
 
 use Carbon\CarbonImmutable;
-use Dentaku\Redmine\Collection\IdentityCollection;
-use Dentaku\Redmine\Model\Identity;
+use Blackmine\Collection\IdentityCollection;
+use Blackmine\Model\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
-use Dentaku\Redmine\Model\AbstractModel;
-use Dentaku\Redmine\Repository\Users\Users;
+use Blackmine\Model\AbstractModel;
+use Blackmine\Repository\Users\Users;
 
 class User extends Identity
 {

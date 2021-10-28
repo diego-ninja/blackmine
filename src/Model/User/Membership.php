@@ -1,11 +1,11 @@
 <?php
 
-namespace Dentaku\Redmine\Model\User;
+namespace Blackmine\Model\User;
 
-use Dentaku\Redmine\Collection\RepeatableIdCollection;
-use Dentaku\Redmine\Model\Identity;
-use Dentaku\Redmine\Model\Project\Project;
-use Dentaku\Redmine\Repository\Users\Users;
+use Blackmine\Collection\RepeatableIdCollection;
+use Blackmine\Model\Identity;
+use Blackmine\Model\Project\Project;
+use Blackmine\Repository\Users\Users;
 
 class Membership extends Identity
 {

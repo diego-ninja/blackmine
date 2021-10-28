@@ -1,9 +1,9 @@
 <?php
 
-namespace Dentaku\Redmine\Model\User;
+namespace Blackmine\Model\User;
 
-use Dentaku\Redmine\Model\NamedIdentity;
-use Dentaku\Redmine\Repository\Users\Users;
+use Blackmine\Model\NamedIdentity;
+use Blackmine\Repository\Users\Users;
 
 class Role extends NamedIdentity
 {

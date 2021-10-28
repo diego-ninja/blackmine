@@ -1,8 +1,8 @@
 <?php
 
-namespace Dentaku\Redmine\Client;
+namespace Blackmine\Client;
 
-use Dentaku\Redmine\Client\Response\ApiResponse;
+use Blackmine\Client\Response\ApiResponse;
 
 interface ClientInterface
 {

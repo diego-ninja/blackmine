@@ -1,10 +1,10 @@
 <?php
 
-namespace Dentaku\Redmine\Repository\Projects;
+namespace Blackmine\Repository\Projects;
 
-use Dentaku\Redmine\Model\AbstractModel;
-use Dentaku\Redmine\Model\Project\Version;
-use Dentaku\Redmine\Repository\AbstractRepository;
+use Blackmine\Model\AbstractModel;
+use Blackmine\Model\Project\Version;
+use Blackmine\Repository\AbstractRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Error;
 

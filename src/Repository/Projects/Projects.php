@@ -1,17 +1,17 @@
 <?php
 
-namespace Dentaku\Redmine\Repository\Projects;
+namespace Blackmine\Repository\Projects;
 
-use Dentaku\Redmine\Model\Identity;
-use Dentaku\Redmine\Model\Project\File;
-use Dentaku\Redmine\Model\Project\IssueCategory;
-use Dentaku\Redmine\Model\Project\Module;
-use Dentaku\Redmine\Model\Project\Project;
-use Dentaku\Redmine\Model\Project\TimeEntry;
-use Dentaku\Redmine\Model\Project\Tracker;
-use Dentaku\Redmine\Model\Project\Version;
-use Dentaku\Redmine\Model\User\Membership;
-use Dentaku\Redmine\Repository\AbstractRepository;
+use Blackmine\Model\Identity;
+use Blackmine\Model\Project\File;
+use Blackmine\Model\Project\IssueCategory;
+use Blackmine\Model\Project\Module;
+use Blackmine\Model\Project\Project;
+use Blackmine\Model\Project\TimeEntry;
+use Blackmine\Model\Project\Tracker;
+use Blackmine\Model\Project\Version;
+use Blackmine\Model\User\Membership;
+use Blackmine\Repository\AbstractRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Projects extends AbstractRepository

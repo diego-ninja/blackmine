@@ -1,19 +1,19 @@
-# Dentaku Redmine API Client
+# Blackmine
 
-Blackmagic is a full featured Redmine API client written in PHP 8. Heavily based on interfaces, abstract classes and all kind of dirty tricks like magic methods and traits to allow quick reaction to the frenzy Redmine API updates activity. :D
+Blackmine is a full featured Redmine API client written in PHP 8. Heavily based on interfaces, abstract classes and all kind of dirty tricks like magic methods and traits to allow quick reaction to the frenzy Redmine API updates activity. :D
 
 ## Quick example
 
 Of corpse you need to require the package using composer:
 
 
-<pre><font color="#8BE9FD">composer</font><font color="#F8F8F2"> </font><font color="#BD93F9">require</font><font color="#F8F8F2"> </font><font color="#BD93F9">dentaku/redmine-api</font></pre>
+<pre><font color="#8BE9FD">composer</font><font color="#F8F8F2"> </font><font color="#BD93F9">require</font><font color="#F8F8F2"> </font><font color="#BD93F9">blackmine/blackmine</font></pre>
 
 and then, the magic:
 
 ```php
 
-$client = new \Dentaku\Redmine\Client\Client("https://your.redmine.url", "your.api.key");
+$client = new \Blackmine\Client\Client("https://your.redmine.url", "your.api.key");
 $issues = $client->getRepository("issues");
 
 $data = $issues
@@ -21,7 +21,7 @@ $data = $issues
     ->with([Issues::ISSUE_RELATION_WATCHERS])
     ->search();
 
-$issue = new \Dentaku\Redmine\Model\Issue\Issue();
+$issue = new \Blackmine\Model\Issue\Issue();
 $issue->setSubject("Test Issue");
 $issue->setDescription("An issue description, yeah, a real one...");
 $issue->setStartDate(\Carbon\CarbonImmutable::create(2021, 10, 31));

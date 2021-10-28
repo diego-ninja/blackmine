@@ -1,9 +1,9 @@
 <?php
 
-namespace Dentaku\Redmine\Repository\Projects;
+namespace Blackmine\Repository\Projects;
 
-use Dentaku\Redmine\Model\User\Membership;
-use Dentaku\Redmine\Repository\AbstractRepository;
+use Blackmine\Model\User\Membership;
+use Blackmine\Repository\AbstractRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Error;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Dentaku\Redmine\Model\Issue;
+namespace Blackmine\Model\Issue;
 
-use Dentaku\Redmine\Model\FetchableInterface;
-use Dentaku\Redmine\Model\Identity;
-use Dentaku\Redmine\Repository\Issues\Relations;
+use Blackmine\Model\FetchableInterface;
+use Blackmine\Model\Identity;
+use Blackmine\Repository\Issues\Relations;
 
 class Relation extends Identity implements FetchableInterface
 {

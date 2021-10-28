@@ -1,11 +1,11 @@
 <?php
 
-namespace Dentaku\Redmine\Model\Project;
+namespace Blackmine\Model\Project;
 
 use Carbon\CarbonImmutable;
-use Dentaku\Redmine\Model\FetchableInterface;
-use Dentaku\Redmine\Model\Identity;
-use Dentaku\Redmine\Model\User\User;
+use Blackmine\Model\FetchableInterface;
+use Blackmine\Model\Identity;
+use Blackmine\Model\User\User;
 
 class File extends Identity implements FetchableInterface
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Dentaku\Redmine\Collection;
+namespace Blackmine\Collection;
 
-use Dentaku\Redmine\Model\Identity;
-use Dentaku\Redmine\Model\NamedIdentity;
+use Blackmine\Model\Identity;
+use Blackmine\Model\NamedIdentity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class IdentityCollection extends ArrayCollection

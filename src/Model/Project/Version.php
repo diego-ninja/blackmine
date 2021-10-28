@@ -1,10 +1,10 @@
 <?php
 
-namespace Dentaku\Redmine\Model\Project;
+namespace Blackmine\Model\Project;
 
 use Carbon\CarbonImmutable;
-use Dentaku\Redmine\Model\FetchableInterface;
-use Dentaku\Redmine\Model\NamedIdentity;
+use Blackmine\Model\FetchableInterface;
+use Blackmine\Model\NamedIdentity;
 
 class Version extends NamedIdentity implements FetchableInterface
 {

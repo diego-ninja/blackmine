@@ -1,11 +1,11 @@
 <?php
 
-namespace Dentaku\Redmine\Model;
+namespace Blackmine\Model;
 
 use Carbon\CarbonImmutable;
 use Error;
 use JsonException;
-use Dentaku\Redmine\Collection\IdentityCollection;
+use Blackmine\Collection\IdentityCollection;
 
 abstract class AbstractModel implements ModelInterface
 {

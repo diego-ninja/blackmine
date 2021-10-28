@@ -1,9 +1,9 @@
 <?php
 
-namespace Dentaku\Redmine\Repository\Issues;
+namespace Blackmine\Repository\Issues;
 
-use Dentaku\Redmine\Model\Issue\Relation;
-use Dentaku\Redmine\Repository\AbstractRepository;
+use Blackmine\Model\Issue\Relation;
+use Blackmine\Repository\AbstractRepository;
 
 class Relations extends AbstractRepository
 {

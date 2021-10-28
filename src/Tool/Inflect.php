@@ -1,6 +1,6 @@
 <?php
 
-namespace Dentaku\Redmine\Tool;
+namespace Blackmine\Tool;
 
 
 

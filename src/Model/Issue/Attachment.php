@@ -1,9 +1,9 @@
 <?php
 
-namespace Dentaku\Redmine\Model\Issue;
+namespace Blackmine\Model\Issue;
 
-use Dentaku\Redmine\Model\AbstractModel;
-use Dentaku\Redmine\Repository\Issues\Issues;
+use Blackmine\Model\AbstractModel;
+use Blackmine\Repository\Issues\Issues;
 
 class Attachment extends AbstractModel
 {

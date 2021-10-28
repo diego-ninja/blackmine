@@ -1,10 +1,10 @@
 <?php
 
-namespace Dentaku\Redmine\Model\Project;
+namespace Blackmine\Model\Project;
 
-use Dentaku\Redmine\Model\FetchableInterface;
-use Dentaku\Redmine\Model\Issue\Assignee;
-use Dentaku\Redmine\Model\NamedIdentity;
+use Blackmine\Model\FetchableInterface;
+use Blackmine\Model\Issue\Assignee;
+use Blackmine\Model\NamedIdentity;
 
 class IssueCategory extends NamedIdentity implements FetchableInterface
 {

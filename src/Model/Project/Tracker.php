@@ -1,8 +1,8 @@
 <?php
 
-namespace Dentaku\Redmine\Model\Project;
+namespace Blackmine\Model\Project;
 
-use Dentaku\Redmine\Model\NamedIdentity;
+use Blackmine\Model\NamedIdentity;
 
 class Tracker extends NamedIdentity
 {

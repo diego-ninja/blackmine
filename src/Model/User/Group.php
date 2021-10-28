@@ -1,11 +1,11 @@
 <?php
 
-namespace Dentaku\Redmine\Model\User;
+namespace Blackmine\Model\User;
 
-use Dentaku\Redmine\Collection\IdentityCollection;
-use Dentaku\Redmine\Collection\RepeatableIdCollection;
-use Dentaku\Redmine\Model\NamedIdentity;
-use Dentaku\Redmine\Repository\Users\Groups;
+use Blackmine\Collection\IdentityCollection;
+use Blackmine\Collection\RepeatableIdCollection;
+use Blackmine\Model\NamedIdentity;
+use Blackmine\Repository\Users\Groups;
 
 class Group extends NamedIdentity
 {

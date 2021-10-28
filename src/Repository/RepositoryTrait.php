@@ -1,11 +1,11 @@
 <?php
 
-namespace Dentaku\Redmine\Repository;
+namespace Blackmine\Repository;
 
-use Dentaku\Redmine\Collection\IdentityCollection;
-use Dentaku\Redmine\Model\AbstractModel;
-use Dentaku\Redmine\Model\FetchableInterface;
-use Dentaku\Redmine\Tool\Inflect;
+use Blackmine\Collection\IdentityCollection;
+use Blackmine\Model\AbstractModel;
+use Blackmine\Model\FetchableInterface;
+use Blackmine\Tool\Inflect;
 use Doctrine\Common\Collections\Collection;
 use JsonException;
 use ReflectionException;

@@ -1,7 +1,7 @@
 {
-    "name": "dentaku/redmine-api",
+    "name": "blackmine/blackmine",
     "type": "library",
-    "description": "Redmine API Client",
+    "description": "Redmine API Client with a lot of magic in its code",
     "keywords": [
         "redmine",
         "api",
@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Dentaku\\Redmine\\": "src/"
+            "Blackmine\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Dentaku\\Redmine\\Tests\\": "tests/"
+            "Blackmine\\Tests\\": "tests/"
         }
     }
 }
