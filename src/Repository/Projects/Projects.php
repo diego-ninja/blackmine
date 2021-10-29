@@ -12,6 +12,7 @@ use Blackmine\Model\Project\Tracker;
 use Blackmine\Model\Project\Version;
 use Blackmine\Model\User\Membership;
 use Blackmine\Repository\AbstractRepository;
+use Blackmine\Repository\Uploads;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Projects extends AbstractRepository
@@ -58,6 +59,24 @@ class Projects extends AbstractRepository
         $time_entry = $this->client->getRepository(TimeEntries::API_ROOT)->create($time_entry);
 
         return $project;
+    }
+
+    public function addFile(Project $project, File $file): Project
+    {
+        $file = $this->client->getRepository(Uploads::API_ROOT)->create($file);
+        if ($file) {
+            $file->setVersion($project->getDefaultVersion());
+
+            $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/files." . $this->client->getFormat();
+            $response = $this->client->post($endpoint, json_encode($file->getPayload(), JSON_THROW_ON_ERROR));
+
+            if ($response->isSuccess()) {
+                $project->addFile($file);
+            }
+        }
+
+        return $project;
+
     }
 
     public function archive(Project $project): Project

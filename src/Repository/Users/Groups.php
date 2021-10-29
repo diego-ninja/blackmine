@@ -2,12 +2,18 @@
 
 namespace Blackmine\Repository\Users;
 
+use Blackmine\Collection\IdentityCollection;
 use Blackmine\Model\User\Group;
 use Blackmine\Model\User\Membership;
 use Blackmine\Model\User\User;
 use Blackmine\Repository\AbstractRepository;
 use Doctrine\Common\Collections\Collection;
 
+/**
+ * @method Group addUser(Group $group, User $user)
+ * @method Group removeUser(Group $group, User $user)
+ * @method IdentityCollection getMemberships()
+ */
 class Groups extends AbstractRepository
 {
 

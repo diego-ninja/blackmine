@@ -3,15 +3,17 @@
 namespace Blackmine\Model\Issue;
 
 use Blackmine\Model\AbstractModel;
+use Blackmine\Model\Project\File;
+use Blackmine\Repository\Attachments;
 use Blackmine\Repository\Issues\Issues;
 
-class Attachment extends AbstractModel
+class Attachment extends File
 {
     public const ENTITY_NAME = "attachment";
 
     public function getRepositoryClass(): ?string
     {
-        return Issues::class;
+        return Attachments::class;
     }
 
 }

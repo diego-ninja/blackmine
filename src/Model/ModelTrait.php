@@ -4,6 +4,7 @@ namespace Blackmine\Model;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use DateTimeImmutable;
 use Blackmine\Tool\Inflect;
 use Doctrine\Common\Collections\ArrayCollection;

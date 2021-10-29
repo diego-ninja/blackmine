@@ -9,6 +9,7 @@ use Blackmine\Repository\Projects\IssueCategories;
 use Blackmine\Repository\Projects\TimeEntries;
 use Blackmine\Repository\Projects\Trackers;
 use Blackmine\Repository\Projects\Versions;
+use Blackmine\Repository\Uploads;
 use Blackmine\Repository\Users\Groups;
 use Blackmine\Repository\Users\Roles;
 use JsonException;
@@ -48,6 +49,7 @@ class Client implements ClientInterface
             Versions::API_ROOT => new Versions($this),
             Roles::API_ROOT => new Roles($this),
             CustomFields::API_ROOT => new CustomFields($this),
+            Uploads::API_ROOT => new Uploads($this),
             default => null,
         };
 

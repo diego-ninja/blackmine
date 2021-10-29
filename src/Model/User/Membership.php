@@ -5,9 +5,11 @@ namespace Blackmine\Model\User;
 use Blackmine\Collection\RepeatableIdCollection;
 use Blackmine\Model\Identity;
 use Blackmine\Model\Project\Project;
+use Blackmine\Mutator\MutableInterface;
+use Blackmine\Mutator\Mutation\RenameKeyMutation;
 use Blackmine\Repository\Users\Users;
 
-class Membership extends Identity
+class Membership extends Identity implements MutableInterface
 {
     public const ENTITY_NAME = "membership";
 
@@ -16,12 +18,6 @@ class Membership extends Identity
     protected ?Group $group;
 
     protected RepeatableIdCollection $roles;
-
-    protected static array $payload_mutations = [
-        "user" => "user_id",
-        "group" => "group_id",
-        "roles" => "role_ids"
-    ];
 
     public function getRepositoryClass(): ?string
     {
@@ -42,4 +38,12 @@ class Membership extends Identity
         }
     }
 
+    public function getMutations(): array
+    {
+        return [
+            "user" => [RenameKeyMutation::class => ["user_id"]],
+            "group" => [RenameKeyMutation::class => ["group_id"]],
+            "roles" => [RenameKeyMutation::class => ["role_ids"]]
+        ];
+    }
 }

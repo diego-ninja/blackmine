@@ -2,6 +2,8 @@
 
 namespace Blackmine\Model;
 
+use Blackmine\Mutator\ModelMutator;
+use Blackmine\Mutator\MutableInterface;
 use Carbon\CarbonImmutable;
 use Error;
 use JsonException;
@@ -10,8 +12,6 @@ use Blackmine\Collection\IdentityCollection;
 abstract class AbstractModel implements ModelInterface
 {
     use ModelTrait;
-
-    protected static array $payload_mutations = [];
 
     public function fromArray(array $data): self
     {
@@ -71,11 +71,9 @@ abstract class AbstractModel implements ModelInterface
     {
         $payload = $this->toArray();
 
-        foreach ($payload as $key => $value) {
-            if (array_key_exists($key, static::$payload_mutations)) {
-                $payload[static::$payload_mutations[$key]] = $value;
-                unset($payload[$key]);
-            }
+        if ($this->isMutable()) {
+            $mutator = new ModelMutator($this);
+            $payload = $mutator->mutate();
         }
 
         return [$this->getEntityName() => $payload];
@@ -97,6 +95,11 @@ abstract class AbstractModel implements ModelInterface
         }
 
         return false;
+    }
+
+    public function isMutable(): bool
+    {
+        return in_array(MutableInterface::class, class_implements($this), true);
     }
 
 }

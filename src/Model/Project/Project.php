@@ -2,15 +2,14 @@
 
 namespace Blackmine\Model\Project;
 
+use Blackmine\Mutator\MutableInterface;
+use Blackmine\Mutator\Mutation\RenameKeyMutation;
 use Carbon\CarbonImmutable;
 use Blackmine\Collection\IdentityCollection;
 use Blackmine\Collection\RepeatableNameCollection;
 use Blackmine\Collection\RepeatableIdCollection;
 use Blackmine\Model\FetchableInterface;
-use Blackmine\Model\Identity;
 use Blackmine\Model\Issue\Assignee;
-use Blackmine\Model\Issue\Issue;
-use Blackmine\Model\Issue\Status;
 use Blackmine\Model\NamedIdentity;
 use Blackmine\Model\User\Membership;
 use Blackmine\Model\User\User;
@@ -27,6 +26,8 @@ use Blackmine\Repository\Projects\Projects;
  * @method setInheritMembers(bool $inherit_members): void
  * @method setIsPublic(bool $is_public): void
  *
+ * @method Version getDefaultVersion()
+ *
  * @method addTracker(Tracker $tracker): void
  * @method removeTracker(Tracker $tracker): void
  * @method addEnabledModule(Module $module): void
@@ -40,7 +41,7 @@ use Blackmine\Repository\Projects\Projects;
  * @method addVersion(Version $version): void
  * @method removeVersion(Version $version): void
  */
-class Project extends NamedIdentity implements FetchableInterface
+class Project extends NamedIdentity implements FetchableInterface, MutableInterface
 {
     public const ENTITY_NAME = "project";
 
@@ -66,16 +67,6 @@ class Project extends NamedIdentity implements FetchableInterface
 
     protected CarbonImmutable $created_on;
     protected CarbonImmutable $updated_on;
-
-    protected static array $payload_mutations = [
-        "trackers" => "tracker_ids",
-        "enabled_modules" => "enabled_module_names",
-        "default_assignee_id" => "default_assigned_to_id"
-    ];
-
-    public function addFile(string $filename, ?string $description) {
-
-    }
 
     public function getRepositoryClass(): ?string
     {
@@ -108,6 +99,15 @@ class Project extends NamedIdentity implements FetchableInterface
         }
 
         return null;
+    }
+
+    public function getMutations(): array
+    {
+        return [
+            "trackers" => [RenameKeyMutation::class => ["tracker_ids"]],
+            "enabled_modules" => [RenameKeyMutation::class => ["enabled_modules"]],
+            "default_assignee_id" => [RenameKeyMutation::class => ["default_assigned_to_id"]]
+        ];
     }
 
 }

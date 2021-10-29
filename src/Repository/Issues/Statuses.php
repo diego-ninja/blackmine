@@ -19,22 +19,27 @@ class Statuses extends AbstractRepository
 
     public function get(mixed $id): ?AbstractModel
     {
-        throw new Error("Method not implemented for apì: " . self::API_ROOT);
+        throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 
     public function search(array $params = []): ArrayCollection
     {
-        throw new Error("Method not implemented for apì: " . self::API_ROOT);
+        throw new Error("Method "  . __FUNCTION__ . "not implemented for apì: " . self::API_ROOT);
     }
 
     public function create(AbstractModel $model): ?AbstractModel
     {
-        throw new Error("Method not implemented for apì: " . self::API_ROOT);
+        throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 
     public function update(AbstractModel $model): ?AbstractModel
     {
-        throw new Error("Method not implemented for apì: " . self::API_ROOT);
+        throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
+    }
+
+    public function delete(AbstractModel $model): void
+    {
+        throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 
 }

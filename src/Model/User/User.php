@@ -2,14 +2,12 @@
 
 namespace Blackmine\Model\User;
 
+use Blackmine\Model\NamedIdentity;
 use Carbon\CarbonImmutable;
 use Blackmine\Collection\IdentityCollection;
-use Blackmine\Model\Identity;
-use Doctrine\Common\Collections\ArrayCollection;
-use Blackmine\Model\AbstractModel;
 use Blackmine\Repository\Users\Users;
 
-class User extends Identity
+class User extends NamedIdentity
 {
     public const ENTITY_NAME = "user";
 
@@ -31,6 +29,11 @@ class User extends Identity
     public function getRepositoryClass(): ?string
     {
         return Users::class;
+    }
+
+    public function getName(): string
+    {
+        return $this->firstname . " " . $this->lastname;
     }
 
 }

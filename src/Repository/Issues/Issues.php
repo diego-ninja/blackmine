@@ -2,12 +2,12 @@
 
 namespace Blackmine\Repository\Issues;
 
-use Carbon\CarbonInterface;
-use Blackmine\Collection\IdentityCollection;
 use Blackmine\Model\AbstractModel;
+use Blackmine\Model\User\User;
+use Blackmine\Repository\RepositoryTrait;
+use Blackmine\Repository\Uploads;
+use Carbon\CarbonInterface;
 use Blackmine\Model\CustomField;
-use Blackmine\Model\Project\TimeEntry;
-use Blackmine\Model\User\Watcher;
 use Blackmine\Repository\AbstractRepository;
 use Blackmine\Model\Issue\Attachment;
 use Blackmine\Model\Issue\Changeset;
@@ -15,9 +15,12 @@ use Blackmine\Model\Issue\Issue;
 use Blackmine\Model\Issue\Journal;
 use Blackmine\Model\Issue\Relation;
 use Blackmine\Repository\RepositoryInterface;
+use Error;
 
 class Issues extends AbstractRepository
 {
+    use RepositoryTrait;
+
     public const API_ROOT = "issues";
 
     public const ISSUE_RELATION_CHILDREN = "children";
@@ -43,7 +46,7 @@ class Issues extends AbstractRepository
         self::ISSUE_RELATION_RELATIONS => Relation::class,
         self::ISSUE_RELATION_JOURNALS => Journal::class,
         self::ISSUE_RELATION_CHANGESETS => Changeset::class,
-        self::ISSUE_RELATION_WATCHERS => Watcher::class,
+        self::ISSUE_RELATION_WATCHERS => User::class,
         self::ISSUE_RELATION_CUSTOM_FIELDS => CustomField::class
     ];
 
@@ -64,4 +67,35 @@ class Issues extends AbstractRepository
     {
         return Issue::class;
     }
+
+    public function create(AbstractModel $model): ?AbstractModel
+    {
+        $model = parent::create($model);
+        if (!$model->getAttachments()->isEmpty()) {
+            $api_response = $this->client->put(
+                $this->getEndpoint() . "/" . $model->getId() . "." . $this->client->getFormat(),
+                json_encode($model->getPayload(), JSON_THROW_ON_ERROR)
+            );
+
+            if ($api_response->isSuccess()) {
+                return $model;
+            }
+
+            return null;
+        }
+
+        return $model;
+    }
+
+    public function addAttachment(Issue $issue, Attachment $attachment): Issue
+    {
+        $attachment = $this->client->getRepository(Uploads::API_ROOT)->create($attachment);
+        if ($attachment) {
+            $attachment->setVersion($issue->getFixedVersion());
+            $issue->addAttachment($attachment);
+        }
+        return $issue;
+
+    }
+
 }
