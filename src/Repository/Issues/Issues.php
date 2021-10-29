@@ -71,7 +71,7 @@ class Issues extends AbstractRepository
     public function create(AbstractModel $model): ?AbstractModel
     {
         $model = parent::create($model);
-        if (!$model->getAttachments()->isEmpty()) {
+        if ($model && !$model->getAttachments()->isEmpty()) {
             $api_response = $this->client->put(
                 $this->getEndpoint() . "/" . $model->getId() . "." . $this->client->getFormat(),
                 json_encode($model->getPayload(), JSON_THROW_ON_ERROR)
@@ -85,6 +85,18 @@ class Issues extends AbstractRepository
         }
 
         return $model;
+    }
+
+    public function addChild(Issue $issue, Issue $child): Issue
+    {
+        if (!$child->isPersisted()) { // Issue already exists
+            $child->setParentIssue($issue);
+            $child = $this->create($child);
+        }
+
+        $issue->addChild($child);
+
+        return $issue;
     }
 
     public function addAttachment(Issue $issue, Attachment $attachment): Issue

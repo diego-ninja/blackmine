@@ -71,6 +71,9 @@ use Blackmine\Model\Identity;
  * @method void removeWatcher(User $watcher)
  * @method void addAttachment(Attachment $attachment)
  * @method void removeAttachment(Attachment $attachment)
+ * @method void addChild(Issue $child);
+ * @method void removeChild(Issue $child)
+ *
  */
 class Issue extends Identity implements FetchableInterface, MutableInterface
 {
@@ -113,9 +116,11 @@ class Issue extends Identity implements FetchableInterface, MutableInterface
     protected ?CarbonImmutable $closed_on;
 
 
-    public function __construct(?int $id = null)
+    public function __construct(protected ?int $id = null)
     {
         $this->attachments = new IdentityCollection();
+        $this->children = new IdentityCollection();
+        $this->custom_fields = new IdentityCollection();
     }
 
     public function comment(string $notes): void
