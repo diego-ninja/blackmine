@@ -6,7 +6,6 @@ class CustomField extends NamedIdentity
 {
     public const ENTITY_NAME = "custom_field";
 
-    protected mixed $value;
     protected string $customized_type;
     protected string $field_format;
     protected ?string $regexp;
@@ -17,4 +16,8 @@ class CustomField extends NamedIdentity
     protected bool $multiple;
     protected ?string $default_value;
     protected array $possible_values;
+
+    public function __construct(protected int $id, protected string $name, protected mixed $value)
+    {
+    }
 }
