@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use JsonException;
 use ReflectionException;
 
-use function Blackmine\is_initialized;
+use function Blackmine\Functions\is_initialized;
 
 trait RepositoryTrait
 {
