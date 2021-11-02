@@ -2,6 +2,7 @@
 
 namespace Blackmine\Repository\Issues;
 
+use Blackmine\Collection\IdentityCollection;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\User\User;
 use Blackmine\Repository\RepositoryTrait;
@@ -15,6 +16,8 @@ use Blackmine\Model\Issue\Issue;
 use Blackmine\Model\Issue\Journal;
 use Blackmine\Model\Issue\Relation;
 use Blackmine\Repository\RepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use JsonException;
 
 class Issues extends AbstractRepository
 {
@@ -54,7 +57,7 @@ class Issues extends AbstractRepository
         self::ISSUE_FILTER_PROJECT_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
         self::ISSUE_FILTER_SUBPROJECT_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
         self::ISSUE_FILTER_TRACKER_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
-        self::ISSUE_FILTER_STATUS_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
+        self::ISSUE_FILTER_STATUS_ID => RepositoryInterface::SEARCH_PARAM_TYPE_STRING,
         self::ISSUE_FILTER_PARENT_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
         self::ISSUE_FILTER_ASSIGNED_TO_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
         self::COMMON_FILTER_CREATED_ON => CarbonInterface::class,
@@ -97,6 +100,18 @@ class Issues extends AbstractRepository
 
         return $issue;
     }
+
+    /**
+     * @throws JsonException
+     */
+    public function getChildren(Issue $issue): IdentityCollection | ArrayCollection
+    {
+        return $this->client->getRepository(self::API_ROOT)
+            ->addFilter(self::ISSUE_FILTER_PARENT_ID, $issue->getId())
+            ->addFilter(self::ISSUE_FILTER_STATUS_ID, "*")
+            ->search();
+    }
+
 
     public function addAttachment(Issue $issue, Attachment $attachment): Issue
     {

@@ -8,9 +8,8 @@ use Blackmine\Model\FetchableInterface;
 use Blackmine\Tool\Inflect;
 use Doctrine\Common\Collections\Collection;
 use JsonException;
-use ReflectionException;
 
-use function Blackmine\Functions\is_initialized;
+use function is_initialized;
 
 trait RepositoryTrait
 {
@@ -32,9 +31,6 @@ trait RepositoryTrait
         return $model;
     }
 
-    /**
-     * @throws ReflectionException
-     */
     private function updateRelations(AbstractModel $model): AbstractModel
     {
         foreach (static::$relation_class_map as $relation_name => $relation_class) {
