@@ -9,7 +9,7 @@ use Blackmine\Tool\Inflect;
 use Doctrine\Common\Collections\Collection;
 use JsonException;
 use ReflectionException;
-use ReflectionProperty;
+use function Blackmine\Functions\is_initialized;
 
 trait RepositoryTrait
 {
@@ -31,13 +31,16 @@ trait RepositoryTrait
         return $model;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function updateRelations(AbstractModel $model): AbstractModel
     {
         foreach (static::$relation_class_map as $relation_name => $relation_class) {
             $model_getter = $this->getGetter($relation_name);
             $repository_adder = $this->getAdder(Inflect::singularize($relation_name));
 
-            if ($this->isInitialized($model, $relation_name)) {
+            if (is_initialized($model, $relation_name)) {
                 $related_collection = $model->$model_getter();
                 if ($related_collection instanceof Collection) {
                     foreach ($related_collection as $related_model) {
@@ -50,16 +53,6 @@ trait RepositoryTrait
         }
 
         return $model;
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    private function isInitialized(AbstractModel $model, string $property): bool
-    {
-        $rp = new ReflectionProperty(get_class($model), $property);
-        $rp->setAccessible(true);
-        return $rp->isInitialized($model);
     }
 
     private function isFetchable(string $relation_name): bool

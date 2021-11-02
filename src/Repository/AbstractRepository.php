@@ -19,6 +19,7 @@ abstract class AbstractRepository implements RepositoryInterface
         protected Client $client,
         protected array $options = []
     ) {
+        $this->reset();
     }
 
     /**

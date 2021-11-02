@@ -57,6 +57,12 @@ trait SearchableTrait
         return $this;
     }
 
+    public function reset(): self
+    {
+        static::$filter_params = [];
+        return $this;
+    }
+
     public function from(CarbonInterface $date, string $date_field = self::COMMON_FILTER_UPDATED_ON): self
     {
         static::$filter_params[RepositoryInterface::SEARCH_PARAM_FROM][$date_field] = $date;
@@ -132,6 +138,8 @@ trait SearchableTrait
             $object_class = $this->getModelClass();
             $object = new $object_class();
             $object->fromArray($item);
+
+            $this->hydrateRelations($object);
 
             $elements[] = $object;
         }

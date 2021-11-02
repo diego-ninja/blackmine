@@ -31,10 +31,13 @@ abstract class AbstractModel implements ModelInterface
         foreach ($clone as $key => $value) {
             if ($value) {
                 $aux = explode("\0", $key);
-                $newkey = $aux[count($aux) - 1];
+                $new_key = $aux[count($aux) - 1];
+
+                $getter = $this->getGetter($new_key);
+                $value = $this->$getter();
 
                 if ($value instanceof Identity) {
-                    $newkey .= "_id";
+                    $new_key .= "_id";
                     $value = $value->getId();
                 }
 
@@ -46,7 +49,7 @@ abstract class AbstractModel implements ModelInterface
                     $value = $value->toArray();
                 }
 
-                $ret[$newkey] = $value instanceof ModelInterface ? $value->toArray() : $value;
+                $ret[$new_key] = $value instanceof ModelInterface ? $value->toArray() : $value;
             }
         }
 
