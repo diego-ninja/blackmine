@@ -9,7 +9,8 @@ use Blackmine\Tool\Inflect;
 use Doctrine\Common\Collections\Collection;
 use JsonException;
 use ReflectionException;
-use function Blackmine\Functions\is_initialized;
+
+use function Blackmine\is_initialized;
 
 trait RepositoryTrait
 {

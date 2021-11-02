@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Blackmine\Functions;
+namespace Blackmine;
 
 use ReflectionException;
 use ReflectionProperty;
