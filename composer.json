@@ -30,7 +30,11 @@
     "autoload": {
         "psr-4": {
             "Blackmine\\": "src/"
-        }
+        },
+        "files": [
+            "src/functions.php"
+        ]
+
     },
     "autoload-dev": {
         "psr-4": {
