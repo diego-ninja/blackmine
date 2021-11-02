@@ -12,7 +12,7 @@ class Identity extends AbstractModel
     {
     }
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return null;
     }

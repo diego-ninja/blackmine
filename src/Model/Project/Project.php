@@ -68,7 +68,7 @@ class Project extends NamedIdentity implements FetchableInterface, MutableInterf
     protected CarbonImmutable $created_on;
     protected CarbonImmutable $updated_on;
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Projects::class;
     }

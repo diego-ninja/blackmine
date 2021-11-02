@@ -52,13 +52,14 @@ As we are in a so, really so, so, so, alpha stage, of course there are no docume
  - [Custom Fields API](https://www.redmine.org/projects/redmine/wiki/Rest_CustomFields)
  - [Memberships API](https://www.redmine.org/projects/redmine/wiki/Rest_Memberships)
  - [Files API](https://www.redmine.org/projects/redmine/wiki/Rest_Files)
+ - [Enumerations API](https://www.redmine.org/projects/redmine/wiki/Rest_Enumerations)
+ - [Attachments API](https://www.redmine.org/projects/redmine/wiki/Rest_Attachments)
 
 ## Things that are incomplete:
 - Search fluent API (80%)
 - [Issues API](https://www.redmine.org/projects/redmine/wiki/Rest_Issues) (90%)
 - [Projects API](https://www.redmine.org/projects/redmine/wiki/Rest_Projects) (90%)
 - [Users API](https://www.redmine.org/projects/redmine/wiki/Rest_Users) (70%)
-- [Attachments API](https://www.redmine.org/projects/redmine/wiki/Rest_Attachments) (0%)
 - Error handling and exceptions (0%)
 - Model functionality (50%)
 - Unit tests (0%)

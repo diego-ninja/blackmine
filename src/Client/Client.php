@@ -3,6 +3,7 @@
 namespace Blackmine\Client;
 
 use Blackmine\Repository\CustomFields;
+use Blackmine\Repository\Enumerations;
 use Blackmine\Repository\Issues\Relations;
 use Blackmine\Repository\Issues\Statuses;
 use Blackmine\Repository\Projects\IssueCategories;
@@ -50,6 +51,7 @@ class Client implements ClientInterface
             Roles::API_ROOT => new Roles($this),
             CustomFields::API_ROOT => new CustomFields($this),
             Uploads::API_ROOT => new Uploads($this),
+            Enumerations::API_ROOT => new Enumerations($this),
             default => null,
         };
 

@@ -179,7 +179,7 @@ trait ModelTrait
     }
 
     protected function populateRelation(string $property, string $type, array $raw_value): ?ArrayCollection {
-        $repository_class = $this->getRepositoryClass();
+        $repository_class = static::getRepositoryClass();
         $model_class = $repository_class::getRelationClassFor($property);
 
         if ($model_class) {

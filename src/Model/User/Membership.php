@@ -19,7 +19,7 @@ class Membership extends Identity implements MutableInterface
 
     protected RepeatableIdCollection $roles;
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Users::class;
     }

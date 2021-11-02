@@ -10,5 +10,5 @@ interface ModelInterface extends JsonSerializable
     public function toArray(): array;
     public function toJson(): string;
     public function getEntityName(): string;
-    public function getRepositoryClass(): ?string;
+    public static function getRepositoryClass(): ?string;
 }

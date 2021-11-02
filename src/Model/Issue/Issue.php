@@ -128,7 +128,7 @@ class Issue extends Identity implements FetchableInterface, MutableInterface
         $this->notes = $notes;
     }
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Issues::class;
     }

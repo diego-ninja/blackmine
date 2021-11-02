@@ -45,7 +45,7 @@ class IdentityCollection extends ArrayCollection
 
     public function findByName(string $name): ?Identity
     {
-        foreach (parent::toArray() as $identity) {
+        foreach ($this->getElements() as $identity) {
             if ($identity->getName() === $name) {
                 return $identity;
             }
@@ -56,7 +56,7 @@ class IdentityCollection extends ArrayCollection
 
     public function findById(int $id): ?Identity
     {
-        foreach (parent::toArray() as $identity) {
+        foreach ($this->getElements() as $identity) {
             if ($identity->getId() === $id) {
                 return $identity;
             }

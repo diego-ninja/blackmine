@@ -15,7 +15,7 @@ class Role extends NamedIdentity
     protected string $users_visibility;
     protected array $permissions;
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Users::class;
     }

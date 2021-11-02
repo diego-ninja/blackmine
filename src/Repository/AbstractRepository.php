@@ -79,11 +79,13 @@ abstract class AbstractRepository implements RepositoryInterface
     /**
      * @throws JsonException
      */
-    public function all(): ArrayCollection
+    public function all(?string $endpoint): ArrayCollection
     {
         $ret = new ArrayCollection();
 
-        $api_response = $this->client->get($this->getEndpoint() . "." . $this->client->getFormat());
+        $api_endpoint = $endpoint ?? $this->getEndpoint();
+
+        $api_response = $this->client->get($api_endpoint . "." . $this->client->getFormat());
         if (isset($api_response->getData()[static::API_ROOT])) {
             $ret = $this->getCollection($api_response->getData()[static::API_ROOT]);
         }

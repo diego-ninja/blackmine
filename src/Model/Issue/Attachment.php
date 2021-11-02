@@ -11,7 +11,7 @@ class Attachment extends File
 {
     public const ENTITY_NAME = "attachment";
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Attachments::class;
     }

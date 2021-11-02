@@ -2,6 +2,8 @@
 
 namespace Blackmine\Model;
 
+use Blackmine\Collection\IdentityCollection;
+
 /**
  * @method int getId()
  * @method string getName()
@@ -11,7 +13,10 @@ namespace Blackmine\Model;
  */
 class NamedIdentity extends Identity
 {
+    public static IdentityCollection $values;
+
     public function __construct(protected ?int $id = null, protected ?string $name = null)
     {
     }
+
 }

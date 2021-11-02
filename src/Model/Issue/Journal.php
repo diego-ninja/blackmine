@@ -18,7 +18,7 @@ class Journal extends Identity
 
     protected array $details;
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Issues::class;
     }

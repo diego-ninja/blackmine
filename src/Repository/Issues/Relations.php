@@ -32,7 +32,7 @@ class Relations extends AbstractRepository
         throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 
-    public function all(): ArrayCollection
+    public function all(?string $endpoint): ArrayCollection
     {
         throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }

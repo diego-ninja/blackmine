@@ -13,7 +13,7 @@ class Upload extends AbstractModel
 
     protected string $token;
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Uploads::class;
     }

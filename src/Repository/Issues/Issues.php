@@ -15,7 +15,6 @@ use Blackmine\Model\Issue\Issue;
 use Blackmine\Model\Issue\Journal;
 use Blackmine\Model\Issue\Relation;
 use Blackmine\Repository\RepositoryInterface;
-use Error;
 
 class Issues extends AbstractRepository
 {

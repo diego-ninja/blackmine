@@ -22,7 +22,7 @@ class Group extends NamedIdentity implements MutableInterface
         $this->memberships = new IdentityCollection();
     }
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Groups::class;
     }

@@ -9,7 +9,7 @@ class Changeset extends AbstractModel
 {
     public const ENTITY_NAME = "changeset";
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Issues::class;
     }

@@ -24,7 +24,7 @@ class Relation extends Identity implements FetchableInterface
     protected int $issue_to_id;
     protected string $relation_type = self::RELATION_TYPE_RELATES;
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Relations::class;
     }

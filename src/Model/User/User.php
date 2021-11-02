@@ -26,7 +26,7 @@ class User extends NamedIdentity
     protected CarbonImmutable $created_on;
     protected CarbonImmutable $last_login_on;
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return Users::class;
     }

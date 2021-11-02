@@ -16,8 +16,4 @@ class CustomField extends NamedIdentity
     protected bool $multiple;
     protected ?string $default_value;
     protected array $possible_values;
-
-    public function __construct(protected int $id, protected string $name, protected mixed $value)
-    {
-    }
 }

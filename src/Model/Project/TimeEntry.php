@@ -38,7 +38,7 @@ class TimeEntry extends Identity implements FetchableInterface
     protected string $comments;
     protected User $user;
 
-    public function getRepositoryClass(): ?string
+    public static function getRepositoryClass(): ?string
     {
         return TimeEntries::class;
     }
