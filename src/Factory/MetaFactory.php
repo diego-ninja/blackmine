@@ -30,10 +30,18 @@ class MetaFactory
     public function make(string $model_class, int $id): ?ModelInterface
     {
         if (!isset($this->factories[$model_class])) {
-            $this->factories[$model_class] = $this->getFactoryFor($model_class, $this->factory_definitions[$model_class]);
+            $this->factories[$model_class] = $this->getFactoryFor(
+                $model_class,
+                $this->factory_definitions[$model_class]
+            );
         }
 
-        return $this->factories[$model_class]::make($id);
+        if ($this->factories[$model_class] !== null) {
+            return $this->factories[$model_class]::make($id);
+        }
+
+        return null;
+
     }
 
     private function getFactoryFor(string $model_class, ?string $custom_endpoint): FactoryInterface

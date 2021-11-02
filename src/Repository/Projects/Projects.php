@@ -22,7 +22,6 @@ class Projects extends AbstractRepository
     public const PROJECT_RELATION_TRACKERS = "trackers";
     public const PROJECT_RELATION_ISSUE_CATEGORIES = "issue_categories";
     public const PROJECT_RELATION_ENABLED_MODULES = "enabled_modules";
-    public const PROJECT_RELATION_TIME_ENTRY_ACTIVITIES = "time_entry_activities";
     public const PROJECT_RELATION_TIME_ENTRIES = "time_entries";
     public const PROJECT_RELATION_MEMBERSHIPS = "memberships";
     public const PROJECT_RELATION_VERSIONS = "versions";
@@ -33,7 +32,6 @@ class Projects extends AbstractRepository
         self::PROJECT_RELATION_ISSUE_CATEGORIES => IssueCategory::class,
         self::PROJECT_RELATION_ENABLED_MODULES => Module::class,
         self::PROJECT_RELATION_TIME_ENTRIES => TimeEntry::class,
-        self::PROJECT_RELATION_TIME_ENTRY_ACTIVITIES => Identity::class,
         self::PROJECT_RELATION_MEMBERSHIPS => Membership::class,
         self::PROJECT_RELATION_VERSIONS => Version::class,
         self::PROJECT_RELATION_FILES => File::class
