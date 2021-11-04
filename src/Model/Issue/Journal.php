@@ -10,6 +10,17 @@ use Blackmine\Model\User\User;
 use Blackmine\Repository\Issues\Issues;
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * @method void setUser(User $user)
+ * @method void setNotes(string $notes)
+ * @method void setPrivateNotes(bool $private_notes)
+ * @method void setDetails(array $details)
+ *
+ * @method User getUser()
+ * @method string getNotes()
+ * @method bool isPrivateNotes()
+ * @method array getDetails()
+ */
 class Journal extends Identity
 {
     public const ENTITY_NAME = "journal";

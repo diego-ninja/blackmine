@@ -11,6 +11,7 @@ use Error;
 use JsonException;
 use Blackmine\Client\Client;
 use Blackmine\Model\AbstractModel;
+use Psr\Cache\InvalidArgumentException;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
@@ -67,7 +68,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @throws JsonException
+     * @throws JsonException|InvalidArgumentException
      */
     public function get(mixed $id): ?AbstractModel
     {
@@ -99,7 +100,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @throws JsonException
+     * @throws JsonException|InvalidArgumentException
      */
     public function all(?string $endpoint = null): ArrayCollection
     {
@@ -144,6 +145,9 @@ abstract class AbstractRepository implements RepositoryInterface
         return null;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function delete(AbstractModel $model): void
     {
         $endpoint_url = $this->getEndpoint() . "/" . $model->getId() . "." . $this->client->getFormat();

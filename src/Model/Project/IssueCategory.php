@@ -5,11 +5,20 @@ declare(strict_types=1);
 namespace Blackmine\Model\Project;
 
 use Blackmine\Model\FetchableInterface;
-use Blackmine\Model\Issue\Assignee;
 use Blackmine\Model\NamedIdentity;
+use Blackmine\Model\User\User;
 use Blackmine\Mutator\MutableInterface;
 use Blackmine\Mutator\Mutation\RenameKeyMutation;
 
+/**
+ * @method void setProject(Project $project)
+ * @method void setAssignedTo(User $user)
+ * @method void setReassignTo(User $user)
+ *
+ * @method Project getProject()
+ * @method User|null getAssignedTo()
+ * @method User|null getReassignTo()
+ */
 class IssueCategory extends NamedIdentity implements FetchableInterface, MutableInterface
 {
     public const ENTITY_NAME = "issue_category";
@@ -20,8 +29,8 @@ class IssueCategory extends NamedIdentity implements FetchableInterface, Mutable
     ];
 
     protected Project $project;
-    protected ?Assignee $assigned_to;
-    protected ?Assignee $reassign_to;
+    protected ?User $assigned_to;
+    protected ?User $reassign_to;
 
     public function getMutations(): array
     {

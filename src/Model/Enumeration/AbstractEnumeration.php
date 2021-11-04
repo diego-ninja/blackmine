@@ -7,6 +7,9 @@ namespace Blackmine\Model\Enumeration;
 use Blackmine\Model\NamedIdentity;
 use Blackmine\Repository\Enumerations;
 
+/**
+ * @method bool isDefault()
+ */
 class AbstractEnumeration extends NamedIdentity
 {
     protected bool $is_default;

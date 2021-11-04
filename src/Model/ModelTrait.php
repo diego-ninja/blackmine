@@ -40,6 +40,19 @@ trait ModelTrait
             }
         }
 
+        if ($this->isIsser($method)) {
+            $property = $this->getProperty($method);
+            if (property_exists($this, $property)) {
+                return $this->$property;
+            }
+
+            $property = "is_" . $property;
+            if (property_exists($this, $property)) {
+                return $this->$property;
+            }
+
+        }
+
         if ($this->isAdder($method)) {
             $property = Inflect::pluralize($this->getProperty($method));
             if (property_exists($this, $property) && $this->$property instanceof Collection) {
@@ -76,6 +89,11 @@ trait ModelTrait
         return str_starts_with($method, "get");
     }
 
+    protected function isIsser(string $method): bool
+    {
+        return str_starts_with($method, "is");
+    }
+
     protected function isAdder(string $method): bool
     {
         return str_starts_with($method, "add");
@@ -94,6 +112,11 @@ trait ModelTrait
     protected function getGetter(string $property): string
     {
         return "get" . Inflect::camelize($property);
+    }
+
+    protected function getIsser(string $property): string
+    {
+        return "is" . Inflect::camelize($property);
     }
 
     protected function getAdder(string $property): string
@@ -202,7 +225,7 @@ trait ModelTrait
             return $ret;
         }
 
-        return null;
+        return new $type($raw_value);
     }
 
     protected function isRelatedModel(string $type): bool

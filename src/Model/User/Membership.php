@@ -9,8 +9,17 @@ use Blackmine\Model\Identity;
 use Blackmine\Model\Project\Project;
 use Blackmine\Mutator\MutableInterface;
 use Blackmine\Mutator\Mutation\RenameKeyMutation;
-use Blackmine\Repository\Users\Users;
+use Blackmine\Repository\Projects\Memberships;
 
+/**
+ * @method void setProject(Project $project)
+ * @method void setUser(User $user)
+ * @method void setGroup(Group $group)
+ * @method void setRoles(RepeatableIdCollection $roles)
+ *
+ * @method void addRole(Role $role)
+ * @method void removeRole(Role $role)
+ */
 class Membership extends Identity implements MutableInterface
 {
     public const ENTITY_NAME = "membership";
@@ -23,21 +32,7 @@ class Membership extends Identity implements MutableInterface
 
     public static function getRepositoryClass(): ?string
     {
-        return Users::class;
-    }
-
-    public function addRole(Role $role): void
-    {
-        if (!$this->roles->contains($role)) {
-            $this->roles->add($role);
-        }
-    }
-
-    public function removeRole(Role $role): void
-    {
-        if ($this->roles->contains($role)) {
-            $this->roles->removeElement($role);
-        }
+        return Memberships::class;
     }
 
     public function getMutations(): array

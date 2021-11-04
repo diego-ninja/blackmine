@@ -23,9 +23,9 @@ namespace Blackmine\Model;
  * @method string|null getRegexp()
  * @method int|null getMinLength()
  * @method int|null getMaxLength()
- * @method bool getIsRequired()
- * @method bool getSearchable()
- * @method bool getMultiple()
+ * @method bool isRequired()
+ * @method bool isSearchable()
+ * @method bool isMultiple()
  * @method string|null getDefaultValue()
  * @method array getPossibleValues()
  */

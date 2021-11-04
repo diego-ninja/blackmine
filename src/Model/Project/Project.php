@@ -11,7 +11,6 @@ use Blackmine\Collection\IdentityCollection;
 use Blackmine\Collection\RepeatableNameCollection;
 use Blackmine\Collection\RepeatableIdCollection;
 use Blackmine\Model\FetchableInterface;
-use Blackmine\Model\Issue\Assignee;
 use Blackmine\Model\NamedIdentity;
 use Blackmine\Model\User\Membership;
 use Blackmine\Model\User\User;
@@ -24,11 +23,29 @@ use Blackmine\Repository\Projects\Projects;
  * @method setStatus(int $status): void
  * @method setParent(Project $parent): void
  * @method setDefaultVersion(Version $version): void
- * @method setDefaultAssignee(Assignee $assignee): void
+ * @method setDefaultAssignee(User $assignee): void
  * @method setInheritMembers(bool $inherit_members): void
  * @method setIsPublic(bool $is_public): void
  *
- * @method Version getDefaultVersion()
+ * @method string getIdentifier()
+ * @method string getDescription()
+ * @method string getHomepage()
+ * @method int getStatus()
+ * @method Project|null getParent()
+ * @method Version|null getDefaultVersion()
+ * @method User|null getDefaultAssignee()
+ * @method bool getInheritMembers()
+ * @method bool isPublic()
+ * @method RepeatableIdCollection getTrackers()
+ * @method RepeatableNameCollection getEnabledModules()
+ * @method IdentityCollection getTimeEntries()
+ * @method IdentityCollection getTimeEntryActivities()
+ * @method IdentityCollection getIssueCategories()
+ * @method IdentityCollection getMemberships()
+ * @method IdentityCollection getVersions()
+ * @method IdentityCollection getFiles()
+ * @method CarbonImmutable getCreatedOn()
+ * @method CarbonImmutable getUpdatedOn()
  *
  * @method addTracker(Tracker $tracker): void
  * @method removeTracker(Tracker $tracker): void
@@ -52,8 +69,8 @@ class Project extends NamedIdentity implements FetchableInterface, MutableInterf
     protected string $homepage;
     protected int $status;
     protected ?Project $parent;
-    protected Version $default_version;
-    protected Assignee $default_assignee;
+    protected ?Version $default_version;
+    protected ?User $default_assignee;
 
     protected ?bool $inherit_members;
     protected ?bool $is_public;

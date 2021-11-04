@@ -8,6 +8,15 @@ use Blackmine\Model\FetchableInterface;
 use Blackmine\Model\Identity;
 use Blackmine\Repository\Issues\Relations;
 
+/**
+ * @method void setIssueId(int $issue_id)
+ * @method void setIssueToId(int $issue_to_id)
+ * @method void setRelationType(string $relation_type)
+ *
+ * @method int getIssueId()
+ * @method int getIssueToId()
+ * @method string getRelationType()
+ */
 class Relation extends Identity implements FetchableInterface
 {
     public const ENTITY_NAME = "relation";
