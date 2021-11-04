@@ -11,7 +11,6 @@ use Blackmine\Tool\Inflect;
 use Doctrine\Common\Collections\Collection;
 use JsonException;
 
-use Psr\Cache\InvalidArgumentException;
 use function is_initialized;
 
 trait RepositoryTrait
@@ -36,7 +35,7 @@ trait RepositoryTrait
 
     private function updateRelations(AbstractModel $model): AbstractModel
     {
-        foreach (static::$relation_class_map as $relation_name => $relation_class) {
+        foreach ($this->getRelationClassMap() as $relation_name => $relation_class) {
             $model_getter = $this->getGetter($relation_name);
             $repository_adder = $this->getAdder(Inflect::singularize($relation_name));
 
@@ -69,13 +68,13 @@ trait RepositoryTrait
     }
 
     /**
-     * @throws JsonException|InvalidArgumentException
+     * @throws JsonException
      */
     public function __call(string $method, array $args): mixed
     {
         if ($this->isRelationGetter($method)) {
             $relation_name = strtolower(Inflect::snakeize(substr($method, 3)));
-            $relation_class = static::$relation_class_map[$relation_name];
+            $relation_class = $this->getRelationClassMap()[$relation_name];
 
             if ($args[0] instanceof AbstractModel) {
                 $endpoint = $this->getEndpoint() . "/" . $args[0]->getId() . "/" . $relation_name . "." . $this->client->getFormat();
@@ -117,13 +116,13 @@ trait RepositoryTrait
     protected function isRelationGetter(string $method): bool
     {
         $relation = strtolower(Inflect::snakeize(substr($method, 3)));
-        return str_starts_with($method, "get") && array_key_exists($relation, static::$relation_class_map);
+        return str_starts_with($method, "get") && array_key_exists($relation, $this->getRelationClassMap());
     }
 
     protected function isRelationAdder(string $method): bool
     {
         $relation = strtolower(Inflect::pluralize(Inflect::snakeize(substr($method, 3))));
-        return str_starts_with($method, "add") && array_key_exists($relation, static::$relation_class_map);
+        return str_starts_with($method, "add") && array_key_exists($relation, $this->getRelationClassMap());
     }
 
     protected function getAdder(string $property): string

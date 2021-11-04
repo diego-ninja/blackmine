@@ -19,6 +19,7 @@ abstract class AbstractRepository implements RepositoryInterface
     use SearchableTrait;
 
     protected array $fetch_relations = [];
+    protected static array $relation_class_map = [];
 
     public function __construct(
         protected Client $client,
