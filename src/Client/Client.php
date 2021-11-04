@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blackmine\Client;
 
 use Blackmine\Repository\CustomFields;
@@ -82,9 +84,11 @@ class Client implements ClientInterface
                 $is_cached = true;
             } else {
                 $response = Requests::get($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
-                $item->set($response);
-                $item->expiresAfter($this->options->get(ClientOptions::CLIENT_OPTIONS_CACHE_TTL));
-                $this->cache->save($item);
+                if ($response->success) {
+                    $item->set($response);
+                    $item->expiresAfter($this->options->get(ClientOptions::CLIENT_OPTIONS_CACHE_TTL));
+                    $this->cache->save($item);
+                }
             }
         } else {
             $response = Requests::get($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blackmine\Client\Response;
 
 use JsonException;
@@ -22,10 +24,14 @@ class ApiResponse
             json_decode($response->body, true, 512, JSON_THROW_ON_ERROR) :
             [];
 
-        return new self(
+        $ret = new self(
             $response->status_code,
             $data
         );
+
+        $ret->setIsCached($is_cached);
+
+        return $ret;
     }
 
     public function getStatus(): int

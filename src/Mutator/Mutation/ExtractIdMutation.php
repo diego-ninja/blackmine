@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blackmine\Mutator\Mutation;
 
 class ExtractIdMutation extends AbstractMutation

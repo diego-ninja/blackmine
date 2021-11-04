@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blackmine\Repository\Users;
 
 use Blackmine\Collection\IdentityCollection;

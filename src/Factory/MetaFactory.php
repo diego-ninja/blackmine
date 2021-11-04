@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blackmine\Factory;
 
 use Blackmine\Client\Client;
@@ -10,6 +12,7 @@ use Blackmine\Model\Issue\Status;
 use Blackmine\Model\ModelInterface;
 use Blackmine\Model\Project\Tracker;
 use Blackmine\Repository\Enumerations;
+use JsonException;
 
 class MetaFactory
 {
@@ -29,6 +32,9 @@ class MetaFactory
         $this->client = $client;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function make(string $model_class, int $id): ?ModelInterface
     {
         if (!isset($this->factories[$model_class])) {
@@ -46,10 +52,13 @@ class MetaFactory
 
     }
 
+    /**
+     * @throws JsonException
+     */
     private function getFactoryFor(string $model_class, ?string $custom_endpoint): FactoryInterface
     {
         $repository_class = $model_class::getRepositoryClass();
-        $values = $this->client->getRepository($repository_class::API_ROOT)->all($custom_endpoint)->toArray();
+        $values = $this->client->getRepository($repository_class::API_ROOT)?->all($custom_endpoint)->toArray();
 
         return new NamedIdentityFactory($values, $model_class);
     }

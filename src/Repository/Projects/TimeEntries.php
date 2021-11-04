@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blackmine\Repository\Projects;
 
 use Blackmine\Model\Project\TimeEntry;
