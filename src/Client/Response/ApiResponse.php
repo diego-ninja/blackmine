@@ -7,15 +7,16 @@ use Requests_Response;
 
 class ApiResponse
 {
+    protected bool $is_cached;
+
     private function __construct(protected  int $status, protected ?array $data)
     {
-
     }
 
     /**
      * @throws JsonException
      */
-    public static function fromRequestsResponse(Requests_Response $response): self
+    public static function fromRequestsResponse(Requests_Response $response, bool $is_cached = false): self
     {
         $data = ($response->body !== '' && str_contains( (string) $response->headers->getValues("Content-Type")[0], "application/json")) ?
             json_decode($response->body, true, 512, JSON_THROW_ON_ERROR) :
@@ -37,6 +38,11 @@ class ApiResponse
         return $this->data;
     }
 
+    public function isCached(): bool
+    {
+        return $this->is_cached;
+    }
+
     public function isSuccess(): bool
     {
         return $this->status >= 200 && $this->status < 300;
@@ -50,5 +56,10 @@ class ApiResponse
     public function setData(?array $data): void
     {
         $this->data = $data;
+    }
+
+    public function setIsCached(bool $is_cached): void
+    {
+        $this->is_cached = $is_cached;
     }
 }

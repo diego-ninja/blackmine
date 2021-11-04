@@ -107,7 +107,7 @@ class Issues extends AbstractRepository
     public function getChildren(Issue $issue): IdentityCollection | ArrayCollection
     {
         return $this->client->getRepository(self::API_ROOT)
-            ->addFilter(self::ISSUE_FILTER_PARENT_ID, $issue->getId())
+            ?->addFilter(self::ISSUE_FILTER_PARENT_ID, $issue->getId())
             ->addFilter(self::ISSUE_FILTER_STATUS_ID, "*")
             ->search();
     }
@@ -115,7 +115,7 @@ class Issues extends AbstractRepository
 
     public function addAttachment(Issue $issue, Attachment $attachment): Issue
     {
-        $attachment = $this->client->getRepository(Uploads::API_ROOT)->create($attachment);
+        $attachment = $this->client->getRepository(Uploads::API_ROOT)?->create($attachment);
         if ($attachment) {
             $attachment->setVersion($issue->getFixedVersion());
             $issue->addAttachment($attachment);

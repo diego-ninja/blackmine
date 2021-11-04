@@ -2,6 +2,7 @@
 
 namespace Blackmine\Repository\Projects;
 
+use Blackmine\Collection\IdentityCollection;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\User\Membership;
 use Blackmine\Repository\AbstractRepository;
@@ -18,7 +19,7 @@ class Memberships extends AbstractRepository
         return Membership::class;
     }
 
-    public function all(): ArrayCollection
+    public function all(?string $endpoint = null): IdentityCollection
     {
         throw new Error("Method " . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }

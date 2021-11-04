@@ -2,11 +2,11 @@
 
 namespace Blackmine\Model\Project;
 
+use Blackmine\Model\Enumeration\TimeEntryActivity;
 use Carbon\CarbonImmutable;
 use Blackmine\Model\FetchableInterface;
 use Blackmine\Model\Identity;
 use Blackmine\Model\Issue\Issue;
-use Blackmine\Model\NamedIdentity;
 use Blackmine\Model\User\User;
 use Blackmine\Repository\Projects\TimeEntries;
 
@@ -15,14 +15,14 @@ use Blackmine\Repository\Projects\TimeEntries;
  * @method setProject(Project $project): void
  * @method setSpentOn(CarbonImmutable $spent_on): void
  * @method setHours(int $hours): void
- * @method setActivity(NamedIdentity $activity): void
+ * @method setActivity(TimeEntryActivity $activity): void
  * @method setComments(string $comments): void
  * @method setUser(User $user): void
  *
  * @method Issue getIssue()
  * @method Project getProject()
  * @method CarbonImmutable getSpentOn()
- * @method NamedIdentity getActivity()
+ * @method TimeEntryActivity getActivity()
  * @method string getComments()
  * @method User getUser()
  */
@@ -34,7 +34,7 @@ class TimeEntry extends Identity implements FetchableInterface
     protected ?Project $project;
     protected CarbonImmutable $spent_on;
     protected int $hours;
-    protected NamedIdentity $activity;
+    protected TimeEntryActivity $activity;
     protected string $comments;
     protected User $user;
 

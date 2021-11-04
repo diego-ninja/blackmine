@@ -67,7 +67,7 @@ class Uploads extends AbstractRepository
         throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 
-    public function all(?string $endpoint): ArrayCollection
+    public function all(?string $endpoint = null): ArrayCollection
     {
         throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }

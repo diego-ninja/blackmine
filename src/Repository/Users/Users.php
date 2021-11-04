@@ -9,7 +9,11 @@ use Blackmine\Model\User\Role;
 use Blackmine\Repository\AbstractRepository;
 use Blackmine\Model\User\User;
 use Blackmine\Repository\RepositoryInterface;
+use JsonException;
 
+/**
+ * @method User|null  get(mixed $id)
+ */
 class Users extends AbstractRepository
 {
     public const API_ROOT = "users";
@@ -37,6 +41,26 @@ class Users extends AbstractRepository
     public function getModelClass(): string
     {
         return User::class;
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public function me(): ?User
+    {
+        $endpoint_url = "my/account." . $this->client->getFormat();
+
+        $api_response = $this->client->get($this->constructEndpointUrl($endpoint_url, []));
+
+        if ($api_response->isSuccess()) {
+            $model_class = $this->getModelClass();
+            $model = new $model_class();
+            $model->fromArray($api_response->getData()[$model->getEntityName()]);
+
+            return $model;
+        }
+
+        return null;
     }
 
 }

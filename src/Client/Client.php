@@ -15,6 +15,8 @@ use Blackmine\Repository\Users\Groups;
 use Blackmine\Repository\Users\Roles;
 use JsonException;
 use Blackmine\Client\Response\ApiResponse;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\InvalidArgumentException;
 use Requests;
 use Blackmine\Repository\AbstractRepository;
 use Blackmine\Repository\Issues\Issues;
@@ -23,16 +25,11 @@ use Blackmine\Repository\Users\Users;
 
 class Client implements ClientInterface
 {
-    public const REDMINE_API_KEY_HEADER = "X-Redmine-API-Key";
-    public const REDMINE_IMPERSONATE_HEADER = "X-Redmine-Switch-Users";
-
     public function __construct(
-        protected string $base_url,
-        protected string $api_key,
-        protected string $format = ClientInterface::REDMINE_FORMAT_JSON,
-        protected array $headers = []
+        protected ClientOptions $options,
+        protected ?CacheItemPoolInterface $cache = null
     ) {
-        $this->initRedmineHeaders();
+
     }
 
     public function getRepository(string $endpoint): ?AbstractRepository
@@ -68,11 +65,32 @@ class Client implements ClientInterface
 
     /**
      * @throws JsonException
+     * @throws InvalidArgumentException
      */
     public function get(string $endpoint, array $headers = []): ApiResponse
     {
-        $response = Requests::get($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
-        return ApiResponse::fromRequestsResponse($response);
+        $is_cached = false;
+        if ($this->cache) {
+            $cache_key = $this->getCacheKey(
+                $this->getEndpointUrl($endpoint),
+                $this->getRequestHeaders($headers)
+            );
+
+            $item = $this->cache->getItem($cache_key);
+            if ($item->isHit()) {
+                $response = $item->get();
+                $is_cached = true;
+            } else {
+                $response = Requests::get($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
+                $item->set($response);
+                $item->expiresAfter($this->options->get(ClientOptions::CLIENT_OPTIONS_CACHE_TTL));
+                $this->cache->save($item);
+            }
+        } else {
+            $response = Requests::get($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
+        }
+
+        return ApiResponse::fromRequestsResponse($response, $is_cached);
     }
 
     /**
@@ -96,29 +114,26 @@ class Client implements ClientInterface
 
     public function getFormat(): string
     {
-        return $this->format;
+        return $this->options->get(ClientOptions::CLIENT_OPTION_FORMAT);
     }
 
     private function getRequestHeaders(array $headers): array
     {
         if (!empty($headers)) {
-            return array_merge($this->headers, $headers);
+            return array_merge($this->options->get(ClientOptions::CLIENT_OPTION_REQUEST_HEADERS), $headers);
         }
 
-        return $this->headers;
+        return $this->options->get(ClientOptions::CLIENT_OPTION_REQUEST_HEADERS);
     }
 
     private function getEndpointUrl(string $endpoint): string
     {
-        return $this->base_url . "/" . $endpoint;
+        return $this->options->get(ClientOptions::CLIENT_OPTION_BASE_URL) . "/" . $endpoint;
     }
 
-    private function initRedmineHeaders(): void
+    private function getCacheKey(string $endpoint, array $headers = []): string
     {
-        $this->headers[self::REDMINE_API_KEY_HEADER] = $this->api_key;
-        $this->headers["Content-Type"] = "application/json";
-        $this->headers["Cache-Control"] = "no-cache";
-        $this->headers["User-Agent"] = "Scalefast Gitlab Connector v1.0";
+        return strtoupper(sha1($endpoint . json_encode($headers, JSON_THROW_ON_ERROR)));
     }
 
 }

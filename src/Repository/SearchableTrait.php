@@ -38,10 +38,6 @@ trait SearchableTrait
     }
 
 
-    /**
-     * @param string|string[] $include
-     * @return SearchableTrait|AbstractRepository
-     */
     public function with(string | array $include): self
     {
         if (!is_array($include)) {

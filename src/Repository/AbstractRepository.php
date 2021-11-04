@@ -2,6 +2,8 @@
 
 namespace Blackmine\Repository;
 
+use Blackmine\Client\ClientOptions;
+use Blackmine\Model\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Error;
 use JsonException;
@@ -17,9 +19,22 @@ abstract class AbstractRepository implements RepositoryInterface
 
     public function __construct(
         protected Client $client,
-        protected array $options = []
+        protected array $options = [
+            ClientOptions::CLIENT_OPTION_REQUEST_HEADERS => []
+        ]
     ) {
         $this->reset();
+    }
+
+    public function actingAs(string | User $user): self
+    {
+        if ($user instanceof User) {
+            $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS][ClientOptions::REDMINE_IMPERSONATE_HEADER] = $user->getLogin();
+        } else {
+            $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS][ClientOptions::REDMINE_IMPERSONATE_HEADER] = $user;
+        }
+
+        return $this;
     }
 
     /**
@@ -33,8 +48,9 @@ abstract class AbstractRepository implements RepositoryInterface
         }
 
         $api_response = $this->client->post(
-            $this->getEndpoint() . "." . $this->client->getFormat(),
-            json_encode($model->getPayload(), JSON_THROW_ON_ERROR)
+            endpoint: $this->getEndpoint() . "." . $this->client->getFormat(),
+            body: json_encode($model->getPayload(), JSON_THROW_ON_ERROR),
+            headers: $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS] ?? []
         );
 
         if ($api_response->isSuccess()) {
@@ -60,7 +76,10 @@ abstract class AbstractRepository implements RepositoryInterface
             $params["include"] = implode(",", $this->fetch_relations);
         }
 
-        $api_response = $this->client->get($this->constructEndpointUrl($endpoint_url, $params));
+        $api_response = $this->client->get(
+            endpoint: $this->constructEndpointUrl($endpoint_url, $params),
+            headers: $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS] ?? []
+        );
 
         if ($api_response->isSuccess()) {
             $model_class = $this->getModelClass();
@@ -80,13 +99,16 @@ abstract class AbstractRepository implements RepositoryInterface
     /**
      * @throws JsonException
      */
-    public function all(?string $endpoint): ArrayCollection
+    public function all(?string $endpoint = null): ArrayCollection
     {
         $ret = new ArrayCollection();
 
         $api_endpoint = $endpoint ?? $this->getEndpoint();
 
-        $api_response = $this->client->get($api_endpoint . "." . $this->client->getFormat());
+        $api_response = $this->client->get(
+            endpoint: $api_endpoint . "." . $this->client->getFormat(),
+            headers: $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS] ?? []
+        );
         if (isset($api_response->getData()[static::API_ROOT])) {
             $ret = $this->getCollection($api_response->getData()[static::API_ROOT]);
         }
@@ -108,8 +130,9 @@ abstract class AbstractRepository implements RepositoryInterface
         $this->updateRelations($model);
 
         $api_response = $this->client->put(
-            $this->getEndpoint() . "/" . $model->getId() . "." . $this->client->getFormat(),
-            json_encode($model->getPayload(), JSON_THROW_ON_ERROR)
+            endpoint: $this->getEndpoint() . "/" . $model->getId() . "." . $this->client->getFormat(),
+            body: json_encode($model->getPayload(), JSON_THROW_ON_ERROR),
+            headers: $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS] ?? []
         );
 
         if ($api_response->isSuccess()) {
@@ -122,7 +145,10 @@ abstract class AbstractRepository implements RepositoryInterface
     public function delete(AbstractModel $model): void
     {
         $endpoint_url = $this->getEndpoint() . "/" . $model->getId() . "." . $this->client->getFormat();
-        $api_response = $this->client->delete($endpoint_url);
+        $api_response = $this->client->delete(
+            endpoint: $endpoint_url,
+            headers: $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS] ?? []
+        );
 
     }
 

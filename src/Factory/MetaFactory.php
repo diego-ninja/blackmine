@@ -8,6 +8,7 @@ use Blackmine\Model\Enumeration\IssuePriority;
 use Blackmine\Model\Enumeration\TimeEntryActivity;
 use Blackmine\Model\Issue\Status;
 use Blackmine\Model\ModelInterface;
+use Blackmine\Model\Project\Tracker;
 use Blackmine\Repository\Enumerations;
 
 class MetaFactory
@@ -17,6 +18,7 @@ class MetaFactory
     private array $factories = [];
     private array $factory_definitions = [
         Status::class => null,
+        Tracker::class => null,
         IssuePriority::class => Enumerations::ENUM_ISSUE_PRIORITIES,
         TimeEntryActivity::class => Enumerations::ENUM_TIME_ENTRY_ACTIVITIES,
         DocumentCategory::class => Enumerations::ENUM_TYPE_DOCUMENT_CATEGORIES

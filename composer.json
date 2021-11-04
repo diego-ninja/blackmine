@@ -22,7 +22,8 @@
         "ext-ctype": "*",
         "rmccue/requests": "^1.8",
         "doctrine/collections": "^1.6",
-        "nesbot/carbon": "^2.53"
+        "nesbot/carbon": "^2.53",
+        "psr/cache": "^1.0|^2.0|^3.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest"

@@ -9,7 +9,7 @@ namespace {
             $rp = new ReflectionProperty(get_class($obj), $property);
             $rp->setAccessible(true);
             return $rp->isInitialized($obj);
-        } catch (ReflectionException $e) {
+        } catch (ReflectionException) {
             return false;
         }
     }
@@ -19,7 +19,7 @@ namespace {
         try {
             $rp = new ReflectionProperty(get_class($obj), $property);
             return $rp->isStatic();
-        } catch (ReflectionException $e) {
+        } catch (ReflectionException) {
             return false;
         }
     }

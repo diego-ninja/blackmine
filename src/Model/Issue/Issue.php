@@ -3,6 +3,7 @@
 namespace Blackmine\Model\Issue;
 
 use Blackmine\Collection\RepeatableIdCollection;
+use Blackmine\Model\CustomField;
 use Blackmine\Model\Project\Version;
 use Blackmine\Mutator\MutableInterface;
 use Blackmine\Mutator\Mutation\RemoveKeyMutation;
@@ -73,7 +74,8 @@ use Blackmine\Model\Identity;
  * @method void removeAttachment(Attachment $attachment)
  * @method void addChild(Issue $child);
  * @method void removeChild(Issue $child)
- *
+ * @method void addCustomField(CustomField $custom_field)
+ * @method void removeCustomField(CustomField $customField)
  */
 class Issue extends Identity implements FetchableInterface, MutableInterface
 {
@@ -84,7 +86,7 @@ class Issue extends Identity implements FetchableInterface, MutableInterface
     protected Status $status;
     protected NamedIdentity $priority;
     protected User $author;
-    protected User $assigned_to;
+    protected ?User $assigned_to;
     protected IssueCategory $category;
     protected Version $fixed_version;
     protected string $subject;
