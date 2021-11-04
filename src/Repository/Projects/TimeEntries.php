@@ -22,7 +22,7 @@ class TimeEntries extends AbstractRepository
         self::TIME_ENTRY_FILTER_PROJECT_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT
     ];
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return TimeEntry::class;
     }

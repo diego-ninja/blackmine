@@ -45,11 +45,6 @@ Blackmine uses [Requests](https://requests.ryanmccue.info/) as transport layer, 
 
 As we are in a so, really so, so, so, alpha stage, of course there are no documentation at all or comments in the code, because comments in the code are no more than a mask for a bad code. Check the code and try to understand, is not black magic.
 
-## Cache
-
-Blackmine has caching capabilities, so you can pass a PSR6 cache adapter to the Client constructor and requests will be cached with a given TTL, obviously only GET requests are cached. The cache key is build using the url and the headers to avoid incorrect cache retrievals when using user impersonation feature.
-
-At the moment only PSR6 with ttl expiration is supported, we are only importing PSR6 interfaces, but probably we will migrate to [Symfony contracts cache](https://symfony.com/doc/current/components/cache.html#cache-contracts) implementation in order to start using a tag based invalidation mechanism.
 ## Things that are almost complete:
  - [Time Entries API](https://www.redmine.org/projects/redmine/wiki/Rest_TimeEntries)
  - [Issue Categories API](https://www.redmine.org/projects/redmine/wiki/Rest_IssueCategories)

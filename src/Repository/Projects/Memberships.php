@@ -16,7 +16,7 @@ class Memberships extends AbstractRepository
 
     public const API_ROOT = "memberships";
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return Membership::class;
     }

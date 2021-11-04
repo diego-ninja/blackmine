@@ -14,7 +14,7 @@ class Roles extends AbstractRepository
 {
     public const API_ROOT = "roles";
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return Role::class;
     }

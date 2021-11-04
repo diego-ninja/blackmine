@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Blackmine\Client;
 
+use Blackmine\Client\Generator\CacheKeyGenerator;
+use Blackmine\Repository\CacheableRepository;
 use Blackmine\Repository\CustomFields;
 use Blackmine\Repository\Enumerations;
 use Blackmine\Repository\Issues\Relations;
@@ -12,29 +14,43 @@ use Blackmine\Repository\Projects\IssueCategories;
 use Blackmine\Repository\Projects\TimeEntries;
 use Blackmine\Repository\Projects\Trackers;
 use Blackmine\Repository\Projects\Versions;
+use Blackmine\Repository\RepositoryInterface;
 use Blackmine\Repository\Uploads;
 use Blackmine\Repository\Users\Groups;
 use Blackmine\Repository\Users\Roles;
 use JsonException;
 use Blackmine\Client\Response\ApiResponse;
-use Psr\Cache\CacheItemPoolInterface;
-use Psr\Cache\InvalidArgumentException;
 use Requests;
 use Blackmine\Repository\AbstractRepository;
 use Blackmine\Repository\Issues\Issues;
 use Blackmine\Repository\Projects\Projects;
 use Blackmine\Repository\Users\Users;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class Client implements ClientInterface
 {
     public function __construct(
         protected ClientOptions $options,
-        protected ?CacheItemPoolInterface $cache = null
+        protected ?CacheInterface $cache = null
     ) {
 
     }
 
-    public function getRepository(string $endpoint): ?AbstractRepository
+    public function getRepository(string $endpoint): ?RepositoryInterface
+    {
+        $repository = $this->getRepositoryForEndpoint($endpoint);
+        if ($repository && $this->cache) {
+            return new CacheableRepository(
+                $repository,
+                $this->cache,
+                new CacheKeyGenerator($this->options->get(ClientOptions::CLIENT_OPTION_API_KEY))
+            );
+        }
+
+        return $repository;
+    }
+
+    private function getRepositoryForEndpoint(string $endpoint): ?AbstractRepository
     {
         return match ($endpoint) {
             Issues::API_ROOT => new Issues($this),
@@ -67,34 +83,11 @@ class Client implements ClientInterface
 
     /**
      * @throws JsonException
-     * @throws InvalidArgumentException
      */
     public function get(string $endpoint, array $headers = []): ApiResponse
     {
-        $is_cached = false;
-        if ($this->cache) {
-            $cache_key = $this->getCacheKey(
-                $this->getEndpointUrl($endpoint),
-                $this->getRequestHeaders($headers)
-            );
-
-            $item = $this->cache->getItem($cache_key);
-            if ($item->isHit()) {
-                $response = $item->get();
-                $is_cached = true;
-            } else {
-                $response = Requests::get($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
-                if ($response->success) {
-                    $item->set($response);
-                    $item->expiresAfter($this->options->get(ClientOptions::CLIENT_OPTIONS_CACHE_TTL));
-                    $this->cache->save($item);
-                }
-            }
-        } else {
-            $response = Requests::get($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
-        }
-
-        return ApiResponse::fromRequestsResponse($response, $is_cached);
+        $response = Requests::get($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers));
+        return ApiResponse::fromRequestsResponse($response);
     }
 
     /**
@@ -133,11 +126,6 @@ class Client implements ClientInterface
     private function getEndpointUrl(string $endpoint): string
     {
         return $this->options->get(ClientOptions::CLIENT_OPTION_BASE_URL) . "/" . $endpoint;
-    }
-
-    private function getCacheKey(string $endpoint, array $headers = []): string
-    {
-        return strtoupper(sha1($endpoint . json_encode($headers, JSON_THROW_ON_ERROR)));
     }
 
 }

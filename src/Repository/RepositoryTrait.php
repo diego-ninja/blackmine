@@ -11,13 +11,14 @@ use Blackmine\Tool\Inflect;
 use Doctrine\Common\Collections\Collection;
 use JsonException;
 
+use Psr\Cache\InvalidArgumentException;
 use function is_initialized;
 
 trait RepositoryTrait
 {
     private function hydrateRelations(AbstractModel $model): AbstractModel
     {
-        foreach ($this->fetch_relations as $relation) {
+        foreach ($this->getFetchRelations() as $relation) {
             if ($this->isFetchable($relation)) {
                 $getter = "get" . ucfirst(Inflect::camelize($relation));
                 $setter = "set" . ucfirst(Inflect::camelize($relation));
@@ -68,7 +69,7 @@ trait RepositoryTrait
     }
 
     /**
-     * @throws JsonException
+     * @throws JsonException|InvalidArgumentException
      */
     public function __call(string $method, array $args): mixed
     {

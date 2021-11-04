@@ -15,7 +15,7 @@ class Uploads extends AbstractRepository
 
     public const API_ROOT = "uploads";
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return Upload::class;
     }

@@ -14,7 +14,7 @@ class IssueCategories extends AbstractRepository
 {
     public const API_ROOT = "issue_categories";
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return IssueCategory::class;
     }

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Blackmine\Repository;
 
+use Blackmine\Client\ClientInterface;
 use Blackmine\Client\ClientOptions;
 use Blackmine\Model\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Error;
-use JsonException;
 use Blackmine\Client\Client;
 use Blackmine\Model\AbstractModel;
-use Psr\Cache\InvalidArgumentException;
+use JsonException;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
@@ -27,6 +27,16 @@ abstract class AbstractRepository implements RepositoryInterface
         ]
     ) {
         $this->reset();
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    public function getClient(): ClientInterface
+    {
+        return $this->client;
     }
 
     public function actingAs(string | User $user): self
@@ -68,7 +78,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @throws JsonException|InvalidArgumentException
+     * @throws JsonException
      */
     public function get(mixed $id): ?AbstractModel
     {
@@ -100,7 +110,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @throws JsonException|InvalidArgumentException
+     * @throws JsonException
      */
     public function all(?string $endpoint = null): ArrayCollection
     {
@@ -158,12 +168,20 @@ abstract class AbstractRepository implements RepositoryInterface
 
     }
 
+    /**
+     * @throws JsonException
+     */
+    public function search(): ArrayCollection
+    {
+        return $this->doSearch();
+    }
+
     public static function getRelationClassFor(string $relation): ?string
     {
         return static::$relation_class_map[$relation] ?? null;
     }
 
-    protected function getEndpoint(): string
+    public function getEndpoint(): string
     {
         if (defined('static::API_ROOT')) {
             return static::API_ROOT;
@@ -172,7 +190,22 @@ abstract class AbstractRepository implements RepositoryInterface
         throw new Error('Mandatory constant API_ROOT not defined in class: ' . get_class($this));
     }
 
-    protected function constructEndpointUrl(string $url, array $params): string
+    public function getAllowedFilters(): array
+    {
+        return static::$allowed_filters;
+    }
+
+    public function getRelationClassMap(): array
+    {
+        return static::$relation_class_map;
+    }
+
+    public function getFetchRelations(): array
+    {
+        return $this->fetch_relations;
+    }
+
+    public function constructEndpointUrl(string $url, array $params): string
     {
         if (empty($params)) {
             return $url;
@@ -184,6 +217,6 @@ abstract class AbstractRepository implements RepositoryInterface
                 http_build_query($params));
     }
 
-    abstract protected function getModelClass(): string;
+    abstract public function getModelClass(): string;
 
 }

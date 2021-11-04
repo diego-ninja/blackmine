@@ -107,4 +107,15 @@ abstract class AbstractModel implements ModelInterface
         return in_array(MutableInterface::class, class_implements($this), true);
     }
 
+    public function isCacheable(): bool
+    {
+        return property_exists($this, "id");
+    }
+
+    public function getCacheKey(): ?string
+    {
+        return $this->isCacheable() ? sha1(get_class($this) . ":" . $this->getId()) : null;
+    }
+
+
 }

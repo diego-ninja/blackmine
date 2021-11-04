@@ -10,13 +10,13 @@ use Blackmine\Model\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonException;
 use Blackmine\Model\CustomField;
+use Psr\Cache\InvalidArgumentException;
 
 trait SearchableTrait
 {
-    protected static array $allowed_filters = [];
     protected static array $filter_params = [];
     protected static array $sort_params = [];
-    protected static array $relation_class_map = [];
+    protected static array $search_params = [];
 
     protected int $limit = RepositoryInterface::DEFAULT_LIMIT;
     protected int $offset = RepositoryInterface::DEFAULT_OFFSET;
@@ -47,7 +47,7 @@ trait SearchableTrait
         }
 
         foreach ($include as $item) {
-            if (array_key_exists($item, static::$relation_class_map)) {
+            if (array_key_exists($item, $this->getRelationClassMap())) {
                 $this->fetch_relations[] = $item;
             }
         }
@@ -94,16 +94,16 @@ trait SearchableTrait
     /**
      * @throws JsonException
      */
-    public function search(array $params = []): ArrayCollection
+    protected function doSearch(): ArrayCollection
     {
         $ret = new ArrayCollection();
 
-        $search_endpoint = $this->getEndpoint() . "." . $this->client->getFormat();
+        $search_endpoint = $this->getEndpoint() . "." . $this->getClient()->getFormat();
 
         $this->sanitizeParams();
-        $search_params = $this->normalizeParams(static::$filter_params);
-        $search_params = $this->addOrdering($search_params);
-        $search_params = $this->addRelations($search_params);
+        static::$search_params = $this->normalizeParams(static::$filter_params);
+        static::$search_params = $this->addOrdering(static::$search_params);
+        static::$search_params = $this->addRelations(static::$search_params);
 
         while ($this->limit > 0) {
             if ($this->limit > 100) {
@@ -114,10 +114,10 @@ trait SearchableTrait
                 $this->limit = 0;
             }
 
-            $search_params[RepositoryInterface::SEARCH_PARAM_LIMIT] = $_limit;
-            $search_params[RepositoryInterface::SEARCH_PARAM_OFFSET] = $this->offset;
+            static::$search_params[RepositoryInterface::SEARCH_PARAM_LIMIT] = $_limit;
+            static::$search_params[RepositoryInterface::SEARCH_PARAM_OFFSET] = $this->offset;
 
-            $api_response = $this->client->get($this->constructEndpointUrl($search_endpoint, $search_params));
+            $api_response = $this->getClient()->get($this->constructEndpointUrl($search_endpoint, static::$search_params));
 
             if ($api_response->isSuccess()) {
                 $ret = $this->getCollection($api_response->getData()[$this->getEndpoint()]);
@@ -153,8 +153,8 @@ trait SearchableTrait
     {
         $is_valid = false !== $parameter && null !== $parameter && '' !== $parameter;
 
-        if (!empty(static::$allowed_filters)) {
-            return $is_valid && array_key_exists($parameter_name, static::$allowed_filters);
+        if (!empty($this->getAllowedFilters())) {
+            return $is_valid && array_key_exists($parameter_name, $this->getAllowedFilters());
         }
 
         return $is_valid;
@@ -171,7 +171,7 @@ trait SearchableTrait
 
     protected function checkType(mixed $value, string $parameter_name): bool
     {
-        $expected_type = static::$allowed_filters[$parameter_name];
+        $expected_type = $this->getAllowedFilters()[$parameter_name];
 
         if (is_object($value)) {
             return get_class($value) === $expected_type;
@@ -189,7 +189,7 @@ trait SearchableTrait
     {
         $params = [];
         foreach ($raw_params as $parameter_name => $raw_value) {
-            switch (static::$allowed_filters[$parameter_name]) {
+            switch ($this->getAllowedFilters()[$parameter_name]) {
                 case RepositoryInterface::SEARCH_PARAM_TYPE_INT:
                 case RepositoryInterface::SEARCH_PARAM_TYPE_STRING:
                 case RepositoryInterface::SEARCH_PARAM_TYPE_BOOL:
@@ -243,7 +243,7 @@ trait SearchableTrait
 
     protected function isAllowed(string $filter_name): bool
     {
-        return array_key_exists($filter_name, static::$allowed_filters);
+        return array_key_exists($filter_name, $this->getAllowedFilters());
     }
 
     protected function isArrayType(string $type): bool

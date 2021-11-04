@@ -41,7 +41,7 @@ class Projects extends AbstractRepository
 
     protected static array $allowed_filters = [];
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return Project::class;
     }

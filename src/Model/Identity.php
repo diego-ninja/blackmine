@@ -18,5 +18,4 @@ class Identity extends AbstractModel
     {
         return null;
     }
-
 }

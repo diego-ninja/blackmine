@@ -29,7 +29,7 @@ class Groups extends AbstractRepository
         self::GROUP_RELATION_USERS => User::class
     ];
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return Group::class;
     }

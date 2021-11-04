@@ -14,7 +14,7 @@ class Statuses extends AbstractRepository
 {
     public const API_ROOT = "issue_statuses";
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return Status::class;
     }

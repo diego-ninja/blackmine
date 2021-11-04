@@ -10,7 +10,7 @@ class CustomFields extends AbstractRepository
 {
     public const API_ROOT = "custom_fields";
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return CustomField::class;
     }

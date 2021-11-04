@@ -14,7 +14,7 @@ class Relations extends AbstractRepository
 {
     public const API_ROOT = "relations";
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return Relation::class;
     }

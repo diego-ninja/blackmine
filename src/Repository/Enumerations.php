@@ -28,7 +28,7 @@ class Enumerations extends AbstractRepository
         self::ENUM_TYPE_DOCUMENT_CATEGORIES => DocumentCategory::class
     ];
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return AbstractEnumeration::class;
     }

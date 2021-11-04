@@ -14,7 +14,7 @@ class Trackers extends AbstractRepository
 {
     public const API_ROOT = "trackers";
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return Tracker::class;
     }

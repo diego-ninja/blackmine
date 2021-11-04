@@ -14,7 +14,7 @@ class Versions extends AbstractRepository
 {
     public const API_ROOT = "versions";
 
-    protected function getModelClass(): string
+    public function getModelClass(): string
     {
         return Version::class;
     }
