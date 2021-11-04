@@ -16,7 +16,7 @@ use Blackmine\Repository\Projects\TimeEntries;
  * @method setIssue(Issue $issue): void
  * @method setProject(Project $project): void
  * @method setSpentOn(CarbonImmutable $spent_on): void
- * @method setHours(int $hours): void
+ * @method setHours(float $hours): void
  * @method setActivity(TimeEntryActivity $activity): void
  * @method setComments(string $comments): void
  * @method setUser(User $user): void
@@ -35,7 +35,7 @@ class TimeEntry extends Identity implements FetchableInterface
     protected ?Issue $issue;
     protected ?Project $project;
     protected CarbonImmutable $spent_on;
-    protected int $hours;
+    protected float $hours;
     protected TimeEntryActivity $activity;
     protected string $comments;
     protected User $user;
