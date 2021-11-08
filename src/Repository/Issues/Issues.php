@@ -44,6 +44,7 @@ class Issues extends AbstractRepository
     public const ISSUE_FILTER_TRACKER_ID = "tracker_id";
     public const ISSUE_FILTER_STATUS_ID = "status_id";
     public const ISSUE_FILTER_ASSIGNED_TO_ID = "assigned_to_id";
+    public const ISSUE_FILTER_QUERY_ID = "query_id";
 
 
     protected static array $relation_class_map = [
@@ -63,6 +64,7 @@ class Issues extends AbstractRepository
         self::ISSUE_FILTER_TRACKER_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
         self::ISSUE_FILTER_STATUS_ID => RepositoryInterface::SEARCH_PARAM_TYPE_STRING,
         self::ISSUE_FILTER_PARENT_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
+        self::ISSUE_FILTER_QUERY_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
         self::ISSUE_FILTER_ASSIGNED_TO_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
         self::COMMON_FILTER_CREATED_ON => CarbonInterface::class,
         self::COMMON_FILTER_UPDATED_ON => CarbonInterface::class,

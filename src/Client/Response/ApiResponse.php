@@ -54,6 +54,11 @@ class ApiResponse
         return $this->status >= 200 && $this->status < 300;
     }
 
+    public function isPaginated(): bool
+    {
+        return isset($this->data["limit"], $this->data["total_count"], $this->data["offset"]);
+    }
+
     public function setStatus(int $status): void
     {
         $this->status = $status;
@@ -68,4 +73,32 @@ class ApiResponse
     {
         $this->is_cached = $is_cached;
     }
+
+    public function getLimit(): ?int
+    {
+        if ($this->isPaginated()) {
+            return $this->data["limit"];
+        }
+
+        return null;
+    }
+
+    public function getTotalCount(): ?int
+    {
+        if ($this->isPaginated()) {
+            return $this->data["total_count"];
+        }
+
+        return null;
+    }
+
+    public function getOffset(): ?int
+    {
+        if ($this->isPaginated()) {
+            return $this->data["offset"];
+        }
+
+        return null;
+    }
+
 }

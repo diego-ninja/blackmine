@@ -22,7 +22,6 @@ abstract class AbstractRepository implements RepositoryInterface
     use RepositoryTrait;
     use SearchableTrait;
 
-    protected array $fetch_relations = [];
     protected static array $relation_class_map = [];
 
     public function __construct(
@@ -65,8 +64,8 @@ abstract class AbstractRepository implements RepositoryInterface
         $params = [];
         $endpoint_url = $this->getEndpoint() . "/" . $id . "." . $this->client->getFormat();
 
-        if (!empty($this->fetch_relations)) {
-            $params["include"] = implode(",", $this->fetch_relations);
+        if (!empty($this->getFetchRelations())) {
+            $params["include"] = implode(",", $this->getFetchRelations());
         }
 
         $api_response = $this->client->get(
@@ -239,6 +238,13 @@ abstract class AbstractRepository implements RepositoryInterface
     public function getFetchRelations(): array
     {
         return $this->fetch_relations;
+    }
+
+    public function addRelationToFetch(string $include): void
+    {
+        if (array_key_exists($include, $this->getRelationClassMap())) {
+            $this->fetch_relations[] = $include;
+        }
     }
 
     public function constructEndpointUrl(string $url, array $params): string

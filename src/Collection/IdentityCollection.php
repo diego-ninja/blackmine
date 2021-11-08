@@ -6,6 +6,7 @@ namespace Blackmine\Collection;
 
 use Blackmine\Model\Identity;
 use Blackmine\Model\NamedIdentity;
+use Blackmine\Tool\Inflect;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class IdentityCollection extends ArrayCollection

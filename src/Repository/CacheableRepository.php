@@ -148,6 +148,11 @@ class CacheableRepository implements RepositoryInterface
         return $this->repository->getRelationClassMap();
     }
 
+    public function addRelationToFetch(string $include): void
+    {
+        $this->repository->addRelationToFetch($include);
+    }
+
     public function __call(string $method, array $args): mixed
     {
         if (method_exists($this->repository, $method)) {

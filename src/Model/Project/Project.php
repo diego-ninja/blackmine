@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Blackmine\Model\Project;
 
+use Blackmine\Collection\PaginatedCollection;
 use Blackmine\Mutator\MutableInterface;
 use Blackmine\Mutator\Mutation\RenameKeyMutation;
 use Carbon\CarbonImmutable;
@@ -15,6 +16,7 @@ use Blackmine\Model\NamedIdentity;
 use Blackmine\Model\User\Membership;
 use Blackmine\Model\User\User;
 use Blackmine\Repository\Projects\Projects;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @method setIdentifier(string $identifier): void
@@ -44,6 +46,7 @@ use Blackmine\Repository\Projects\Projects;
  * @method IdentityCollection getMemberships()
  * @method IdentityCollection getVersions()
  * @method IdentityCollection getFiles()
+ * @method IdentityCollection getNews()
  * @method CarbonImmutable getCreatedOn()
  * @method CarbonImmutable getUpdatedOn()
  *
@@ -83,6 +86,8 @@ class Project extends NamedIdentity implements FetchableInterface, MutableInterf
     protected IdentityCollection $memberships;
     protected IdentityCollection $versions;
     protected IdentityCollection $files;
+    protected PaginatedCollection $news;
+    protected ArrayCollection $wiki_pages;
 
     protected CarbonImmutable $created_on;
     protected CarbonImmutable $updated_on;

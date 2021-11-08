@@ -21,6 +21,8 @@ trait SearchableTrait
     protected int $limit = RepositoryInterface::DEFAULT_LIMIT;
     protected int $offset = RepositoryInterface::DEFAULT_OFFSET;
 
+    protected array $fetch_relations = [];
+
     public function addFilter(string $filter_name, mixed $value): self
     {
         if ($this->isAllowed($filter_name) && $this->checkType($value, $filter_name)) {
@@ -47,9 +49,7 @@ trait SearchableTrait
         }
 
         foreach ($include as $item) {
-            if (array_key_exists($item, $this->getRelationClassMap())) {
-                $this->fetch_relations[] = $item;
-            }
+            $this->addRelationToFetch($item);
         }
 
         return $this;

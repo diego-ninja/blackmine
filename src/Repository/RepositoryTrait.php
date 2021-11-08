@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Blackmine\Repository;
 
+use Blackmine\Client\Response\ApiResponse;
 use Blackmine\Collection\IdentityCollection;
+use Blackmine\Collection\PaginatedCollection;
+use Blackmine\Exception\Api\AbstractApiException;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\FetchableInterface;
 use Blackmine\Tool\Inflect;
@@ -69,6 +72,7 @@ trait RepositoryTrait
 
     /**
      * @throws JsonException
+     * @throws AbstractApiException
      */
     public function __call(string $method, array $args): mixed
     {
@@ -81,15 +85,18 @@ trait RepositoryTrait
                 $response = $this->client->get($endpoint);
 
                 if ($response->isSuccess()) {
-                    $ret = new IdentityCollection();
+                    $collection = $this->initCollectionFromResponse($response);
+
                     foreach ($response->getData()[$relation_name] as $relation_data) {
                         $relation = (new $relation_class())->fromArray($relation_data);
-                        $ret->add($relation);
+                        $collection->add($relation);
                     }
 
-                    return $ret;
+                    return $collection;
 
                 }
+
+                throw AbstractApiException::fromApiResponse($response);
             }
 
             return null;
@@ -133,6 +140,21 @@ trait RepositoryTrait
     protected function getGetter(string $property): string
     {
         return "get" . Inflect::camelize($property);
+    }
+
+    protected function initCollectionFromResponse(ApiResponse $response): Collection
+    {
+        if ($response->isPaginated()) {
+            $collection = new PaginatedCollection();
+            $collection->setLimit($response->getLimit());
+            $collection->setOffset($response->getOffset());
+            $collection->setTotalCount($response->getTotalCount());
+
+        } else {
+            $collection = new IdentityCollection();
+        }
+
+        return $collection;
     }
 
 }

@@ -14,13 +14,14 @@ use Blackmine\Repository\Projects\IssueCategories;
 use Blackmine\Repository\Projects\TimeEntries;
 use Blackmine\Repository\Projects\Trackers;
 use Blackmine\Repository\Projects\Versions;
+use Blackmine\Repository\Projects\WikiPages;
+use Blackmine\Repository\Queries;
 use Blackmine\Repository\RepositoryInterface;
 use Blackmine\Repository\Uploads;
 use Blackmine\Repository\Users\Groups;
 use Blackmine\Repository\Users\Roles;
 use JsonException;
 use Blackmine\Client\Response\ApiResponse;
-use Psr\Log\LoggerInterface;
 use Requests;
 use Blackmine\Repository\AbstractRepository;
 use Blackmine\Repository\Issues\Issues;
@@ -32,8 +33,7 @@ class Client implements ClientInterface
 {
     public function __construct(
         protected ClientOptions $options,
-        protected ?CacheInterface $cache = null,
-        protected ?LoggerInterface $logger = null
+        protected ?CacheInterface $cache = null
     ) {
 
     }
@@ -69,6 +69,8 @@ class Client implements ClientInterface
             CustomFields::API_ROOT => new CustomFields($this),
             Uploads::API_ROOT => new Uploads($this),
             Enumerations::API_ROOT => new Enumerations($this),
+            Queries::API_ROOT => new Queries($this),
+            WikiPages::API_RROT => new WikiPages($this),
             default => null,
         };
 
