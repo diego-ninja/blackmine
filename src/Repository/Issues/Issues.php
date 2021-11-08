@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Blackmine\Repository\Issues;
 
 use Blackmine\Collection\IdentityCollection;
+use Blackmine\Exception\Api\AbstractApiException;
+use Blackmine\Exception\InvalidModelException;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\User\User;
 use Blackmine\Repository\RepositoryTrait;
@@ -85,7 +87,7 @@ class Issues extends AbstractRepository
                 return $model;
             }
 
-            return null;
+            throw AbstractApiException::fromApiResponse($api_response);
         }
 
         return $model;
@@ -115,6 +117,11 @@ class Issues extends AbstractRepository
     }
 
 
+    /**
+     * @throws AbstractApiException
+     * @throws JsonException
+     * @throws InvalidModelException
+     */
     public function addAttachment(Issue $issue, Attachment $attachment): Issue
     {
         $attachment = $this->client->getRepository(Uploads::API_ROOT)?->create($attachment);

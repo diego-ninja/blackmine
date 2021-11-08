@@ -20,6 +20,7 @@ use Blackmine\Repository\Users\Groups;
 use Blackmine\Repository\Users\Roles;
 use JsonException;
 use Blackmine\Client\Response\ApiResponse;
+use Psr\Log\LoggerInterface;
 use Requests;
 use Blackmine\Repository\AbstractRepository;
 use Blackmine\Repository\Issues\Issues;
@@ -31,7 +32,8 @@ class Client implements ClientInterface
 {
     public function __construct(
         protected ClientOptions $options,
-        protected ?CacheInterface $cache = null
+        protected ?CacheInterface $cache = null,
+        protected ?LoggerInterface $logger = null
     ) {
 
     }

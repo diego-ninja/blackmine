@@ -4,6 +4,8 @@ namespace Blackmine\Repository;
 
 use Blackmine\Client\ClientOptions;
 use Blackmine\Client\Generator\KeyGeneratorInterface;
+use Blackmine\Exception\Api\AbstractApiException;
+use Blackmine\Exception\InvalidModelException;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -60,8 +62,10 @@ class CacheableRepository implements RepositoryInterface
     }
 
     /**
-     * @throws JsonException
      * @throws InvalidArgumentException
+     * @throws JsonException
+     * @throws AbstractApiException
+     * @throws InvalidModelException
      */
     public function create(AbstractModel $model): ?AbstractModel
     {
@@ -75,8 +79,10 @@ class CacheableRepository implements RepositoryInterface
     }
 
     /**
-     * @throws JsonException
      * @throws InvalidArgumentException
+     * @throws JsonException
+     * @throws AbstractApiException
+     * @throws InvalidModelException
      */
     public function update(AbstractModel $model): ?AbstractModel
     {
@@ -91,6 +97,8 @@ class CacheableRepository implements RepositoryInterface
     /**
      * @throws InvalidArgumentException
      * @throws JsonException
+     * @throws AbstractApiException
+     * @throws InvalidModelException
      */
     public function delete(AbstractModel $model): void
     {

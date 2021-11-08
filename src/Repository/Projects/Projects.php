@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Blackmine\Repository\Projects;
 
-use Blackmine\Model\Identity;
+use Blackmine\Exception\Api\AbstractApiException;
+use Blackmine\Exception\InvalidModelException;
 use Blackmine\Model\Project\File;
 use Blackmine\Model\Project\IssueCategory;
 use Blackmine\Model\Project\Module;
@@ -16,6 +17,7 @@ use Blackmine\Model\User\Membership;
 use Blackmine\Repository\AbstractRepository;
 use Blackmine\Repository\Uploads;
 use Doctrine\Common\Collections\ArrayCollection;
+use JsonException;
 
 class Projects extends AbstractRepository
 {
@@ -53,14 +55,24 @@ class Projects extends AbstractRepository
             ->search();
     }
 
+    /**
+     * @throws AbstractApiException
+     * @throws InvalidModelException
+     * @throws JsonException
+     */
     public function addTimeEntry(Project $project, TimeEntry $time_entry): Project
     {
         $time_entry->setProject($project);
-        $time_entry = $this->client->getRepository(TimeEntries::API_ROOT)->create($time_entry);
+        $this->client->getRepository(TimeEntries::API_ROOT)->create($time_entry);
 
         return $project;
     }
 
+    /**
+     * @throws AbstractApiException
+     * @throws InvalidModelException
+     * @throws JsonException
+     */
     public function addFile(Project $project, File $file): Project
     {
         $file = $this->client->getRepository(Uploads::API_ROOT)->create($file);
@@ -68,10 +80,12 @@ class Projects extends AbstractRepository
             $file->setVersion($project->getDefaultVersion());
 
             $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/files." . $this->client->getFormat();
-            $response = $this->client->post($endpoint, json_encode($file->getPayload(), JSON_THROW_ON_ERROR));
+            $api_response = $this->client->post($endpoint, json_encode($file->getPayload(), JSON_THROW_ON_ERROR));
 
-            if ($response->isSuccess()) {
+            if ($api_response->isSuccess()) {
                 $project->addFile($file);
+            } else {
+                throw AbstractApiException::fromApiResponse($api_response);
             }
         }
 
@@ -79,18 +93,34 @@ class Projects extends AbstractRepository
 
     }
 
+    /**
+     * @throws AbstractApiException
+     * @throws JsonException
+     */
     public function archive(Project $project): Project
     {
         $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/archive" . "." . $this->client->getFormat();
-        $data = $this->client->put($endpoint,'', ["Content-Length" => 0]);
+        $api_response = $this->client->put($endpoint,'', ["Content-Length" => 0]);
+
+        if (!$api_response->isSuccess()) {
+            throw AbstractApiException::fromApiResponse($api_response);
+        }
 
         return $project;
     }
 
+    /**
+     * @throws AbstractApiException
+     * @throws JsonException
+     */
     public function unArchive(Project $project): Project
     {
         $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/unarchive" . "." . $this->client->getFormat();
-        $data = $this->client->put($endpoint,'', ["Content-Length" => 0]);
+        $api_response = $this->client->put($endpoint,'', ["Content-Length" => 0]);
+
+        if (!$api_response->isSuccess()) {
+            throw AbstractApiException::fromApiResponse($api_response);
+        }
 
         return $project;
     }

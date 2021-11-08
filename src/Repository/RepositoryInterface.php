@@ -9,6 +9,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\CustomField;
 
+use Blackmine\Exception\Api\AbstractApiException;
+use Blackmine\Exception\Api\EntityNotFoundException;
+use Blackmine\Exception\InvalidModelException;
+use JsonException;
+
 interface RepositoryInterface
 {
     public const SEARCH_PARAM_LIMIT = "limit";
@@ -36,9 +41,31 @@ interface RepositoryInterface
     public const DEFAULT_LIMIT = 25;
     public const DEFAULT_OFFSET = 0;
 
+    /**
+     * @throws JsonException
+     * @throws EntityNotFoundException
+     * @throws AbstractApiException
+     */
     public function get(mixed $id): ?AbstractModel;
+    /**
+     * @throws JsonException
+     * @throws InvalidModelException
+     * @throws AbstractApiException
+     */
     public function create(AbstractModel $model): ?AbstractModel;
+
+    /**
+     * @throws JsonException
+     * @throws InvalidModelException
+     * @throws AbstractApiException
+     */
     public function update(AbstractModel $model): ?AbstractModel;
+
+    /**
+     * @throws AbstractApiException
+     * @throws InvalidModelException
+     * @throws JsonException
+     */
     public function delete(AbstractModel $model): void;
     public function search(): ArrayCollection;
 

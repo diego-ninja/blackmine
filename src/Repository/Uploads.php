@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Blackmine\Repository;
 
+use Blackmine\Exception\Api\AbstractApiException;
+use Blackmine\Exception\InvalidModelException;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\Project\File;
 use Blackmine\Model\Upload;
@@ -23,7 +25,9 @@ class Uploads extends AbstractRepository
     public function create(AbstractModel $model): ?AbstractModel
     {
         if (!$model instanceof File) {
-            throw new Error('Wrong model class for ' . $this->getEndpoint() . " api. Expected " . File::class);
+            throw new InvalidModelException(
+                'Wrong model class for ' . $this->getEndpoint() . " api. Expected " . File::class
+            );
         }
 
         $file = $model->getFilename();
@@ -38,12 +42,16 @@ class Uploads extends AbstractRepository
             );
 
             if ($api_response->isSuccess()) {
-                $model->fromArray($api_response->getData()["upload"]);
-                $model->setFilename($filename);
+                $model_data = $api_response->getData()["upload"] ?? null;
+                if ($model_data) {
+                    $model->fromArray($model_data);
+                    $model->setFilename($filename);
 
-                return $model;
+                    return $model;
+                }
             }
 
+            throw AbstractApiException::fromApiResponse($api_response);
         }
 
         return null;

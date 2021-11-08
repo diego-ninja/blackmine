@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Blackmine\Repository;
 
+use Blackmine\Exception\Api\AbstractApiException;
 use Carbon\CarbonInterface;
 use Blackmine\Collection\IdentityCollection;
 use Blackmine\Model\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonException;
 use Blackmine\Model\CustomField;
-use Psr\Cache\InvalidArgumentException;
 
 trait SearchableTrait
 {
@@ -93,6 +93,7 @@ trait SearchableTrait
 
     /**
      * @throws JsonException
+     * @throws AbstractApiException
      */
     protected function doSearch(): ArrayCollection
     {
@@ -122,6 +123,8 @@ trait SearchableTrait
             if ($api_response->isSuccess()) {
                 $ret = $this->getCollection($api_response->getData()[$this->getEndpoint()]);
                 $this->offset += $_limit;
+            } else {
+                throw AbstractApiException::fromApiResponse($api_response);
             }
         }
 

@@ -6,12 +6,16 @@ namespace Blackmine\Repository;
 
 use Blackmine\Client\ClientInterface;
 use Blackmine\Client\ClientOptions;
-use Blackmine\Model\User\User;
-use Doctrine\Common\Collections\ArrayCollection;
-use Error;
 use Blackmine\Client\Client;
 use Blackmine\Model\AbstractModel;
+use Blackmine\Model\User\User;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Error;
 use JsonException;
+use Blackmine\Exception\Api\AbstractApiException;
+use Blackmine\Exception\InvalidModelException;
+use Blackmine\Exception\Api\EntityNotFoundException;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
@@ -53,33 +57,8 @@ abstract class AbstractRepository implements RepositoryInterface
 
     /**
      * @throws JsonException
-     */
-    public function create(AbstractModel $model): ?AbstractModel
-    {
-        $model_class = $this->getModelClass();
-        if (!$model instanceof $model_class) {
-            throw new Error('Wrong model class for ' . $this->getEndpoint() . " api. Expected " . $this->getModelClass());
-        }
-
-        $api_response = $this->client->post(
-            endpoint: $this->getEndpoint() . "." . $this->client->getFormat(),
-            body: json_encode($model->getPayload(), JSON_THROW_ON_ERROR),
-            headers: $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS] ?? []
-        );
-
-        if ($api_response->isSuccess()) {
-            $model->fromArray($api_response->getData()[$model->getEntityName()]);
-
-            $this->updateRelations($model);
-
-            return $model;
-        }
-
-        return null;
-    }
-
-    /**
-     * @throws JsonException
+     * @throws EntityNotFoundException
+     * @throws AbstractApiException
      */
     public function get(mixed $id): ?AbstractModel
     {
@@ -98,15 +77,20 @@ abstract class AbstractRepository implements RepositoryInterface
         if ($api_response->isSuccess()) {
             $model_class = $this->getModelClass();
             $model = new $model_class();
-            $model->fromArray($api_response->getData()[$model->getEntityName()]);
+            $model_data = $api_response->getData()[$model->getEntityName()] ?? null;
 
-            $this->hydrateRelations($model);
+            if ($model_data) {
+                $model->fromArray($model_data);
+                $this->hydrateRelations($model);
 
-            return $model;
+                return $model;
+            }
+
+            throw new EntityNotFoundException();
 
         }
 
-        return null;
+        throw AbstractApiException::fromApiResponse($api_response);
 
     }
 
@@ -133,12 +117,50 @@ abstract class AbstractRepository implements RepositoryInterface
 
     /**
      * @throws JsonException
+     * @throws InvalidModelException
+     * @throws AbstractApiException
+     */
+    public function create(AbstractModel $model): ?AbstractModel
+    {
+        $model_class = $this->getModelClass();
+        if (!$model instanceof $model_class) {
+            throw new InvalidModelException(
+                'Wrong model class for ' . $this->getEndpoint() . " api. Expected " . $this->getModelClass()
+            );
+        }
+
+        $api_response = $this->client->post(
+            endpoint: $this->getEndpoint() . "." . $this->client->getFormat(),
+            body: json_encode($model->getPayload(), JSON_THROW_ON_ERROR),
+            headers: $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS] ?? []
+        );
+
+        if ($api_response->isSuccess()) {
+            $model_data = $api_response->getData()[$model->getEntityName()] ?? null;
+
+            if ($model_data) {
+                $model->fromArray($model_data);
+                $this->hydrateRelations($model);
+
+                return $model;
+            }
+        }
+
+        throw AbstractApiException::fromApiResponse($api_response);
+    }
+
+    /**
+     * @throws JsonException
+     * @throws InvalidModelException
+     * @throws AbstractApiException
      */
     public function update(AbstractModel $model): ?AbstractModel
     {
         $model_class = $this->getModelClass();
         if (!$model instanceof $model_class) {
-            throw new Error('Wrong model class for ' . $this->getEndpoint() . " api. Expected " . $this->getModelClass());
+            throw new InvalidModelException(
+                'Wrong model class for ' . $this->getEndpoint() . " api. Expected " . $this->getModelClass()
+            );
         }
 
         $this->updateRelations($model);
@@ -153,19 +175,32 @@ abstract class AbstractRepository implements RepositoryInterface
             return $model;
         }
 
-        return null;
+        throw AbstractApiException::fromApiResponse($api_response);
     }
 
     /**
+     * @throws AbstractApiException
+     * @throws InvalidModelException
      * @throws JsonException
      */
     public function delete(AbstractModel $model): void
     {
+        $model_class = $this->getModelClass();
+        if (!$model instanceof $model_class) {
+            throw new InvalidModelException(
+                'Wrong model class for ' . $this->getEndpoint() . " api. Expected " . $this->getModelClass()
+            );
+        }
+
         $endpoint_url = $this->getEndpoint() . "/" . $model->getId() . "." . $this->client->getFormat();
         $api_response = $this->client->delete(
             endpoint: $endpoint_url,
             headers: $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS] ?? []
         );
+
+        if (!$api_response->isSuccess()) {
+            throw AbstractApiException::fromApiResponse($api_response);
+        }
 
     }
 

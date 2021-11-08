@@ -8,10 +8,12 @@ use Blackmine\Model\CustomField;
 use Blackmine\Model\User\Group;
 use Blackmine\Model\User\Membership;
 use Blackmine\Model\User\Role;
-use Blackmine\Repository\AbstractRepository;
 use Blackmine\Model\User\User;
+use Blackmine\Repository\AbstractRepository;
 use Blackmine\Repository\RepositoryInterface;
+
 use JsonException;
+use Blackmine\Exception\Api\AbstractApiException;
 
 /**
  * @method User|null  get(mixed $id)
@@ -47,11 +49,11 @@ class Users extends AbstractRepository
 
     /**
      * @throws JsonException
+     * @throws AbstractApiException
      */
     public function me(): ?User
     {
         $endpoint_url = "my/account." . $this->client->getFormat();
-
         $api_response = $this->client->get($this->constructEndpointUrl($endpoint_url, []));
 
         if ($api_response->isSuccess()) {
@@ -62,7 +64,7 @@ class Users extends AbstractRepository
             return $model;
         }
 
-        return null;
+        throw AbstractApiException::fromApiResponse($api_response);
     }
 
 }
