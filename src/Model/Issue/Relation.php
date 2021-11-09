@@ -39,5 +39,4 @@ class Relation extends Identity implements FetchableInterface
     {
         return Relations::class;
     }
-
 }

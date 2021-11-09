@@ -133,5 +133,4 @@ class Project extends NamedIdentity implements FetchableInterface, MutableInterf
             "default_assignee_id" => [RenameKeyMutation::class => ["default_assigned_to_id"]]
         ];
     }
-
 }

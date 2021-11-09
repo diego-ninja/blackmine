@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Blackmine\Exception\Api;
 
-
 use Throwable;
 
 class MalformedPayloadException extends AbstractApiException

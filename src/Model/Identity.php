@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Blackmine\Model;
 
 /**
- * @method int getId()
+ * @method mixed getId()
  * @method setId(int $id): void
  */
 class Identity extends AbstractModel

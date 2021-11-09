@@ -49,7 +49,6 @@ class MetaFactory
         }
 
         return null;
-
     }
 
     /**
@@ -62,5 +61,4 @@ class MetaFactory
 
         return new NamedIdentityFactory($values, $model_class);
     }
-
 }

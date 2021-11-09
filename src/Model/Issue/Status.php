@@ -21,6 +21,4 @@ class Status extends NamedIdentity
     {
         return Statuses::class;
     }
-
-
 }

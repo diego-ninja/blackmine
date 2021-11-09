@@ -49,7 +49,6 @@ class HierarchyCollection extends IdentityCollection
                     $children->replaceBy($field, $value, $recursive);
                 }
             }
-
         }
     }
 
@@ -73,7 +72,6 @@ class HierarchyCollection extends IdentityCollection
                 foreach ($this->orphans as $title => $orphan) {
                     $this->add($orphan);
                     unset($this->orphans[$title]);
-
                 }
             }
         }
@@ -83,5 +81,4 @@ class HierarchyCollection extends IdentityCollection
     {
         parent::add($element);
     }
-
 }

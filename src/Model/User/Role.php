@@ -36,5 +36,4 @@ class Role extends NamedIdentity
     {
         return Roles::class;
     }
-
 }

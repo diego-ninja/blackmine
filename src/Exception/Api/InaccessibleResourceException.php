@@ -2,7 +2,6 @@
 
 namespace Blackmine\Exception\Api;
 
-
 class InaccessibleResourceException extends AbstractApiException
 {
     public const ERROR_CODE = 403;

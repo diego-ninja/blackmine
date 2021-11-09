@@ -9,7 +9,6 @@ class CacheKeyGenerator implements KeyGeneratorInterface
 
     public function __construct(protected string $seed)
     {
-
     }
 
     public function generate(...$params): string

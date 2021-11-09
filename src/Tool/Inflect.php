@@ -141,7 +141,7 @@ class Inflect
     {
         if ($count === 1) {
             return "1 $string";
-        }  else {
+        } else {
             return $count . " " . self::pluralize($string);
         }
     }
@@ -166,6 +166,4 @@ class Inflect
 
         return  implode("", $exploded_str_camel);
     }
-
 }
-

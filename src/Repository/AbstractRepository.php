@@ -10,7 +10,6 @@ use Blackmine\Client\Client;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Error;
 use JsonException;
 use Blackmine\Exception\Api\AbstractApiException;
@@ -86,11 +85,9 @@ abstract class AbstractRepository implements RepositoryInterface
             }
 
             throw new EntityNotFoundException();
-
         }
 
         throw AbstractApiException::fromApiResponse($api_response);
-
     }
 
     /**
@@ -111,7 +108,6 @@ abstract class AbstractRepository implements RepositoryInterface
         }
 
         return $ret;
-
     }
 
     /**
@@ -200,7 +196,6 @@ abstract class AbstractRepository implements RepositoryInterface
         if (!$api_response->isSuccess()) {
             throw AbstractApiException::fromApiResponse($api_response);
         }
-
     }
 
     /**
@@ -254,11 +249,11 @@ abstract class AbstractRepository implements RepositoryInterface
         }
 
         return $url . '?' . preg_replace(
-                '/%5B[0-9]+%5D/simU',
-                '%5B%5D',
-                http_build_query($params));
+            '/%5B[0-9]+%5D/simU',
+            '%5B%5D',
+            http_build_query($params)
+        );
     }
 
     abstract public function getModelClass(): string;
-
 }

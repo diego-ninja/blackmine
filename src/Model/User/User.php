@@ -62,5 +62,4 @@ class User extends NamedIdentity
     {
         return $this->firstname . " " . $this->lastname;
     }
-
 }

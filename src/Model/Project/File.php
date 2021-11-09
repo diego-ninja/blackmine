@@ -43,5 +43,4 @@ class File extends Identity implements FetchableInterface
     protected string $token;
 
     protected CarbonImmutable $created_on;
-
 }

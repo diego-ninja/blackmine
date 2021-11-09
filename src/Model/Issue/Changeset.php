@@ -15,5 +15,4 @@ class Changeset extends AbstractModel
     {
         return Issues::class;
     }
-
 }

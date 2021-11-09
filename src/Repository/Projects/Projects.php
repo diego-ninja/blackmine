@@ -82,27 +82,14 @@ class Projects extends AbstractRepository
      */
     public function getWikiPages(Project $project): Collection
     {
-        $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/wiki/index." . $this->client->getFormat();
-        $response = $this->client->get($endpoint);
+        $wiki_pages = $this->client->getRepository(WikiPages::API_ROOT);
+        $wiki_pages->setProject($project);
 
-        if ($response->isSuccess()) {
-            $collection = new HierarchyCollection(parent_field: "title");
-
-            foreach ($response->getData()["wiki_pages"] as $relation_data) {
-                $wiki_page = $this->getWikiPage($project, $relation_data["title"]);
-                $collection->add($wiki_page);
-            }
-
-            return $collection;
-        }
-
-        throw AbstractApiException::fromApiResponse($response);
-
+        return $wiki_pages->all();
     }
 
     public function addWikiPage(Project $project, WikiPage $wiki_page): Project
     {
-
     }
 
 
@@ -110,18 +97,16 @@ class Projects extends AbstractRepository
      * @throws AbstractApiException
      * @throws JsonException
      */
-    protected function getWikiPage(Project $project, string $title): WikiPage
+    protected function getWikiPage(Project $project, string $title, ?int $version = null): WikiPage
     {
-        $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/wiki/" . $title . "." . $this->client->getFormat();
+        $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/wiki/" . $title . "." . $this->client->getFormat() . "?include=attachments";
         $response = $this->client->get($endpoint);
 
         if ($response->isSuccess()) {
-            $wiki_page = (new WikiPage())->fromArray($response->getData()["wiki_page"]);
-            return $wiki_page;
+            return (new WikiPage())->fromArray($response->getData()["wiki_page"]);
         }
 
         throw AbstractApiException::fromApiResponse($response);
-
     }
 
     /**
@@ -146,7 +131,6 @@ class Projects extends AbstractRepository
         }
 
         return $project;
-
     }
 
     /**
@@ -156,7 +140,7 @@ class Projects extends AbstractRepository
     public function archive(Project $project): Project
     {
         $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/archive" . "." . $this->client->getFormat();
-        $api_response = $this->client->put($endpoint,'', ["Content-Length" => 0]);
+        $api_response = $this->client->put($endpoint, '', ["Content-Length" => 0]);
 
         if (!$api_response->isSuccess()) {
             throw AbstractApiException::fromApiResponse($api_response);
@@ -172,7 +156,7 @@ class Projects extends AbstractRepository
     public function unArchive(Project $project): Project
     {
         $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/unarchive" . "." . $this->client->getFormat();
-        $api_response = $this->client->put($endpoint,'', ["Content-Length" => 0]);
+        $api_response = $this->client->put($endpoint, '', ["Content-Length" => 0]);
 
         if (!$api_response->isSuccess()) {
             throw AbstractApiException::fromApiResponse($api_response);
@@ -180,5 +164,4 @@ class Projects extends AbstractRepository
 
         return $project;
     }
-
 }

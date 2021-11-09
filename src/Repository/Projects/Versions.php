@@ -33,5 +33,4 @@ class Versions extends AbstractRepository
     {
         throw new Error("Method " . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
-
 }

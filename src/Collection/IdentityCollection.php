@@ -67,5 +67,4 @@ class IdentityCollection extends ArrayCollection
     {
         return parent::toArray();
     }
-
 }

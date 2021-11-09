@@ -185,7 +185,6 @@ trait SearchableTrait
         }
 
         return gettype($value) === $expected_type;
-
     }
 
     protected function normalizeParams(array $raw_params): array
@@ -251,7 +250,7 @@ trait SearchableTrait
 
     protected function isArrayType(string $type): bool
     {
-        return str_ends_with($type,"[]");
+        return str_ends_with($type, "[]");
     }
 
     protected function isValidArray(array $data, string $expected_type): bool
@@ -265,5 +264,4 @@ trait SearchableTrait
 
         return $is_valid;
     }
-
 }

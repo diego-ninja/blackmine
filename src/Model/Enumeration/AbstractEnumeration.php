@@ -18,5 +18,4 @@ class AbstractEnumeration extends NamedIdentity
     {
         return Enumerations::class;
     }
-
 }

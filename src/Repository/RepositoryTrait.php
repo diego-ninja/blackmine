@@ -63,11 +63,9 @@ trait RepositoryTrait
         if (class_exists($related_class)) {
             $interfaces = class_implements($related_class);
             return $interfaces && in_array(FetchableInterface::class, $interfaces, true);
-
         }
 
         return false;
-
     }
 
     /**
@@ -93,7 +91,6 @@ trait RepositoryTrait
                     }
 
                     return $collection;
-
                 }
 
                 throw AbstractApiException::fromApiResponse($response);
@@ -149,12 +146,10 @@ trait RepositoryTrait
             $collection->setLimit($response->getLimit());
             $collection->setOffset($response->getOffset());
             $collection->setTotalCount($response->getTotalCount());
-
         } else {
             $collection = new IdentityCollection();
         }
 
         return $collection;
     }
-
 }

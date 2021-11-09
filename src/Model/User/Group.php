@@ -30,7 +30,7 @@ class Group extends NamedIdentity implements MutableInterface
     protected RepeatableIdCollection $users;
     protected IdentityCollection $memberships;
 
-    public function __construct(protected ?int $id = null, protected  ?string $name = null)
+    public function __construct(protected ?int $id = null, protected ?string $name = null)
     {
         $this->users = new RepeatableIdCollection();
         $this->memberships = new IdentityCollection();

@@ -35,5 +35,4 @@ class Journal extends Identity
     {
         return Issues::class;
     }
-
 }

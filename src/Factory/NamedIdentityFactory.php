@@ -27,5 +27,4 @@ class NamedIdentityFactory implements FactoryInterface
 
         return null;
     }
-
 }

@@ -28,7 +28,6 @@ class CacheableRepository implements RepositoryInterface
             ClientOptions::CLIENT_OPTION_REQUEST_HEADERS => []
         ]
     ) {
-
     }
 
     public function actingAs(string | User $user): self
@@ -57,7 +56,6 @@ class CacheableRepository implements RepositoryInterface
             }
 
             return $model;
-
         });
     }
 
@@ -75,7 +73,6 @@ class CacheableRepository implements RepositoryInterface
         }
 
         return $model;
-
     }
 
     /**
@@ -135,7 +132,6 @@ class CacheableRepository implements RepositoryInterface
 
             return $search_results;
         });
-
     }
 
     public function getAllowedFilters(): array
@@ -191,5 +187,4 @@ class CacheableRepository implements RepositoryInterface
     {
         return $this->cache instanceof TagAwareCacheInterface;
     }
-
 }

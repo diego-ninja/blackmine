@@ -55,6 +55,4 @@ class PaginatedCollection extends IdentityCollection
     {
         $this->offset = $offset;
     }
-
-
 }

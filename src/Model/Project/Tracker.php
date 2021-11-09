@@ -23,5 +23,4 @@ class Tracker extends NamedIdentity
     protected Status $default_status;
     protected string $description;
     protected array $enabled_standard_fields;
-
 }

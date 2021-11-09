@@ -35,7 +35,6 @@ class Client implements ClientInterface
         protected ClientOptions $options,
         protected ?CacheInterface $cache = null
     ) {
-
     }
 
     public function getRepository(string $endpoint): ?RepositoryInterface
@@ -70,10 +69,9 @@ class Client implements ClientInterface
             Uploads::API_ROOT => new Uploads($this),
             Enumerations::API_ROOT => new Enumerations($this),
             Queries::API_ROOT => new Queries($this),
-            WikiPages::API_RROT => new WikiPages($this),
+            WikiPages::API_ROOT => new WikiPages($this),
             default => null,
         };
-
     }
 
     /**
@@ -101,7 +99,6 @@ class Client implements ClientInterface
     {
         $response = Requests::put($this->getEndpointUrl($endpoint), $this->getRequestHeaders($headers), $body);
         return ApiResponse::fromRequestsResponse($response);
-
     }
 
     /**
@@ -131,5 +128,4 @@ class Client implements ClientInterface
     {
         return $this->options->get(ClientOptions::CLIENT_OPTION_BASE_URL) . "/" . $endpoint;
     }
-
 }

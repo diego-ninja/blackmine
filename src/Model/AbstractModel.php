@@ -116,6 +116,4 @@ abstract class AbstractModel implements ModelInterface
     {
         return $this->isCacheable() ? sha1(get_class($this) . ":" . $this->getId()) : null;
     }
-
-
 }

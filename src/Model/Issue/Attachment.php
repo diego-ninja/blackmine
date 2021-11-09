@@ -17,5 +17,4 @@ class Attachment extends File
     {
         return Attachments::class;
     }
-
 }

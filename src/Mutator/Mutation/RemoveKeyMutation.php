@@ -16,5 +16,4 @@ class RemoveKeyMutation extends AbstractMutation
 
         return $target;
     }
-
 }

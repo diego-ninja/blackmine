@@ -15,6 +15,5 @@ class RepeatableIdCollection extends IdentityCollection
         }
 
         return $ret;
-
     }
 }

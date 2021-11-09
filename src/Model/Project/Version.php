@@ -52,7 +52,4 @@ class Version extends NamedIdentity implements FetchableInterface
 
     protected CarbonImmutable $created_on;
     protected CarbonImmutable $updated_on;
-
-
-
 }

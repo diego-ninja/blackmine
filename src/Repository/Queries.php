@@ -55,5 +55,4 @@ class Queries extends AbstractRepository
     {
         throw new MethodNotImplementedException("Method " . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
-
 }

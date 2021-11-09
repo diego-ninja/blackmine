@@ -132,7 +132,5 @@ class Issues extends AbstractRepository
             $issue->addAttachment($attachment);
         }
         return $issue;
-
     }
-
 }

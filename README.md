@@ -1,3 +1,5 @@
+![Blackmine Logo](docs/assets/blackmine-logo-0001.png)
+
 # :jack_o_lantern: Blackmine
 
 Blackmine is a full featured Redmine API client written in PHP 8. Heavily based on interfaces, abstract classes and all kind of dirty tricks like magic methods and traits to allow quick reaction to the frenzy Redmine API updates activity. :D
@@ -46,6 +48,9 @@ Blackmine uses [Requests](https://requests.ryanmccue.info/) as transport layer, 
 As we are in a so, really so, so, so, alpha stage, of course there are no documentation at all or comments in the code, because comments in the code are no more than a mask for a bad code. Check the code and try to understand, is not black magic.
 
 ## Things that are almost complete:
+ - [Issues API](https://www.redmine.org/projects/redmine/wiki/Rest_Issues)
+ - [Projects API](https://www.redmine.org/projects/redmine/wiki/Rest_Projects)
+ - [Users API](https://www.redmine.org/projects/redmine/wiki/Rest_Users)
  - [Time Entries API](https://www.redmine.org/projects/redmine/wiki/Rest_TimeEntries)
  - [Issue Categories API](https://www.redmine.org/projects/redmine/wiki/Rest_IssueCategories)
  - [Issue Statuses API](https://www.redmine.org/projects/redmine/wiki/Rest_IssueStatuses)
@@ -59,20 +64,15 @@ As we are in a so, really so, so, so, alpha stage, of course there are no docume
  - [Files API](https://www.redmine.org/projects/redmine/wiki/Rest_Files)
  - [Enumerations API](https://www.redmine.org/projects/redmine/wiki/Rest_Enumerations)
  - [Attachments API](https://www.redmine.org/projects/redmine/wiki/Rest_Attachments)
- - Caching responses (Cache invalidation is not implemented yet)
+ - [Wiki Pages API](https://www.redmine.org/projects/redmine/wiki/Rest_WikiPages) (bugged)
+ - Caching responses (with Tag/TTL invalidation mechanism)
  - Impersonating users (for admin users)
 
 ## Things that are incomplete:
+ - Documentation
  - Search fluent API (80%)
- - [Issues API](https://www.redmine.org/projects/redmine/wiki/Rest_Issues) (90%)
- - [Projects API](https://www.redmine.org/projects/redmine/wiki/Rest_Projects) (90%)
- - [Users API](https://www.redmine.org/projects/redmine/wiki/Rest_Users) (70%)
  - Error handling and exceptions (0%)
  - Model functionality (50%)
  - Unit tests (0%)
- - Magic methods signatures on models and repositories (30%)
+ - Magic methods signatures on models and repositories (50%)
  - Date conversion from and to CarbonImmutable objects
-
-## Note
-
-At the time of writing this the code is a heavy work in progress, there are not even a test or a complete feature, but we are in the right way. We are releasing this to public because we need to use this incomplete piece of shit in another project, but I warn you, this is very incomplete and may have tons of bugs.  All help is really appreciated, you know, fork the project and bla bla bla...

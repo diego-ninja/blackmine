@@ -11,7 +11,6 @@ use Blackmine\Model\User\Role;
 use Blackmine\Model\User\User;
 use Blackmine\Repository\AbstractRepository;
 use Blackmine\Repository\RepositoryInterface;
-
 use JsonException;
 use Blackmine\Exception\Api\AbstractApiException;
 
@@ -66,5 +65,4 @@ class Users extends AbstractRepository
 
         throw AbstractApiException::fromApiResponse($api_response);
     }
-
 }

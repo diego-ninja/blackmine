@@ -35,7 +35,6 @@ abstract class AbstractApiException extends Exception
         }
 
         throw new Error('Mandatory constant ERROR_CODE not defined in class: ' . get_class($this));
-
     }
 
     /**

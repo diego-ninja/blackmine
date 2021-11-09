@@ -28,7 +28,6 @@ trait ModelTrait
                 try {
                     $this->$property = $this->normalizeValue($property, $this->getPropertyType($property), $args[0]);
                 } catch (ReflectionException $e) {
-
                 }
             }
         }
@@ -50,7 +49,6 @@ trait ModelTrait
             if (property_exists($this, $property)) {
                 return $this->$property;
             }
-
         }
 
         if ($this->isAdder($method)) {
@@ -71,9 +69,7 @@ trait ModelTrait
                     $key = $this->$property->indexOf($found);
                     $this->$property->remove($key);
                 }
-
             }
-
         }
 
         return null;
@@ -131,7 +127,7 @@ trait ModelTrait
 
     protected function getProperty(string $method): string
     {
-        $test = preg_match( '/[A-Z]/', $method, $matches, PREG_OFFSET_CAPTURE );
+        $test = preg_match('/[A-Z]/', $method, $matches, PREG_OFFSET_CAPTURE);
         if ($test) {
             return Inflect::snakeize(substr($method, $matches[0][1]));
         }
@@ -163,7 +159,6 @@ trait ModelTrait
 
         if (is_array($raw_value) && $this->isCollection($type)) {
             return $this->populateRelation($property, $type, $raw_value);
-
         }
 
         if ($raw_value instanceof Collection && $this->isCollection($type)) {
@@ -183,7 +178,7 @@ trait ModelTrait
                 return $raw_value;
             }
 
-            if($raw_value instanceof DateTimeImmutable) {
+            if ($raw_value instanceof DateTimeImmutable) {
                 return CarbonImmutable::createFromTimestamp($raw_value->getTimestamp());
             }
 
@@ -203,7 +198,8 @@ trait ModelTrait
         return in_array($type, self::$direct_types, true);
     }
 
-    protected function populateRelation(string $property, string $type, array $raw_value): ?ArrayCollection {
+    protected function populateRelation(string $property, string $type, array $raw_value): ?ArrayCollection
+    {
         $repository_class = static::getRepositoryClass();
         $model_class = $repository_class::getRelationClassFor($property);
 
@@ -219,7 +215,6 @@ trait ModelTrait
                     $model->fromArray($item);
                     $ret->add($model);
                 }
-
             }
 
             return $ret;
@@ -233,7 +228,6 @@ trait ModelTrait
         if (class_exists($type)) {
             $interfaces = class_implements($type);
             return $interfaces && in_array(ModelInterface::class, $interfaces, true);
-
         }
 
         return false;
@@ -244,10 +238,8 @@ trait ModelTrait
         if (class_exists($type)) {
             $interfaces = class_implements($type);
             return $interfaces && in_array(Collection::class, $interfaces, true);
-
         }
 
         return false;
     }
-
 }

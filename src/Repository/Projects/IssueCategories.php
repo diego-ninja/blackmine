@@ -42,7 +42,5 @@ class IssueCategories extends AbstractRepository
         } else {
             parent::delete($model);
         }
-
     }
-
 }

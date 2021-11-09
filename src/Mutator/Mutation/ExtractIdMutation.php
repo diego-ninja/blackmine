@@ -22,6 +22,5 @@ class ExtractIdMutation extends AbstractMutation
         }
 
         return $target;
-
     }
 }

@@ -21,7 +21,7 @@ class ModelMutator
             $payload = $this->model->toArray();
             foreach ($this->mutations as $key => $mutations) {
                 foreach ($mutations as $mutation_class => $mutation_args) {
-                    $mutation = new $mutation_class;
+                    $mutation = new $mutation_class();
                     array_unshift($mutation_args, $key);
 
                     $payload = $mutation($payload, $mutation_args);
@@ -32,6 +32,5 @@ class ModelMutator
         }
 
         return null;
-
     }
 }

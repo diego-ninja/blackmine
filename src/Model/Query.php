@@ -2,7 +2,6 @@
 
 namespace Blackmine\Model;
 
-
 /**
  * @method void setIsPublic(bool $is_public)
  * @method void setProjectId(int $project_id)
@@ -16,5 +15,4 @@ class Query extends NamedIdentity
 
     protected bool $is_public;
     protected int $project_id;
-
 }

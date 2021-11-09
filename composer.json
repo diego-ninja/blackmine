@@ -28,7 +28,11 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
-        "symfony/cache": "^5.3"
+        "symfony/cache": "^5.3",
+        "phpunit/phpunit": "^9",
+        "vimeo/psalm": "^4",
+        "squizlabs/php_codesniffer": "^3.5",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7"
     },
     "autoload": {
         "psr-4": {
