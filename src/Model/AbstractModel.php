@@ -31,7 +31,7 @@ abstract class AbstractModel implements ModelInterface
         $ret = [];
 
         foreach ($clone as $key => $value) {
-            if ($value) {
+            if ($value !== null) {
                 $aux = explode("\0", $key);
                 $new_key = $aux[count($aux) - 1];
 

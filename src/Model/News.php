@@ -4,6 +4,8 @@ namespace Blackmine\Model;
 
 use Blackmine\Model\Project\Project;
 use Blackmine\Model\User\User;
+use Blackmine\Mutator\MutableInterface;
+use Blackmine\Mutator\Mutation\RemoveKeyMutation;
 use Carbon\CarbonImmutable;
 
 /**
@@ -20,7 +22,7 @@ use Carbon\CarbonImmutable;
  * @method User getAuthor()
  * @method CarbonImmutable getCreatedOn()
  */
-class News extends Identity implements FetchableInterface
+class News extends Identity implements FetchableInterface, MutableInterface
 {
     public const ENTITY_NAME = "news";
 
@@ -32,4 +34,12 @@ class News extends Identity implements FetchableInterface
     protected User $author;
 
     protected CarbonImmutable $created_on;
+
+    public function getMutations(): array
+    {
+        return [
+            "created_on" => [RemoveKeyMutation::class => []]
+        ];
+    }
+
 }

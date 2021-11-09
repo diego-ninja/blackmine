@@ -1,5 +1,6 @@
 ![Blackmine Logo](docs/assets/blackmine-logo-0001.png)
 
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/blackmine/blackmine)
 # :jack_o_lantern: Blackmine
 
 Blackmine is a full featured Redmine API client written in PHP 8. Heavily based on interfaces, abstract classes and all kind of dirty tricks like magic methods and traits to allow quick reaction to the frenzy Redmine API updates activity. :D

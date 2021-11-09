@@ -12,8 +12,10 @@ namespace Blackmine\Model;
  * @method void setMinLength(?int $min_length)
  * @method void setMaxLength(?int $max_length)
  * @method void setIsRequired(bool $is_required)
+ * @method void setIsFilter(bool $is_filter)
  * @method void setSearchable(bool $searchable)
  * @method void setMultiple(bool $multiple)
+ * @method void setVisible(bool $visible)
  * @method void setDefaultValue(?string $default_value)
  * @method void setPossibleValues(array $possible_values)
  *
@@ -26,6 +28,8 @@ namespace Blackmine\Model;
  * @method bool isRequired()
  * @method bool isSearchable()
  * @method bool isMultiple()
+ * @method bool isVisible()
+ * @method bool isFilter()
  * @method string|null getDefaultValue()
  * @method array getPossibleValues()
  */
@@ -40,8 +44,10 @@ class CustomField extends NamedIdentity
     protected ?int $min_length;
     protected ?int $max_length;
     protected bool $is_required;
+    protected bool $is_filter;
     protected bool $searchable;
     protected bool $multiple;
+    protected bool $visible;
     protected ?string $default_value;
     protected array $possible_values;
 }
