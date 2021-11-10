@@ -271,4 +271,5 @@ trait SearchableTrait
     abstract public function constructEndpointUrl(string $endpoint, array $params): string;
     abstract public function getModelClass(): string;
     abstract public function getAllowedFilters(): array;
+    abstract public function addRelationToFetch(string $relation): void;
 }

@@ -19,7 +19,7 @@ use function is_initialized;
 
 trait RepositoryTrait
 {
-    private function hydrateRelations(AbstractModel $model): AbstractModel
+    protected function hydrateRelations(AbstractModel $model): AbstractModel
     {
         foreach ($this->getFetchRelations() as $relation) {
             if ($this->isFetchable($relation)) {
@@ -37,7 +37,7 @@ trait RepositoryTrait
         return $model;
     }
 
-    private function updateRelations(AbstractModel $model): AbstractModel
+    protected function updateRelations(AbstractModel $model): AbstractModel
     {
         foreach ($this->getRelationClassMap() as $relation_name => $relation_class) {
             $model_getter = $this->getGetter($relation_name);
@@ -58,12 +58,12 @@ trait RepositoryTrait
         return $model;
     }
 
-    private function isFetchable(string $relation_name): bool
+    protected function isFetchable(string $relation_name): bool
     {
         $related_class = static::getRelationClassFor($relation_name);
         if (class_exists($related_class)) {
             $interfaces = class_implements($related_class);
-            return $interfaces && in_array(FetchableInterface::class, $interfaces, true);
+            return is_array($interfaces) && in_array(FetchableInterface::class, $interfaces, true);
         }
 
         return false;
@@ -76,45 +76,61 @@ trait RepositoryTrait
     public function __call(string $method, array $args): mixed
     {
         if ($this->isRelationGetter($method)) {
-            $relation_name = strtolower(Inflect::snakeize(substr($method, 3)));
-            $relation_class = $this->getRelationClassMap()[$relation_name];
-
-            if ($args[0] instanceof AbstractModel) {
-                $endpoint = $this->getEndpoint() . "/" . $args[0]->getId() . "/" . $relation_name . "." . $this->getClient()->getFormat();
-                $response = $this->getClient()->get($endpoint);
-
-                if ($response->isSuccess()) {
-                    $collection = $this->initCollectionFromResponse($response);
-
-                    foreach ($response->getData()[$relation_name] as $relation_data) {
-                        $relation = (new $relation_class())->fromArray($relation_data);
-                        $collection->add($relation);
-                    }
-
-                    return $collection;
-                }
-
-                throw AbstractApiException::fromApiResponse($response);
-            }
-
-            return null;
+            return $this->getRelation($method, $args);
         }
 
         if ($this->isRelationAdder($method)) {
-            $relation = Inflect::pluralize(strtolower(Inflect::snakeize(substr($method, 3))));
-            if ($args[0] instanceof AbstractModel && $args[1] instanceof AbstractModel) {
-                $endpoint = $this->getEndpoint() . "/" . $args[0]->getId() . "/" . $relation . "." . $this->getClient()->getFormat();
-                $response = $this->getClient()->post($endpoint, json_encode($args[1]->getPayload(), JSON_THROW_ON_ERROR));
-
-                if ($response->isSuccess()) {
-                    $adder = "add" . Inflect::singularize(Inflect::camelize($relation));
-                    $args[0]->$adder($args[1]);
-                }
-                return $args[0];
-            }
+            return $this->addRelation($method, $args);
         }
 
         return null;
+    }
+
+    protected function getRelation(string $method, array $args): ?Collection
+    {
+        $relation_name = strtolower(Inflect::snakeize(substr($method, 3)));
+        $relation_class = $this->getRelationClassMap()[$relation_name];
+
+        if ($args[0] instanceof AbstractModel) {
+            $endpoint = $this->getEndpoint() . "/" . $args[0]->getId() . "/" . $relation_name . "." . $this->getClient()->getFormat();
+            $response = $this->getClient()->get($endpoint);
+
+            if ($response->isSuccess()) {
+                $collection = $this->initCollectionFromResponse($response);
+
+                foreach ($response->getData()[$relation_name] as $relation_data) {
+                    $relation = (new $relation_class())->fromArray($relation_data);
+                    $collection->add($relation);
+                }
+
+                return $collection;
+            }
+
+            throw AbstractApiException::fromApiResponse($response);
+        }
+
+        return null;
+    }
+
+    /**
+     * @throws JsonException
+     */
+    protected function addRelation(string $method, array $args): ?AbstractModel
+    {
+        $relation = Inflect::pluralize(strtolower(Inflect::snakeize(substr($method, 3))));
+        if ($args[0] instanceof AbstractModel && $args[1] instanceof AbstractModel) {
+            $endpoint = $this->getEndpoint() . "/" . $args[0]->getId() . "/" . $relation . "." . $this->getClient()->getFormat();
+            $response = $this->getClient()->post($endpoint, json_encode($args[1]->getPayload(), JSON_THROW_ON_ERROR));
+
+            if ($response->isSuccess()) {
+                $adder = Inflect::ADDER_PREFIX . Inflect::singularize(Inflect::camelize($relation));
+                $args[0]->$adder($args[1]);
+            }
+            return $args[0];
+        }
+
+        return null;
+
     }
 
 

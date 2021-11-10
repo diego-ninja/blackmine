@@ -235,10 +235,10 @@ abstract class AbstractRepository implements RepositoryInterface
         return $this->fetch_relations;
     }
 
-    public function addRelationToFetch(string $include): void
+    public function addRelationToFetch(string $relation): void
     {
-        if (array_key_exists($include, $this->getRelationClassMap())) {
-            $this->fetch_relations[] = $include;
+        if (array_key_exists($relation, $this->getRelationClassMap())) {
+            $this->fetch_relations[] = $relation;
         }
     }
 

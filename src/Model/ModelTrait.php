@@ -229,7 +229,7 @@ trait ModelTrait
     {
         if (class_exists($type)) {
             $interfaces = class_implements($type);
-            return $interfaces && in_array(ModelInterface::class, $interfaces, true);
+            return is_array($interfaces) && in_array(ModelInterface::class, $interfaces, true);
         }
 
         return false;
@@ -239,7 +239,7 @@ trait ModelTrait
     {
         if (class_exists($type)) {
             $interfaces = class_implements($type);
-            return $interfaces && in_array(Collection::class, $interfaces, true);
+            return is_array($interfaces) && in_array(Collection::class, $interfaces, true);
         }
 
         return false;

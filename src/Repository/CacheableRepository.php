@@ -163,9 +163,9 @@ class CacheableRepository implements RepositoryInterface
         return $this->repository->constructEndpointUrl($endpoint, $params);
     }
 
-    public function addRelationToFetch(string $include): void
+    public function addRelationToFetch(string $relation): void
     {
-        $this->repository->addRelationToFetch($include);
+        $this->repository->addRelationToFetch($relation);
     }
 
     public function getModelClass(): string
