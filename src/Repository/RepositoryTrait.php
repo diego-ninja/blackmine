@@ -61,7 +61,7 @@ trait RepositoryTrait
     protected function isFetchable(string $relation_name): bool
     {
         $related_class = self::getRelationClassFor($relation_name);
-        if (class_exists($related_class)) {
+        if ($related_class !== null && class_exists($related_class)) {
             $interfaces = class_implements($related_class);
             return is_array($interfaces) && in_array(FetchableInterface::class, $interfaces, true);
         }
