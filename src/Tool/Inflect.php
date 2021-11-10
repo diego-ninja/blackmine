@@ -173,7 +173,7 @@ class Inflect
 
     public static function extractPrefix(string $method): string
     {
-        preg_match( '/[A-Z]/', $method, $matches, PREG_OFFSET_CAPTURE );
+        preg_match('/[A-Z]/', $method, $matches, PREG_OFFSET_CAPTURE );
         return substr($method, 0, $matches[0][1]);
     }
 

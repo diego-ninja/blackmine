@@ -11,7 +11,7 @@ class ApiResponse
 {
     protected bool $is_cached;
 
-    private function __construct(protected int|bool $status, protected ?array $data)
+    private function __construct(protected int | bool $status, protected ?array $data)
     {
     }
 
@@ -33,7 +33,7 @@ class ApiResponse
         return $ret;
     }
 
-    public function getStatus(): int
+    public function getStatus(): int|bool
     {
         return $this->status;
     }

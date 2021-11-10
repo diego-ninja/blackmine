@@ -26,7 +26,7 @@ class CacheableRepository implements RepositoryInterface
 
     public function __construct(
         protected AbstractRepository $repository,
-        protected CacheInterface|TagAwareCacheInterface $cache,
+        protected CacheInterface | TagAwareCacheInterface $cache,
         protected KeyGeneratorInterface $generator,
         protected array $options = [
             ClientOptions::CLIENT_OPTION_REQUEST_HEADERS => []

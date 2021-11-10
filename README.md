@@ -2,6 +2,7 @@
 
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/blackmine/blackmine) 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/diego-ninja/blackmine/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/diego-ninja/blackmine/?branch=main)
+![Scrutinizer build (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/build/g/diego-ninja/blackmine/main)
 ![GitHub](https://img.shields.io/github/license/diego-ninja/blackmine)
 # :jack_o_lantern: Blackmine
 
