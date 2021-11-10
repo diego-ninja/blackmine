@@ -17,7 +17,7 @@ class AddSubkeyMutation extends AbstractMutation
         }
 
         if (is_object($target[$key])) {
-            $getter = "get" . Inflect::camelize(ucfirst((string)$subkey));
+            $getter = "get" . Inflect::camelize(ucfirst((string) $subkey));
             if (method_exists($target[$key], $getter)) {
                 $target[$key][$subkey] = $target[$key]->$getter();
             }

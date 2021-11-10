@@ -196,7 +196,7 @@ trait SearchableTrait
                 case RepositoryInterface::SEARCH_PARAM_TYPE_STRING:
                 case RepositoryInterface::SEARCH_PARAM_TYPE_BOOL:
                 default:
-                    $params[$parameter_name] =  $raw_value;
+                    $params[$parameter_name] = $raw_value;
                     break;
                 case RepositoryInterface::SEARCH_PARAM_TYPE_INT_ARRAY:
                 case RepositoryInterface::SEARCH_PARAM_TYPE_STRING_ARRAY:
@@ -221,7 +221,7 @@ trait SearchableTrait
             $ordering = [];
             foreach (static::$sort_params as $field => $direction) {
                 if ($direction === RepositoryInterface::SORT_DIRECTION_DESC) {
-                    $ordering[] = $field  . ":" . $direction;
+                    $ordering[] = $field . ":" . $direction;
                 } else {
                     $ordering[] = $field;
                 }

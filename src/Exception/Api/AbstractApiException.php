@@ -51,7 +51,7 @@ abstract class AbstractApiException extends Exception
 
     public static function fromApiResponse(ApiResponse $api_response, ?Throwable $previous = null): AbstractApiException | Error
     {
-        return match ($api_response->getStatus()) {
+        return match($api_response->getStatus()) {
             401 => new UnauthorizedApiException(previous: $previous),
             403 => new InaccessibleResourceException(previous: $previous),
             404 => new EntityNotFoundException(previous: $previous),

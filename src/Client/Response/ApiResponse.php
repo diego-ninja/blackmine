@@ -21,8 +21,7 @@ class ApiResponse
     public static function fromRequestsResponse(Requests_Response $response, bool $is_cached = false): self
     {
         $data = ($response->body !== '' && str_contains((string) $response->headers->getValues("Content-Type")[0], "application/json")) ?
-            json_decode($response->body, true, 512, JSON_THROW_ON_ERROR) :
-            [];
+            json_decode($response->body, true, 512, JSON_THROW_ON_ERROR) : [];
 
         $ret = new self(
             $response->status_code,

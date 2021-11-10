@@ -15,7 +15,7 @@ class IdentityCollection extends ArrayCollection
     {
         $ret = [];
 
-        $elements =  parent::toArray();
+        $elements = parent::toArray();
         foreach ($elements as $identity) {
             $ret[] = $identity->toArray();
         }

@@ -21,8 +21,8 @@ class ClientOptions
     public const REDMINE_IMPERSONATE_HEADER = "X-Redmine-Switch-User";
 
     protected static array $mandatory_options = [
-      self::CLIENT_OPTION_BASE_URL,
-      self::CLIENT_OPTION_API_KEY
+        self::CLIENT_OPTION_BASE_URL,
+        self::CLIENT_OPTION_API_KEY
     ];
 
     protected static array $default_headers = [

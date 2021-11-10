@@ -10,10 +10,10 @@ abstract class AbstractModelTest extends Unit
 {
     use ModelTrait;
 
-    protected ?array $original_construct_values;
+    protected array $original_construct_values = [];
     protected ?array $expected_payload;
-    protected ?array $expected_array;
-    protected ?string $expected_json;
+    protected array $expected_array = [];
+    protected string $expected_json;
 
     protected AbstractModel $testable_entity;
 
