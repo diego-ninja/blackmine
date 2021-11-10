@@ -48,5 +48,10 @@
         "psr-4": {
             "Blackmine\\Tests\\": "tests/"
         }
+    },
+    "support": {
+        "issues": "https://github.com/diego-ninja/blackmine/issues",
+        "source": "https://github.com/diego-ninja/blackmine",
+        "docs": "https://github.com/diego-ninja/blackmine/tree/main/docs"
     }
 }

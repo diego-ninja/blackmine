@@ -4,6 +4,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/diego-ninja/blackmine/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/diego-ninja/blackmine/?branch=main)
 ![Scrutinizer build (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/build/g/diego-ninja/blackmine/main)
 ![GitHub](https://img.shields.io/github/license/diego-ninja/blackmine)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/diego-ninja/blackmine?include_prereleases)
 
 # Blackmine
 
