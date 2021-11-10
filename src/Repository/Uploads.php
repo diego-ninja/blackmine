@@ -66,9 +66,12 @@ class Uploads extends AbstractRepository
         throw new MethodNotImplementedException("Method " . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 
+    /**
+     * @throws MethodNotImplementedException
+     */
     public function search(array $params = []): ArrayCollection
     {
-        throw new Error("Method "  . __FUNCTION__ . "not implemented for apì: " . self::API_ROOT);
+        throw new MethodNotImplementedException("Method " . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 
     /**

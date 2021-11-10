@@ -25,104 +25,106 @@ trait ModelTrait
      */
     public function __call(string $method, array $args): mixed
     {
-        if ($this->isSetter($method)) {
-            $property = $this->getProperty($method);
-            if (property_exists($this, $property) && !is_null($args[0])) {
-                $this->$property = $this->normalizeValue($property, $this->getPropertyType($property), $args[0]);
-            }
+        $method_prefix = Inflect::extractPrefix($method);
+
+        return match($method_prefix) {
+            Inflect::GETTER_PREFIX => $this->getter($method),
+            Inflect::SETTER_PREFIX => $this->setter($method, $args),
+            Inflect::ISSER_PREFIX => $this->isser($method),
+            Inflect::ADDER_PREFIX => $this->adder($method, $args),
+            Inflect::REMOVER_PREFIX => $this->remover($method, $args),
+            default => null,
+        };
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    protected function setter(string $method, array $args): self
+    {
+        $property = $this->getProperty($method);
+        if (property_exists($this, $property) && !is_null($args[0])) {
+            $this->$property = $this->normalizeValue($property, $this->getPropertyType($property), $args[0]);
         }
 
-        if ($this->isGetter($method)) {
-            $property = $this->getProperty($method);
-            if (property_exists($this, $property)) {
-                return $this->$property;
-            }
-        }
+        return $this;
+    }
 
-        if ($this->isIsser($method)) {
-            $property = $this->getProperty($method);
-            if (property_exists($this, $property)) {
-                return $this->$property;
-            }
-
-            $property = "is_" . $property;
-            if (property_exists($this, $property)) {
-                return $this->$property;
-            }
-        }
-
-        if ($this->isAdder($method)) {
-            $property = Inflect::pluralize($this->getProperty($method));
-            if (property_exists($this, $property) && $this->$property instanceof Collection) {
-                $found = $this->$property->find($args[0]);
-                if (!$found) {
-                    $this->$property->add($args[0]);
-                }
-            }
-        }
-
-        if ($this->isRemover($method)) {
-            $property = Inflect::pluralize($this->getProperty($method));
-            if (property_exists($this, $property) && $this->$property instanceof Collection) {
-                $found = $this->$property->find($args[0]);
-                if ($found) {
-                    $key = $this->$property->indexOf($found);
-                    $this->$property->remove($key);
-                }
-            }
+    protected function getter(string $method): mixed
+    {
+        $property = $this->getProperty($method);
+        if (property_exists($this, $property)) {
+            return $this->$property;
         }
 
         return null;
     }
 
-    protected function isSetter(string $method): bool
+    protected function isser(string $method): bool
     {
-        return str_starts_with($method, "set");
+        $property = $this->getProperty($method);
+        if (property_exists($this, $property)) {
+            return (bool) $this->$property;
+        }
+
+        $property = "is_" . $property;
+        if (property_exists($this, $property)) {
+            return (bool) $this->$property;
+        }
+
+        return false;
     }
 
-    protected function isGetter(string $method): bool
+    protected function adder(string $method, array $args): self
     {
-        return str_starts_with($method, "get");
+        $property = Inflect::pluralize($this->getProperty($method));
+        if (property_exists($this, $property) && $this->$property instanceof Collection) {
+            $found = $this->$property->find($args[0]);
+            if (!$found) {
+                $this->$property->add($args[0]);
+            }
+        }
+
+        return $this;
     }
 
-    protected function isIsser(string $method): bool
+    protected function remover(string $method, array $args): self
     {
-        return str_starts_with($method, "is");
-    }
+        $property = Inflect::pluralize($this->getProperty($method));
+        if (property_exists($this, $property) && $this->$property instanceof Collection) {
+            $found = $this->$property->find($args[0]);
+            if ($found) {
+                $key = $this->$property->indexOf($found);
+                $this->$property->remove($key);
+            }
+        }
 
-    protected function isAdder(string $method): bool
-    {
-        return str_starts_with($method, "add");
-    }
-
-    protected function isRemover(string $method): bool
-    {
-        return str_starts_with($method, "remove");
+        return $this;
     }
 
     protected function getSetter(string $property): string
     {
-        return "set" . Inflect::camelize($property);
+        return Inflect::SETTER_PREFIX . Inflect::camelize($property);
     }
 
     protected function getGetter(string $property): string
     {
-        return "get" . Inflect::camelize($property);
+        return Inflect::GETTER_PREFIX . Inflect::camelize($property);
     }
 
     protected function getIsser(string $property): string
     {
-        return "is" . Inflect::camelize($property);
+        return Inflect::ISSER_PREFIX . Inflect::camelize($property);
     }
 
     protected function getAdder(string $property): string
     {
-        return "add" . Inflect::camelize($property);
+        return Inflect::ADDER_PREFIX . Inflect::camelize($property);
     }
 
     protected function getRemover(string $property): string
     {
-        return "remove" . Inflect::camelize($property);
+        return Inflect::REMOVER_PREFIX . Inflect::camelize($property);
     }
 
     protected function getProperty(string $method): string

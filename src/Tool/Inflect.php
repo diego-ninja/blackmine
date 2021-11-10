@@ -6,6 +6,12 @@ namespace Blackmine\Tool;
 
 class Inflect
 {
+    public const GETTER_PREFIX = "get";
+    public const SETTER_PREFIX = "set";
+    public const ISSER_PREFIX = "is";
+    public const ADDER_PREFIX = "add";
+    public const REMOVER_PREFIX = "remove";
+
     public static array $plural = array(
         '/(quiz)$/i' => "$1zes",
         '/^(ox)$/i' => "$1en",
@@ -164,4 +170,11 @@ class Inflect
 
         return  implode("", $exploded_str_camel);
     }
+
+    public static function extractPrefix(string $method): string
+    {
+        preg_match( '/[A-Z]/', $method, $matches, PREG_OFFSET_CAPTURE );
+        return substr($method, 0, $matches[0][1]);
+    }
+
 }
