@@ -82,7 +82,9 @@ class WikiPages extends AbstractRepository
 
                 foreach ($response->getData()[self::API_ROOT] as $relation_data) {
                     $wiki_page = $this->getWikiPage($relation_data["title"]);
-                    $wiki_page = $this->getRevisions($wiki_page);
+                    if (in_array(self::WIKI_PAGES_RELATION_REVISIONS, $this->getFetchRelations(), true)) {
+                        $wiki_page->setRevisions($this->getRevisions($wiki_page));
+                    }
                     $collection->add($wiki_page);
                 }
 
@@ -101,7 +103,7 @@ class WikiPages extends AbstractRepository
      */
     protected function getWikiPage(string $title, ?int $revision = null): WikiPage
     {
-        if ($revision) {
+        if ($revision !== null) {
             $endpoint = $this->getEndpoint() . "/" . $title . "/" . $revision . "." . $this->client->getFormat() . "?include=attachments";
         } else {
             $endpoint = $this->getEndpoint() . "/" . $title . "." . $this->client->getFormat() . "?include=attachments";
@@ -120,7 +122,7 @@ class WikiPages extends AbstractRepository
      * @throws AbstractApiException
      * @throws JsonException
      */
-    protected function getRevisions(WikiPage $wiki_page): Collection
+    protected function getRevisions(WikiPage $wiki_page): IdentityCollection
     {
         $collection = new IdentityCollection();
         $max_revision = $wiki_page->getVersion();

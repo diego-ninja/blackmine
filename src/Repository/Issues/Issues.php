@@ -78,6 +78,7 @@ class Issues extends AbstractRepository
 
     public function create(AbstractModel $model): ?AbstractModel
     {
+        /** @var Issue $model */
         $model = parent::create($model);
         if ($model && !$model->getAttachments()->isEmpty()) {
             $api_response = $this->client->put(
@@ -127,6 +128,7 @@ class Issues extends AbstractRepository
     public function addAttachment(Issue $issue, Attachment $attachment): Issue
     {
         $attachment = $this->client->getRepository(Uploads::API_ROOT)?->create($attachment);
+        /** @var Attachment $attachment */
         if ($attachment) {
             $attachment->setVersion($issue->getFixedVersion());
             $issue->addAttachment($attachment);

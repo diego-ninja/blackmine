@@ -2,6 +2,7 @@
 
 namespace Blackmine\Repository;
 
+use Blackmine\Client\ClientInterface;
 use Blackmine\Client\ClientOptions;
 use Blackmine\Client\Generator\KeyGeneratorInterface;
 use Blackmine\Exception\Api\AbstractApiException;
@@ -15,6 +16,9 @@ use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
+/**
+ * @method ArrayCollection all(?string $endpoint = null)
+ */
 class CacheableRepository implements RepositoryInterface
 {
     use RepositoryTrait;
@@ -134,6 +138,11 @@ class CacheableRepository implements RepositoryInterface
         });
     }
 
+    public function getClient(): ClientInterface
+    {
+        return $this->repository->getClient();
+    }
+
     public function getAllowedFilters(): array
     {
         return $this->repository->getAllowedFilters();
@@ -144,9 +153,24 @@ class CacheableRepository implements RepositoryInterface
         return $this->repository->getRelationClassMap();
     }
 
+    public function getEndpoint(): string
+    {
+        return $this->repository->getEndpoint();
+    }
+
+    public function constructEndpointUrl(string $endpoint, array $params): string
+    {
+        return $this->repository->constructEndpointUrl($endpoint, $params);
+    }
+
     public function addRelationToFetch(string $include): void
     {
         $this->repository->addRelationToFetch($include);
+    }
+
+    public function getModelClass(): string
+    {
+        return $this->repository->getModelClass();
     }
 
     public function __call(string $method, array $args): mixed

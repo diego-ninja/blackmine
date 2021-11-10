@@ -16,7 +16,7 @@ class MalformedPayloadException extends AbstractApiException
         parent::__construct($message, $code, $previous);
     }
 
-    public function getErrors(): array
+    public function getErrors(): ?array
     {
         return $this->errors;
     }

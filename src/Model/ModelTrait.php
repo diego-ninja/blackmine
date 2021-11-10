@@ -20,15 +20,15 @@ trait ModelTrait
         "int", "string", "float", "array", "bool", "mixed"
     ];
 
+    /**
+     * @throws ReflectionException
+     */
     public function __call(string $method, array $args): mixed
     {
         if ($this->isSetter($method)) {
             $property = $this->getProperty($method);
             if (property_exists($this, $property) && !is_null($args[0])) {
-                try {
-                    $this->$property = $this->normalizeValue($property, $this->getPropertyType($property), $args[0]);
-                } catch (ReflectionException $e) {
-                }
+                $this->$property = $this->normalizeValue($property, $this->getPropertyType($property), $args[0]);
             }
         }
 
@@ -141,7 +141,7 @@ trait ModelTrait
     protected function getPropertyType(string $property): string
     {
         $p = new ReflectionProperty($this, $property);
-        return $p->getType()->getName();
+        return $p->getType()?->getName();
     }
 
     protected function normalizeValue(string $property, string $type, mixed $raw_value): mixed

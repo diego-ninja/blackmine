@@ -11,7 +11,6 @@ use Throwable;
 
 abstract class AbstractApiException extends Exception
 {
-
     /**
      * @param string $message
      * @param int $code

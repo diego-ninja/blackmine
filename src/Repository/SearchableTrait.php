@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Blackmine\Repository;
 
+use Blackmine\Client\ClientInterface;
 use Blackmine\Exception\Api\AbstractApiException;
 use Carbon\CarbonInterface;
 use Blackmine\Collection\IdentityCollection;
@@ -264,4 +265,10 @@ trait SearchableTrait
 
         return $is_valid;
     }
+
+    abstract public function getClient(): ClientInterface;
+    abstract public function getEndpoint(): string;
+    abstract public function constructEndpointUrl(string $endpoint, array $params): string;
+    abstract public function getModelClass(): string;
+    abstract public function getAllowedFilters(): array;
 }

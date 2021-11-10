@@ -62,6 +62,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @method removeMembership(Membership $membership): void
  * @method addVersion(Version $version): void
  * @method removeVersion(Version $version): void
+ * @method addFile(File $file): void
+ * @method removeFile(File $file): void
  */
 class Project extends NamedIdentity implements FetchableInterface, MutableInterface
 {

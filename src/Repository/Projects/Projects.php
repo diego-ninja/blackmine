@@ -82,6 +82,7 @@ class Projects extends AbstractRepository
      */
     public function getWikiPages(Project $project): Collection
     {
+        /** @var WikiPages $wiki_pages */
         $wiki_pages = $this->client->getRepository(WikiPages::API_ROOT);
         $wiki_pages->setProject($project);
 
@@ -90,6 +91,7 @@ class Projects extends AbstractRepository
 
     public function addWikiPage(Project $project, WikiPage $wiki_page): Project
     {
+        return $project;
     }
 
 
@@ -117,6 +119,7 @@ class Projects extends AbstractRepository
     public function addFile(Project $project, File $file): Project
     {
         $file = $this->client->getRepository(Uploads::API_ROOT)?->create($file);
+        /** @var File $file */
         if ($file) {
             $file->setVersion($project->getDefaultVersion());
 

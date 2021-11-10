@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Blackmine\Mutator;
 
-use Blackmine\Mutator\Mutation\AbstractMutation;
+use Blackmine\Model\ModelInterface;
 
-interface MutableInterface
+interface MutableInterface extends ModelInterface
 {
-    /**
-     * @return array<AbstractMutation>
-     */
     public function getMutations(): array;
+    public function isMutable(): bool;
 }
