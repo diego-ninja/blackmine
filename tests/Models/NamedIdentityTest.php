@@ -28,7 +28,6 @@ class NamedIdentityTest extends AbstractModelTest
         $identity = new NamedIdentity(1, "Test");
 
         $this->assertEquals($expected, $identity->toArray());
-
     }
 
     /**
@@ -48,7 +47,6 @@ class NamedIdentityTest extends AbstractModelTest
         $identity = new NamedIdentity(1, "Test");
 
         $this->assertEquals($expected, $identity->jsonSerialize());
-
     }
 
     /**
@@ -60,7 +58,6 @@ class NamedIdentityTest extends AbstractModelTest
         $identity = new NamedIdentity(1, "Test");
 
         $this->assertJsonStringEqualsJsonString($expected, json_encode($identity, JSON_THROW_ON_ERROR));
-
     }
 
     public function testPayload(): void
@@ -71,5 +68,4 @@ class NamedIdentityTest extends AbstractModelTest
 
         $identity->getPayload();
     }
-
 }

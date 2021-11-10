@@ -20,6 +20,7 @@ abstract class AbstractModelTest extends Unit
     /**
      * @throws \JsonException
      */
+    // phpcs:ignore
     protected function _before(): void
     {
         $this->initExpectations();
@@ -59,7 +60,6 @@ abstract class AbstractModelTest extends Unit
             $this->expectErrorMessage('Mandatory constant ENTITY_NAME not defined in model class: ' . static::TEST_MODEL);
 
             $this->testable_entity->getPayload();
-
         }
     }
 
@@ -104,5 +104,4 @@ abstract class AbstractModelTest extends Unit
         $path = explode('\\', static::TEST_MODEL);
         return array_pop($path);
     }
-
 }

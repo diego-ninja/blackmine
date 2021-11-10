@@ -19,6 +19,4 @@ class IdentityTest extends AbstractModelTest
         $identity = (new Identity())->fromArray(["id" => 1]);
         $this->assertEquals(1, $identity->getId());
     }
-
-
 }

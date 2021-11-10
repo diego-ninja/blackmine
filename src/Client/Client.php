@@ -53,7 +53,7 @@ class Client implements ClientInterface
 
     private function getRepositoryForEndpoint(string $endpoint): ?AbstractRepository
     {
-        return match($endpoint) {
+        return match ($endpoint) {
             Issues::API_ROOT => new Issues($this),
             Users::API_ROOT => new Users($this),
             Projects::API_ROOT => new Projects($this),

@@ -27,7 +27,7 @@ trait ModelTrait
     {
         $method_prefix = Inflect::extractPrefix($method);
 
-        return match($method_prefix) {
+        return match ($method_prefix) {
             Inflect::GETTER_PREFIX => $this->getter($method),
             Inflect::SETTER_PREFIX => $this->setter($method, $args),
             Inflect::ISSER_PREFIX => $this->isser($method),

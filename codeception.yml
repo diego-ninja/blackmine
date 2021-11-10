@@ -4,7 +4,7 @@ suites:
         path: .
 
 settings:
-    shuffle: true
+    shuffle: false
     lint: true
 paths:
     tests: tests

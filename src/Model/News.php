@@ -41,5 +41,4 @@ class News extends Identity implements FetchableInterface, MutableInterface
             "created_on" => [RemoveKeyMutation::class => []]
         ];
     }
-
 }
