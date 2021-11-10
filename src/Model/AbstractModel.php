@@ -11,6 +11,9 @@ use Error;
 use JsonException;
 use Blackmine\Collection\IdentityCollection;
 
+/**
+ * @method mixed getId()
+ */
 abstract class AbstractModel implements ModelInterface
 {
     use ModelTrait;
@@ -77,6 +80,7 @@ abstract class AbstractModel implements ModelInterface
         $payload = $this->toArray();
 
         if ($this->isMutable()) {
+            /** @var MutableInterface $this */
             $mutator = new ModelMutator($this);
             $payload = $mutator->mutate();
         }
@@ -110,10 +114,5 @@ abstract class AbstractModel implements ModelInterface
     public function isCacheable(): bool
     {
         return property_exists($this, "id");
-    }
-
-    public function getCacheKey(): ?string
-    {
-        return $this->isCacheable() ? sha1(get_class($this) . ":" . $this->getId()) : null;
     }
 }

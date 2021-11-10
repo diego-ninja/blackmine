@@ -105,7 +105,7 @@ class Project extends NamedIdentity implements FetchableInterface, MutableInterf
         if (!$membership) {
             $membership = new Membership();
             $membership->setUser($user);
-            $membership->setRoles($roles);
+            $membership->setRoles(new RepeatableIdCollection($roles));
             $membership->setProject($this);
         } else {
             foreach ($roles as $role) {

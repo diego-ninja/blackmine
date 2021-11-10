@@ -172,4 +172,7 @@ trait RepositoryTrait
 
     abstract public function getClient(): ClientInterface;
     abstract public static function getRelationClassFor(string $relation): ?string;
+    abstract public function getFetchRelations(): array;
+    abstract public function getRelationClassMap(): array;
+    abstract public function getEndpoint(): string;
 }

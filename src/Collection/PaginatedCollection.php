@@ -17,9 +17,9 @@ class PaginatedCollection extends IdentityCollection
     }
 
     /**
-     * @param int $limit
+     * @param int|null $limit
      */
-    public function setLimit(int $limit): void
+    public function setLimit(?int $limit): void
     {
         $this->limit = $limit;
     }
@@ -33,9 +33,9 @@ class PaginatedCollection extends IdentityCollection
     }
 
     /**
-     * @param int $total_count
+     * @param int|null $total_count
      */
-    public function setTotalCount(int $total_count): void
+    public function setTotalCount(?int $total_count): void
     {
         $this->total_count = $total_count;
     }
@@ -49,9 +49,9 @@ class PaginatedCollection extends IdentityCollection
     }
 
     /**
-     * @param int $offset
+     * @param int|null $offset
      */
-    public function setOffset(int $offset): void
+    public function setOffset(?int $offset): void
     {
         $this->offset = $offset;
     }

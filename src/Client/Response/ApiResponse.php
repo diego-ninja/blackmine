@@ -11,7 +11,7 @@ class ApiResponse
 {
     protected bool $is_cached;
 
-    private function __construct(protected int $status, protected ?array $data)
+    private function __construct(protected int|bool $status, protected ?array $data)
     {
     }
 

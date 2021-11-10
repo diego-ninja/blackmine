@@ -88,11 +88,6 @@ class Projects extends AbstractRepository
         return $wiki_pages->all();
     }
 
-    public function addWikiPage(Project $project, WikiPage $wiki_page): Project
-    {
-        return $project;
-    }
-
     /**
      * @throws AbstractApiException
      * @throws InvalidModelException

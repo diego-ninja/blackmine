@@ -26,7 +26,7 @@ class CacheableRepository implements RepositoryInterface
 
     public function __construct(
         protected AbstractRepository $repository,
-        protected CacheInterface $cache,
+        protected CacheInterface|TagAwareCacheInterface $cache,
         protected KeyGeneratorInterface $generator,
         protected array $options = [
             ClientOptions::CLIENT_OPTION_REQUEST_HEADERS => []
@@ -215,5 +215,10 @@ class CacheableRepository implements RepositoryInterface
     public static  function getRelationClassFor(string $relation): ?string
     {
         return null;
+    }
+
+    public function getFetchRelations(): array
+    {
+        return $this->repository->getFetchRelations();
     }
 }

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Blackmine\Model\Issue;
 
-use Blackmine\Model\AbstractModel;
 use Blackmine\Model\Identity;
 use Blackmine\Model\User\User;
 use Blackmine\Repository\Issues\Issues;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @method void setUser(User $user)

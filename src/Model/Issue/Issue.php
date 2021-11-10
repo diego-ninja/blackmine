@@ -6,6 +6,7 @@ namespace Blackmine\Model\Issue;
 
 use Blackmine\Collection\RepeatableIdCollection;
 use Blackmine\Model\CustomField;
+use Blackmine\Model\Enumeration\IssuePriority;
 use Blackmine\Model\Project\Version;
 use Blackmine\Mutator\MutableInterface;
 use Blackmine\Mutator\Mutation\RemoveKeyMutation;
@@ -86,7 +87,7 @@ class Issue extends Identity implements FetchableInterface, MutableInterface
     protected Project $project;
     protected Tracker $tracker;
     protected Status $status;
-    protected NamedIdentity $priority;
+    protected IssuePriority $priority;
     protected User $author;
     protected ?User $assigned_to;
     protected IssueCategory $category;
@@ -125,6 +126,7 @@ class Issue extends Identity implements FetchableInterface, MutableInterface
         $this->attachments = new IdentityCollection();
         $this->children = new IdentityCollection();
         $this->custom_fields = new IdentityCollection();
+        $this->watchers = new RepeatableIdCollection();
     }
 
     public function comment(string $notes): void
@@ -149,6 +151,7 @@ class Issue extends Identity implements FetchableInterface, MutableInterface
             "changesets" => [RemoveKeyMutation::class  => []],
             "relations" => [RemoveKeyMutation::class  => []],
             "journals" => [RemoveKeyMutation::class  => []],
+            "children" => [RemoveKeyMutation::class  => []],
         ];
     }
 }
