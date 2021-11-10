@@ -49,9 +49,9 @@ class WikiPage extends Identity implements FetchableInterface, MutableInterface,
     protected ?WikiPage $parent = null;
     protected User $author;
 
-    protected ?IdentityCollection $attachments;
-    protected ?IdentityCollection $revisions;
-    protected ?HierarchyCollection $children;
+    protected IdentityCollection $attachments;
+    protected IdentityCollection $revisions;
+    protected HierarchyCollection $children;
 
     protected CarbonImmutable $created_on;
     protected CarbonImmutable $updated_on;

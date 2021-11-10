@@ -120,7 +120,7 @@ class Projects extends AbstractRepository
     {
         $file = $this->client->getRepository(Uploads::API_ROOT)?->create($file);
         /** @var File $file */
-        if ($file) {
+        if ($file !== null) {
             $file->setVersion($project->getDefaultVersion());
 
             $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/files." . $this->client->getFormat();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Blackmine\Repository;
 
+use Blackmine\Client\ClientInterface;
 use Blackmine\Client\Response\ApiResponse;
 use Blackmine\Collection\IdentityCollection;
 use Blackmine\Collection\PaginatedCollection;
@@ -152,4 +153,6 @@ trait RepositoryTrait
 
         return $collection;
     }
+
+    abstract public function getClient(): ClientInterface;
 }

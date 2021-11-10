@@ -129,7 +129,7 @@ class Issues extends AbstractRepository
     {
         $attachment = $this->client->getRepository(Uploads::API_ROOT)?->create($attachment);
         /** @var Attachment $attachment */
-        if ($attachment) {
+        if ($attachment !== null) {
             $attachment->setVersion($issue->getFixedVersion());
             $issue->addAttachment($attachment);
         }

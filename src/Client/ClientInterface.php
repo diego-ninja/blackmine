@@ -18,4 +18,5 @@ interface ClientInterface
     public function get(string $endpoint, array $headers = []): ApiResponse;
     public function put(string $endpoint, ?string $body = null, array $headers = []): ApiResponse;
     public function delete(string $endpoint, array $headers = []): ApiResponse;
+    public function getFormat(): string;
 }
