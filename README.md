@@ -4,18 +4,17 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/diego-ninja/blackmine/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/diego-ninja/blackmine/?branch=main)
 ![Scrutinizer build (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/build/g/diego-ninja/blackmine/main)
 ![GitHub](https://img.shields.io/github/license/diego-ninja/blackmine)
-# :jack_o_lantern: Blackmine
 
-Blackmine is a full featured Redmine API client written in PHP 8. Heavily based on interfaces, abstract classes and all kind of dirty tricks like magic methods and traits to allow quick reaction to the frenzy Redmine API updates activity. :D
+# Blackmine
 
-## Quick example
+Blackmine is a full-featured Redmine API client written in [PHP8](https://www.php.net/releases/8.0/en.php). It implements a simple interface and converts responses into models and collections. 
 
-Of corpse you need to require the package using composer:
-
+# Installation
 
 <pre><font color="#8BE9FD">composer</font><font color="#F8F8F2"> </font><font color="#BD93F9">require</font><font color="#F8F8F2"> </font><font color="#BD93F9">blackmine/blackmine</font></pre>
 
-and then, the magic:
+
+# Quick example
 
 ```php
 
@@ -45,11 +44,11 @@ $issues->create($issue);
 
 Actually only JSON format is supported, yeah, JSON is cool and XML isn't. If you think  XML is cool enough you can fork the project, start the feature/xml_is_cool branch and pull request your coolness.
 
-We are focusing development by now, on apis marked as stable/beta by Redmine team, once those apis will be finished and tested maybe we can start to look alpha ones with the corner of the eye.
+Almost all exposed Redmine APIs are supported by Blackmine. There a few bugs that we are trying to fis as soon as possible.
 
-Blackmine uses [Requests](https://requests.ryanmccue.info/) as transport layer, in a near or not so near future, I will try to pivot to a PSR18 implementation. If you can't wait, you can fork the project, start the feature/psr18_or_death and pull request your hurry ups.
+Blackmine uses [Requests](https://requests.ryanmccue.info/) as transport layer, in a near or not so near future, I will try to pivot to a [PSR18](https://www.php-fig.org/psr/psr-18/) implementation. If you can't wait, you can fork the project, start the feature/psr18_or_death and pull request your hurry ups. 
 
-As we are in a so, really so, so, so, alpha stage, of course there are no documentation at all or comments in the code, because comments in the code are no more than a mask for a bad code. Check the code and try to understand, is not black magic.
+Blackmine uses [Carbon](https://carbon.nesbot.com/) to manage dates.
 
 ## Things that are almost complete:
  - [Issues API](https://www.redmine.org/projects/redmine/wiki/Rest_Issues)
