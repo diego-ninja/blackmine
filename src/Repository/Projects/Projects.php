@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Blackmine\Repository\Projects;
 
-use Blackmine\Collection\HierarchyCollection;
 use Blackmine\Exception\Api\AbstractApiException;
 use Blackmine\Exception\InvalidModelException;
 use Blackmine\Model\News;
@@ -92,23 +91,6 @@ class Projects extends AbstractRepository
     public function addWikiPage(Project $project, WikiPage $wiki_page): Project
     {
         return $project;
-    }
-
-
-    /**
-     * @throws AbstractApiException
-     * @throws JsonException
-     */
-    protected function getWikiPage(Project $project, string $title, ?int $version = null): WikiPage
-    {
-        $endpoint = $this->getEndpoint() . "/" . $project->getId() . "/wiki/" . $title . "." . $this->client->getFormat() . "?include=attachments";
-        $response = $this->client->get($endpoint);
-
-        if ($response->isSuccess()) {
-            return (new WikiPage())->fromArray($response->getData()["wiki_page"]);
-        }
-
-        throw AbstractApiException::fromApiResponse($response);
     }
 
     /**

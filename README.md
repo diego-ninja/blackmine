@@ -67,6 +67,7 @@ As we are in a so, really so, so, so, alpha stage, of course there are no docume
  - [Enumerations API](https://www.redmine.org/projects/redmine/wiki/Rest_Enumerations)
  - [Attachments API](https://www.redmine.org/projects/redmine/wiki/Rest_Attachments)
  - [Wiki Pages API](https://www.redmine.org/projects/redmine/wiki/Rest_WikiPages) (bugged)
+ - [News API](https://www.redmine.org/projects/redmine/wiki/Rest_News)
  - Caching responses (with Tag/TTL invalidation mechanism)
  - Impersonating users (for admin users)
 

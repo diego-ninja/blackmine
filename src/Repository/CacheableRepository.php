@@ -211,4 +211,9 @@ class CacheableRepository implements RepositoryInterface
     {
         return $this->cache instanceof TagAwareCacheInterface;
     }
+
+    public static  function getRelationClassFor(string $relation): ?string
+    {
+        return null;
+    }
 }
