@@ -6,6 +6,7 @@ namespace Blackmine\Repository;
 
 use Blackmine\Exception\Api\AbstractApiException;
 use Blackmine\Exception\InvalidModelException;
+use Blackmine\Exception\MethodNotImplementedException;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\Project\File;
 use Blackmine\Model\Upload;
@@ -57,9 +58,12 @@ class Uploads extends AbstractRepository
         return null;
     }
 
+    /**
+     * @throws MethodNotImplementedException
+     */
     public function get(mixed $id): ?AbstractModel
     {
-        throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
+        throw new MethodNotImplementedException("Method " . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 
     public function search(array $params = []): ArrayCollection
@@ -67,18 +71,27 @@ class Uploads extends AbstractRepository
         throw new Error("Method "  . __FUNCTION__ . "not implemented for apì: " . self::API_ROOT);
     }
 
+    /**
+     * @throws MethodNotImplementedException
+     */
     public function update(AbstractModel $model): ?AbstractModel
     {
-        throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
+        throw new MethodNotImplementedException("Method " . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 
+    /**
+     * @throws MethodNotImplementedException
+     */
     public function delete(AbstractModel $model): void
     {
-        throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
+        throw new MethodNotImplementedException("Method " . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 
+    /**
+     * @throws MethodNotImplementedException
+     */
     public function all(?string $endpoint = null): ArrayCollection
     {
-        throw new Error("Method "  . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
+        throw new MethodNotImplementedException("Method " . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT);
     }
 }

@@ -47,7 +47,7 @@ class CacheableRepository implements RepositoryInterface
     public function get(mixed $id): ?AbstractModel
     {
         $cache_key = $this->generator->generate($this->repository->getModelClass(), $id);
-        return $this->cache->get($cache_key, function (ItemInterface $item) use ($id) {
+        return $this->cache->get($cache_key, function(ItemInterface $item) use ($id) {
             $model = $this->repository->get($id);
             if ($model) {
                 $item->set($model);
@@ -120,7 +120,7 @@ class CacheableRepository implements RepositoryInterface
             json_encode(static::$filter_params, JSON_THROW_ON_ERROR)
         );
 
-        return $this->cache->get($cache_key, function (ItemInterface $item) {
+        return $this->cache->get($cache_key, function(ItemInterface $item) {
             $search_results = $this->doSearch();
             if (!$search_results->isEmpty()) {
                 $item->set($search_results);
@@ -166,7 +166,7 @@ class CacheableRepository implements RepositoryInterface
         $cache_key = $this->generator->generate($model->getEntityName(), $model->getId());
 
         $this->cache->delete($cache_key);
-        return $this->cache->get($cache_key, function (ItemInterface $item) use ($model) {
+        return $this->cache->get($cache_key, function(ItemInterface $item) use ($model) {
             $item->set($model);
             $item->expiresAfter($this->getCacheTTL());
             if ($this->supportsTagging()) {
