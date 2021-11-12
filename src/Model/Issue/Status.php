@@ -21,4 +21,9 @@ class Status extends NamedIdentity
     {
         return Statuses::class;
     }
+
+    public function close(): void
+    {
+        $this->is_closed = true;
+    }
 }

@@ -48,8 +48,10 @@ abstract class AbstractApiException extends Exception
         throw new Error('Mandatory constant ERROR_MESSAGE not defined in class: ' . get_class($this));
     }
 
-    public static function fromApiResponse(ApiResponse $api_response, ?Throwable $previous = null): AbstractApiException | Error
-    {
+    public static function fromApiResponse(
+        ApiResponse $api_response,
+        ?Throwable $previous = null
+    ): AbstractApiException | Error {
         return match ($api_response->getStatus()) {
             401 => new UnauthorizedApiException(previous: $previous),
             403 => new InaccessibleResourceException(previous: $previous),

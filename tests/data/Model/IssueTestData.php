@@ -8,7 +8,9 @@ return [
         "project" => new \Blackmine\Model\Project\Project(id: 1, name: "Test Project"),
         "tracker" => new \Blackmine\Model\Project\Tracker(id: 1, name: "Test Tracker"),
         "priority" => new \Blackmine\Model\Enumeration\IssuePriority(id: 1, name: "Test Priority"),
-        "author" => (new \Blackmine\Model\User\User())->fromArray(["id" => 1, "firstname" => "Test", "lastname" => "User"]),
+        "author" => (new \Blackmine\Model\User\User())->fromArray(
+            ["id" => 1, "firstname" => "Test", "lastname" => "User"]
+        ),
         "category" => new \Blackmine\Model\Project\IssueCategory(id: 1, name: "Test Category"),
         "fixed_version" => new \Blackmine\Model\Project\Version(id: 1, name: "Test Version"),
         "subject" => "Test Subject",
@@ -28,7 +30,10 @@ return [
         "attachments" => [],
         "children" => [],
         "custom_fields" => [],
-        "watchers" => []
+        "watchers" => [],
+        "journals" => [],
+        "relations" => [],
+        "changesets" => []
     ],
     "__payload" => [
         "issue" => [
@@ -45,5 +50,9 @@ return [
             "custom_fields" => [],
             "watcher_user_ids" => []
         ]
+    ],
+    "__implements" => [
+        \Blackmine\Mutator\MutableInterface::class,
+        \Blackmine\Model\FetchableInterface::class
     ]
 ];

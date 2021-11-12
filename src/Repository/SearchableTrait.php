@@ -120,7 +120,9 @@ trait SearchableTrait
             static::$search_params[RepositoryInterface::SEARCH_PARAM_LIMIT] = $_limit;
             static::$search_params[RepositoryInterface::SEARCH_PARAM_OFFSET] = $this->offset;
 
-            $api_response = $this->getClient()->get($this->constructEndpointUrl($search_endpoint, static::$search_params));
+            $api_response = $this->getClient()->get(
+                $this->constructEndpointUrl($search_endpoint, static::$search_params)
+            );
 
             if ($api_response->isSuccess()) {
                 $ret = $this->getCollection($api_response->getData()[$this->getEndpoint()]);

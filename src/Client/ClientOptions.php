@@ -57,8 +57,10 @@ class ClientOptions
 
     protected function initHeaders(): void
     {
-        $this->options[self::CLIENT_OPTION_REQUEST_HEADERS][self::REDMINE_API_KEY_HEADER] = $this->options[self::CLIENT_OPTION_API_KEY];
-        $this->options[self::CLIENT_OPTION_REQUEST_HEADERS][self::REDMINE_IMPERSONATE_HEADER] = $this->options[self::CLIENT_OPTIONS_ACTING_AS] ?? null;
+        $this->options[self::CLIENT_OPTION_REQUEST_HEADERS][self::REDMINE_API_KEY_HEADER] =
+            $this->options[self::CLIENT_OPTION_API_KEY];
+        $this->options[self::CLIENT_OPTION_REQUEST_HEADERS][self::REDMINE_IMPERSONATE_HEADER] =
+            $this->options[self::CLIENT_OPTIONS_ACTING_AS] ?? null;
         $this->options[self::CLIENT_OPTION_REQUEST_HEADERS] = array_merge(
             self::$default_headers,
             $this->options[self::CLIENT_OPTION_REQUEST_HEADERS]

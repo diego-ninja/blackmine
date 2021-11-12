@@ -1,8 +1,9 @@
 <?php
 
-namespace Blackmine\Tests\Models;
+namespace Blackmine\Tests\Model;
 
 use Blackmine\Model\AbstractModel;
+use Blackmine\Model\FetchableInterface;
 use Blackmine\Model\ModelTrait;
 use Codeception\Test\Unit;
 
@@ -10,8 +11,11 @@ abstract class AbstractModelTest extends Unit
 {
     use ModelTrait;
 
+    protected const TEST_MODEL = "undefined";
+
     protected array $original_construct_values = [];
     protected ?array $expected_payload;
+    protected array $expected_interfaces = [];
     protected array $expected_array = [];
     protected string $expected_json;
 
@@ -43,12 +47,26 @@ abstract class AbstractModelTest extends Unit
         $this->assertEquals($this->expected_array, $this->testable_entity->jsonSerialize());
     }
 
+    public function testInterfaces(): void
+    {
+        foreach ($this->expected_interfaces as $expected_interface) {
+            $this->assertContains(
+                $expected_interface,
+                class_implements($this->testable_entity),
+                get_class($this->testable_entity) . " must implement " . $expected_interface
+            );
+        }
+    }
+
     /**
      * @throws \JsonException
      */
     public function testJsonEncode(): void
     {
-        $this->assertJsonStringEqualsJsonString($this->expected_json, json_encode($this->testable_entity, JSON_THROW_ON_ERROR));
+        $this->assertJsonStringEqualsJsonString(
+            $this->expected_json,
+            json_encode($this->testable_entity, JSON_THROW_ON_ERROR)
+        );
     }
 
     public function testPayload(): void
@@ -57,7 +75,9 @@ abstract class AbstractModelTest extends Unit
             $this->assertEquals($this->expected_payload, $this->testable_entity->getPayload());
         } else {
             $this->expectError();
-            $this->expectErrorMessage('Mandatory constant ENTITY_NAME not defined in model class: ' . static::TEST_MODEL);
+            $this->expectErrorMessage(
+                'Mandatory constant ENTITY_NAME not defined in model class: ' . static::TEST_MODEL
+            );
 
             $this->testable_entity->getPayload();
         }
@@ -75,7 +95,7 @@ abstract class AbstractModelTest extends Unit
      */
     private function initExpectations(): void
     {
-        $data_dir = __DIR__ . "/../data/";
+        $data_dir = __DIR__ . "/../data/Model/";
         $model_data_file = $data_dir . $this->getUnqualifiedClassName() . "TestData.php";
 
         if (file_exists($model_data_file)) {
@@ -95,6 +115,10 @@ abstract class AbstractModelTest extends Unit
             if (is_array($data["__expects"])) {
                 $this->expected_array = $data["__expects"];
                 $this->expected_json = json_encode($data["__expects"], JSON_THROW_ON_ERROR);
+            }
+
+            if (isset($data["__implements"])) {
+                $this->expected_interfaces = $data["__implements"];
             }
         }
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Blackmine\Model\Issue;
 
+use Blackmine\Model\FetchableInterface;
 use Blackmine\Model\Identity;
 use Blackmine\Model\User\User;
 use Blackmine\Repository\Issues\Issues;
@@ -19,7 +20,7 @@ use Blackmine\Repository\Issues\Issues;
  * @method bool isPrivateNotes()
  * @method array getDetails()
  */
-class Journal extends Identity
+class Journal extends Identity implements FetchableInterface
 {
     public const ENTITY_NAME = "journal";
 

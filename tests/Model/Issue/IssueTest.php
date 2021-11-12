@@ -1,9 +1,11 @@
 <?php
 
-namespace Blackmine\Tests\Models\Issue;
+declare(strict_types=1);
+
+namespace Blackmine\Tests\Model\Issue;
 
 use Blackmine\Model\Issue\Issue;
-use Blackmine\Tests\Models\AbstractModelTest;
+use Blackmine\Tests\Model\AbstractModelTest;
 
 class IssueTest extends AbstractModelTest
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Blackmine\Tests\Models;
+namespace Blackmine\Tests\Model;
 
 use Blackmine\Model\News;
 

@@ -108,13 +108,13 @@ class Issue extends Identity implements FetchableInterface, MutableInterface
 
     protected ?Issue $parent_issue = null;
 
-    protected ?IdentityCollection $custom_fields;
-    protected ?IdentityCollection $relations;
-    protected ?IdentityCollection $children;
-    protected ?IdentityCollection $attachments;
-    protected ?IdentityCollection $journals;
-    protected ?IdentityCollection $changesets;
-    protected ?RepeatableIdCollection $watchers;
+    protected IdentityCollection $custom_fields;
+    protected IdentityCollection $relations;
+    protected IdentityCollection $children;
+    protected IdentityCollection $attachments;
+    protected IdentityCollection $journals;
+    protected IdentityCollection $changesets;
+    protected RepeatableIdCollection $watchers;
 
     protected CarbonImmutable $created_on;
     protected ?CarbonImmutable $updated_on;
@@ -123,9 +123,12 @@ class Issue extends Identity implements FetchableInterface, MutableInterface
 
     public function __construct(protected ?int $id = null)
     {
-        $this->attachments = new IdentityCollection();
-        $this->children = new IdentityCollection();
         $this->custom_fields = new IdentityCollection();
+        $this->relations = new IdentityCollection();
+        $this->children = new IdentityCollection();
+        $this->attachments = new IdentityCollection();
+        $this->journals = new IdentityCollection();
+        $this->changesets = new IdentityCollection();
         $this->watchers = new RepeatableIdCollection();
     }
 

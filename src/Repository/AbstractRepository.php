@@ -45,9 +45,11 @@ abstract class AbstractRepository implements RepositoryInterface
     public function actingAs(string | User $user): self
     {
         if ($user instanceof User) {
-            $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS][ClientOptions::REDMINE_IMPERSONATE_HEADER] = $user->getLogin();
+            $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS][ClientOptions::REDMINE_IMPERSONATE_HEADER] =
+                $user->getLogin();
         } else {
-            $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS][ClientOptions::REDMINE_IMPERSONATE_HEADER] = $user;
+            $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS][ClientOptions::REDMINE_IMPERSONATE_HEADER] =
+                $user;
         }
 
         return $this;
