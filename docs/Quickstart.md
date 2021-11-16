@@ -3,7 +3,6 @@
 Once you required the package using composer, you need to create a client. The client receives a ClientOptions object with the Redmine instance configuration and optionally a [cache adapter](Cache.md) to speed up responses.
 
 ```php
-
 $options = new \Blackmine\Client\ClientOptions([
     ClientOptions::CLIENT_OPTION_BASE_URL => "https://your.redmine.url",
     ClientOptions::CLIENT_OPTION_API_KEY => "your.api.key",

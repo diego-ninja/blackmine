@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Blackmine\Repository\Projects;
 
 use Blackmine\Model\Project\TimeEntry;
-use Blackmine\Repository\AbstractRepository;
+use Blackmine\Repository\AbstractSearchableRepository;
 use Blackmine\Repository\RepositoryInterface;
 
-class TimeEntries extends AbstractRepository
+class TimeEntries extends AbstractSearchableRepository
 {
     public const API_ROOT = "time_entries";
 

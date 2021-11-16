@@ -20,6 +20,8 @@ use Blackmine\Repository\RepositoryInterface;
 use Blackmine\Repository\Uploads;
 use Blackmine\Repository\Users\Groups;
 use Blackmine\Repository\Users\Roles;
+use Blackmine\Tool\Inflect;
+use Error;
 use JsonException;
 use Blackmine\Client\Response\ApiResponse;
 use Requests;
@@ -29,14 +31,43 @@ use Blackmine\Repository\Projects\Projects;
 use Blackmine\Repository\Users\Users;
 use Symfony\Contracts\Cache\CacheInterface;
 
+/**
+ * @method AbstractRepository Issues();
+ * @method AbstractRepository Users();
+ * @method AbstractRepository Projects();
+ * @method AbstractRepository Memberships();
+ * @method AbstractRepository Trackers();
+ * @method AbstractRepository IssueStatuses();
+ * @method AbstractRepository IssueCategories();
+ * @method AbstractRepository Relations();
+ * @method AbstractRepository Groups();
+ * @method AbstractRepository Versions();
+ * @method AbstractRepository TimeEntries();
+ * @method AbstractRepository Roles();
+ * @method AbstractRepository Enumerations();
+ * @method AbstractRepository Queries();
+ * @method AbstractRepository WikiPages();
+ * @method AbstractRepository Files();
+ * @method AbstractRepository Attachments();
+ * @method AbstractRepository CustomFields();
+ * @method AbstractRepository News();
+*/
 class Client implements ClientInterface
 {
+    /**
+     * @param ClientOptions $options
+     * @param CacheInterface|null $cache
+     */
     public function __construct(
         protected ClientOptions $options,
         protected ?CacheInterface $cache = null
     ) {
     }
 
+    /**
+     * @param string $endpoint
+     * @return RepositoryInterface|null
+     */
     public function getRepository(string $endpoint): ?RepositoryInterface
     {
         $repository = $this->getRepositoryForEndpoint($endpoint);
@@ -49,6 +80,22 @@ class Client implements ClientInterface
         }
 
         return $repository;
+    }
+
+    /**
+     * @param string $method
+     * @param array $args
+     * @return AbstractRepository|null
+     * @ignore
+     */
+    public function __call(string $method, array $args): ?AbstractRepository
+    {
+        $repository = $this->getRepositoryForEndpoint(Inflect::snakeize($method));
+        if ($repository) {
+            return $repository;
+        }
+
+        throw new Error("Undefined repository for api: " . Inflect::snakeize($method));
     }
 
     private function getRepositoryForEndpoint(string $endpoint): ?AbstractRepository
@@ -75,6 +122,10 @@ class Client implements ClientInterface
     }
 
     /**
+     * @param string $endpoint
+     * @param string $body
+     * @param array $headers
+     * @return ApiResponse
      * @throws JsonException
      */
     public function post(string $endpoint, string $body = '', array $headers = []): ApiResponse
@@ -84,6 +135,9 @@ class Client implements ClientInterface
     }
 
     /**
+     * @param string $endpoint
+     * @param array $headers
+     * @return ApiResponse
      * @throws JsonException
      */
     public function get(string $endpoint, array $headers = []): ApiResponse
@@ -93,6 +147,10 @@ class Client implements ClientInterface
     }
 
     /**
+     * @param string $endpoint
+     * @param string|null $body
+     * @param array $headers
+     * @return ApiResponse
      * @throws JsonException
      */
     public function put(string $endpoint, ?string $body = null, array $headers = []): ApiResponse
@@ -102,6 +160,9 @@ class Client implements ClientInterface
     }
 
     /**
+     * @param string $endpoint
+     * @param array $headers
+     * @return ApiResponse
      * @throws JsonException
      */
     public function delete(string $endpoint, array $headers = []): ApiResponse
@@ -110,6 +171,9 @@ class Client implements ClientInterface
         return ApiResponse::fromRequestsResponse($response);
     }
 
+    /**
+     * @return string
+     */
     public function getFormat(): string
     {
         return $this->options->get(ClientOptions::CLIENT_OPTION_FORMAT);

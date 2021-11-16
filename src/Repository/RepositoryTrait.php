@@ -11,7 +11,9 @@ use Blackmine\Collection\PaginatedCollection;
 use Blackmine\Exception\Api\AbstractApiException;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\FetchableInterface;
+use Blackmine\Model\Identity;
 use Blackmine\Tool\Inflect;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JsonException;
 
@@ -19,6 +21,37 @@ use function is_initialized;
 
 trait RepositoryTrait
 {
+
+    protected array $fetch_relations = [];
+
+    /**
+     * Adds a relation to get to the query. It applies to the single get operations too.
+     *
+     * @param string|array $include
+     * @return AbstractRepository|CacheableRepository|Issues\Issues|RepositoryTrait
+     */
+    public function with(string | array $include): self
+    {
+        if (!is_array($include)) {
+            $include = [$include];
+        }
+
+        foreach ($include as $item) {
+            $this->addRelationToFetch($item);
+        }
+
+        return $this;
+    }
+
+    protected function addRelations(array $params): array
+    {
+        if (!empty($this->fetch_relations)) {
+            $params["include"] = implode(",", $this->fetch_relations);
+        }
+
+        return $params;
+    }
+
     protected function hydrateRelations(AbstractModel $model): AbstractModel
     {
         foreach ($this->getFetchRelations() as $relation) {
@@ -70,8 +103,12 @@ trait RepositoryTrait
     }
 
     /**
-     * @throws JsonException
+     * @param string $method
+     * @param array $args
+     * @return mixed
      * @throws AbstractApiException
+     * @throws JsonException
+     * @ignore
      */
     public function __call(string $method, array $args): mixed
     {
@@ -105,8 +142,6 @@ trait RepositoryTrait
 
                 return $collection;
             }
-
-            throw AbstractApiException::fromApiResponse($response);
         }
 
         return null;
@@ -169,9 +204,56 @@ trait RepositoryTrait
         return $collection;
     }
 
+    protected function getCollection(array $items): ArrayCollection
+    {
+        $elements = [];
+
+        foreach ($items as $item) {
+            $object_class = $this->getModelClass();
+            $object = new $object_class();
+            $object->fromArray($item);
+
+            $this->hydrateRelations($object);
+
+            $elements[] = $object;
+        }
+
+        if (!empty($elements) && $elements[0] instanceof Identity) {
+            return new IdentityCollection($elements);
+        }
+
+        return new ArrayCollection($elements);
+    }
+
+
+    /**
+     * @return ClientInterface
+     * @ignore
+     */
     abstract public function getClient(): ClientInterface;
+
+    /**
+     * @param string $relation
+     * @return string|null
+     * @ignore
+     */
     abstract public static function getRelationClassFor(string $relation): ?string;
+
+    /**
+     * @return array
+     * @ignore
+     */
     abstract public function getFetchRelations(): array;
+
+    /**
+     * @return array
+     * @ignore
+     */
     abstract public function getRelationClassMap(): array;
+
+    /**
+     * @return string
+     * @ignore
+     */
     abstract public function getEndpoint(): string;
 }

@@ -10,6 +10,7 @@ use Blackmine\Model\User\Membership;
 use Blackmine\Model\User\Role;
 use Blackmine\Model\User\User;
 use Blackmine\Repository\AbstractRepository;
+use Blackmine\Repository\AbstractSearchableRepository;
 use Blackmine\Repository\RepositoryInterface;
 use JsonException;
 use Blackmine\Exception\Api\AbstractApiException;
@@ -17,7 +18,7 @@ use Blackmine\Exception\Api\AbstractApiException;
 /**
  * @method User|null  get(mixed $id)
  */
-class Users extends AbstractRepository
+class Users extends AbstractSearchableRepository
 {
     public const API_ROOT = "users";
 

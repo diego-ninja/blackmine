@@ -14,7 +14,6 @@ use Doctrine\Common\Collections\Collection;
 /**
  * @method Group addUser(Group $group, User $user)
  * @method Group removeUser(Group $group, User $user)
- * @method IdentityCollection getMemberships()
  */
 class Groups extends AbstractRepository
 {

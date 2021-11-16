@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Blackmine\Model\User;
 
 use Blackmine\Collection\RepeatableIdCollection;
+use Blackmine\Model\FetchableInterface;
 use Blackmine\Model\Identity;
 use Blackmine\Model\Project\Project;
 use Blackmine\Mutator\MutableInterface;

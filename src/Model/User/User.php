@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Blackmine\Model\User;
 
 use Blackmine\Model\CustomField;
+use Blackmine\Model\FetchableInterface;
 use Blackmine\Model\NamedIdentity;
 use Carbon\CarbonImmutable;
 use Blackmine\Collection\IdentityCollection;
@@ -35,7 +36,7 @@ use Blackmine\Repository\Users\Users;
  * @method addMembership(Membership $membership)
  * @method removeMembership(Membership $membership)
  */
-class User extends NamedIdentity
+class User extends NamedIdentity implements FetchableInterface
 {
     public const ENTITY_NAME = "user";
 

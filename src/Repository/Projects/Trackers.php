@@ -8,7 +8,6 @@ use Blackmine\Exception\MethodNotImplementedException;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\Project\Tracker;
 use Blackmine\Repository\AbstractRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class Trackers extends AbstractRepository
 {
@@ -17,17 +16,6 @@ class Trackers extends AbstractRepository
     public function getModelClass(): string
     {
         return Tracker::class;
-    }
-
-
-    /**
-     * @throws MethodNotImplementedException
-     */
-    public function search(array $params = []): ArrayCollection
-    {
-        throw new MethodNotImplementedException(
-            "Method " . __FUNCTION__ . " not implemented for apì: " . self::API_ROOT
-        );
     }
 
     /**

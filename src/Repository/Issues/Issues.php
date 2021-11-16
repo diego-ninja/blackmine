@@ -9,7 +9,9 @@ use Blackmine\Exception\Api\AbstractApiException;
 use Blackmine\Exception\InvalidModelException;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\User\User;
+use Blackmine\Repository\AbstractSearchableRepository;
 use Blackmine\Repository\RepositoryTrait;
+use Blackmine\Repository\SearchableTrait;
 use Blackmine\Repository\Uploads;
 use Carbon\CarbonInterface;
 use Blackmine\Model\CustomField;
@@ -23,7 +25,7 @@ use Blackmine\Repository\RepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonException;
 
-class Issues extends AbstractRepository
+class Issues extends AbstractSearchableRepository
 {
     use RepositoryTrait;
 
@@ -45,6 +47,9 @@ class Issues extends AbstractRepository
     public const ISSUE_FILTER_STATUS_ID = "status_id";
     public const ISSUE_FILTER_ASSIGNED_TO_ID = "assigned_to_id";
     public const ISSUE_FILTER_QUERY_ID = "query_id";
+    public const ISSUE_FILTER_CLOSED_ON = "closed_on";
+    public const ISSUE_FILTER_START_DATE = "start_date";
+    public const ISSUE_FILTER_DUE_DATE = "due_date";
 
 
     protected static array $relation_class_map = [
@@ -68,6 +73,7 @@ class Issues extends AbstractRepository
         self::ISSUE_FILTER_ASSIGNED_TO_ID => RepositoryInterface::SEARCH_PARAM_TYPE_INT,
         self::COMMON_FILTER_CREATED_ON => CarbonInterface::class,
         self::COMMON_FILTER_UPDATED_ON => CarbonInterface::class,
+
         self::COMMON_FILTER_CUSTOM_FIELDS => RepositoryInterface::SEARCH_PARAM_TYPE_CF_ARRAY
     ];
 

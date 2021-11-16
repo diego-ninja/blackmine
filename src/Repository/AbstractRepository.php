@@ -10,6 +10,7 @@ use Blackmine\Client\Client;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Error;
 use JsonException;
 use Blackmine\Exception\Api\AbstractApiException;
@@ -19,29 +20,47 @@ use Blackmine\Exception\Api\EntityNotFoundException;
 abstract class AbstractRepository implements RepositoryInterface
 {
     use RepositoryTrait;
-    use SearchableTrait;
 
     protected static array $relation_class_map = [];
 
+    /**
+     * @param Client $client
+     * @param array|array[] $options
+     */
     public function __construct(
         protected Client $client,
         protected array $options = [
             ClientOptions::CLIENT_OPTION_REQUEST_HEADERS => []
         ]
     ) {
-        $this->reset();
     }
 
+    /**
+     * Returns the repository construction options
+     *
+     * @return array
+     */
     public function getOptions(): array
     {
         return $this->options;
     }
 
+    /**
+     * Returns the ClientInterface instance
+     *
+     * @return ClientInterface
+     */
     public function getClient(): ClientInterface
     {
         return $this->client;
     }
 
+    /**
+     * Starts impersonating user. Only if provided api_key is from an admin account.
+     *
+     * @param string|User $user
+     * @return $this
+     */
     public function actingAs(string | User $user): self
     {
         if ($user instanceof User) {
@@ -56,9 +75,13 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @throws JsonException
-     * @throws EntityNotFoundException
+     * Retrieves the entity given by id.
+     *
+     * @param mixed $id
+     * @return AbstractModel|null
      * @throws AbstractApiException
+     * @throws EntityNotFoundException
+     * @throws JsonException
      */
     public function get(mixed $id): ?AbstractModel
     {
@@ -66,7 +89,7 @@ abstract class AbstractRepository implements RepositoryInterface
         $endpoint_url = $this->getEndpoint() . "/" . $id . "." . $this->client->getFormat();
 
         if (!empty($this->getFetchRelations())) {
-            $params["include"] = implode(",", $this->getFetchRelations());
+            $params = $this->addRelations($params);
         }
 
         $api_response = $this->client->get(
@@ -93,16 +116,27 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
+     * Retrieves the whole entity collection for a given endpoint.
+     * Allows custom endpoints passed as parameter.
+     *
+     * @param string|null $endpoint
+     * @return Collection
      * @throws JsonException
      */
-    public function all(?string $endpoint = null): ArrayCollection
+    public function all(?string $endpoint = null): Collection
     {
+        $params = [];
+
+        if (!empty($this->getFetchRelations())) {
+            $params = $this->addRelations($params);
+        }
+
         $ret = new ArrayCollection();
 
-        $api_endpoint = $endpoint ?? $this->getEndpoint();
+        $api_endpoint = $endpoint ?? $this->getEndpoint() . "." . $this->client->getFormat();
 
         $api_response = $this->client->get(
-            endpoint: $api_endpoint . "." . $this->client->getFormat(),
+            endpoint: $this->constructEndpointUrl($api_endpoint, $params),
             headers: $this->options[ClientOptions::CLIENT_OPTION_REQUEST_HEADERS] ?? []
         );
         if (isset($api_response->getData()[static::API_ROOT])) {
@@ -113,9 +147,14 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @throws JsonException
-     * @throws InvalidModelException
+     * Creates the entity passed as parameter.
+     * Returns the updated entity.
+     *
+     * @param AbstractModel $model
+     * @return AbstractModel|null
      * @throws AbstractApiException
+     * @throws InvalidModelException
+     * @throws JsonException
      */
     public function create(AbstractModel $model): ?AbstractModel
     {
@@ -147,9 +186,14 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @throws JsonException
-     * @throws InvalidModelException
+     * Updates the entity passed as parameter.
+     * Returns the updated entity.
+     *
+     * @param AbstractModel $model
+     * @return AbstractModel|null
      * @throws AbstractApiException
+     * @throws InvalidModelException
+     * @throws JsonException
      */
     public function update(AbstractModel $model): ?AbstractModel
     {
@@ -176,6 +220,9 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
+     * Deletes the entity passed as parameter.
+     *
+     * @param AbstractModel $model
      * @throws AbstractApiException
      * @throws InvalidModelException
      * @throws JsonException
@@ -201,18 +248,19 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @throws JsonException
+     * @param string $relation
+     * @return string|null
+     * @ignore
      */
-    public function search(): ArrayCollection
-    {
-        return $this->doSearch();
-    }
-
     public static function getRelationClassFor(string $relation): ?string
     {
         return static::$relation_class_map[$relation] ?? null;
     }
 
+    /**
+     * @return string
+     * @ignore
+     */
     public function getEndpoint(): string
     {
         if (defined('static::API_ROOT')) {
@@ -222,21 +270,37 @@ abstract class AbstractRepository implements RepositoryInterface
         throw new Error('Mandatory constant API_ROOT not defined in class: ' . get_class($this));
     }
 
+    /**
+     * @return array
+     * @ignore
+     */
     public function getAllowedFilters(): array
     {
         return static::$allowed_filters;
     }
 
+    /**
+     * @return array
+     * @ignore
+     */
     public function getRelationClassMap(): array
     {
         return static::$relation_class_map;
     }
 
+    /**
+     * @return array
+     * @ignore
+     */
     public function getFetchRelations(): array
     {
         return $this->fetch_relations;
     }
 
+    /**
+     * @param string $relation
+     * @ignore
+     */
     public function addRelationToFetch(string $relation): void
     {
         if (array_key_exists($relation, $this->getRelationClassMap())) {
@@ -244,6 +308,12 @@ abstract class AbstractRepository implements RepositoryInterface
         }
     }
 
+    /**
+     * @param string $url
+     * @param array $params
+     * @return string
+     * @ignore
+     */
     public function constructEndpointUrl(string $url, array $params): string
     {
         if (empty($params)) {
@@ -257,5 +327,9 @@ abstract class AbstractRepository implements RepositoryInterface
         );
     }
 
+    /**
+     * @return string
+     * @ignore
+     */
     abstract public function getModelClass(): string;
 }

@@ -10,16 +10,14 @@ use Blackmine\Exception\InvalidModelException;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use JsonException;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
-/**
- * @method ArrayCollection all(?string $endpoint = null)
- */
-class CacheableRepository implements RepositoryInterface
+class CacheableRepository implements RepositoryInterface, SearchableRepositoryInterface
 {
     use RepositoryTrait;
     use SearchableTrait;
@@ -62,6 +60,29 @@ class CacheableRepository implements RepositoryInterface
             }
 
             return $model;
+        });
+    }
+
+    public function all(?string $endpoint = null): Collection
+    {
+        $api_endpoint = $endpoint ?? $this->getEndpoint() . "." . $this->getClient()->getFormat();
+
+        $cache_key = $this->generator->generate(
+            $api_endpoint,
+            json_encode($this->getFetchRelations(), JSON_THROW_ON_ERROR)
+        );
+
+        return $this->cache->get($cache_key, function (ItemInterface $item) use ($api_endpoint) {
+            $collection = $this->repository->all($api_endpoint);
+            if (!$collection->isEmpty()) {
+                $item->set($collection);
+                $item->expiresAfter($this->getCacheTTL());
+                if ($this->supportsTagging()) {
+                    $item->tag([$collection->first()->getEntityName() . "_all"]);
+                }
+            }
+
+            return $collection;
         });
     }
 
@@ -110,7 +131,10 @@ class CacheableRepository implements RepositoryInterface
             $cache_key = $this->generator->generate($model->getEntityName(), $model->getId());
             $this->cache->delete($cache_key);
             if ($this->supportsTagging()) {
-                $this->cache->invalidateTags([$model->getEntityName() . "_search_results"]);
+                $this->cache->invalidateTags([
+                    $model->getEntityName() . "_search_results",
+                    $model->getEntityName() . "_all"
+                ]);
             }
         }
     }
@@ -196,7 +220,10 @@ class CacheableRepository implements RepositoryInterface
             $item->set($model);
             $item->expiresAfter($this->getCacheTTL());
             if ($this->supportsTagging()) {
-                $this->cache->invalidateTags([$model->getEntityName() . "_search_results"]);
+                $this->cache->invalidateTags([
+                    $model->getEntityName() . "_search_results",
+                    $model->getEntityName() . "_all"
+                ]);
                 $item->tag([$model->getEntityName()]);
             }
 

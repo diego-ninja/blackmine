@@ -16,13 +16,13 @@ use Blackmine\Model\Project\Tracker;
 use Blackmine\Model\Project\Version;
 use Blackmine\Model\Project\WikiPage;
 use Blackmine\Model\User\Membership;
-use Blackmine\Repository\AbstractRepository;
+use Blackmine\Repository\AbstractSearchableRepository;
 use Blackmine\Repository\Uploads;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JsonException;
 
-class Projects extends AbstractRepository
+class Projects extends AbstractSearchableRepository
 {
     public const API_ROOT = "projects";
 

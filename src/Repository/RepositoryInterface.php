@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Blackmine\Repository;
 
 use Carbon\CarbonInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\CustomField;
 use Blackmine\Exception\Api\AbstractApiException;
 use Blackmine\Exception\Api\EntityNotFoundException;
 use Blackmine\Exception\InvalidModelException;
+use Doctrine\Common\Collections\Collection;
 use JsonException;
 
 interface RepositoryInterface
@@ -41,6 +41,12 @@ interface RepositoryInterface
     public const DEFAULT_OFFSET = 0;
 
     /**
+     * @param string|array $include
+     * @return RepositoryInterface
+     */
+    public function with(string | array $include): RepositoryInterface;
+
+    /**
      * @throws JsonException
      * @throws EntityNotFoundException
      * @throws AbstractApiException
@@ -66,5 +72,11 @@ interface RepositoryInterface
      * @throws JsonException
      */
     public function delete(AbstractModel $model): void;
-    public function search(): ArrayCollection;
+
+    /**
+     * @param string|null $endpoint
+     * @return Collection
+     * @throws JsonException
+     */
+    public function all(?string $endpoint = null): Collection;
 }

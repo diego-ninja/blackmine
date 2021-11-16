@@ -6,11 +6,9 @@ namespace Blackmine\Repository;
 
 use Blackmine\Client\ClientInterface;
 use Blackmine\Exception\Api\AbstractApiException;
-use Blackmine\Model\AbstractModel;
 use Carbon\CarbonInterface;
-use Blackmine\Collection\IdentityCollection;
-use Blackmine\Model\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use JsonException;
 use Blackmine\Model\CustomField;
 
@@ -23,8 +21,13 @@ trait SearchableTrait
     protected int $limit = RepositoryInterface::DEFAULT_LIMIT;
     protected int $offset = RepositoryInterface::DEFAULT_OFFSET;
 
-    protected array $fetch_relations = [];
-
+    /**
+     * Adds a supported filter to the query.
+     *
+     * @param string $filter_name
+     * @param mixed $value
+     * @return SearchableTrait|AbstractSearchableRepository|CacheableRepository
+     */
     public function addFilter(string $filter_name, mixed $value): self
     {
         if ($this->isAllowed($filter_name) && $this->checkType($value, $filter_name)) {
@@ -34,6 +37,12 @@ trait SearchableTrait
         return $this;
     }
 
+    /**
+     * Adds a custom field to filter for to the search query.
+     *
+     * @param CustomField $cf
+     * @return SearchableTrait|AbstractRepository|CacheableRepository
+     */
     public function addCustomFieldFilter(CustomField $cf): self
     {
         if ($this->isAllowed(RepositoryInterface::COMMON_FILTER_CUSTOM_FIELDS)) {
@@ -43,50 +52,63 @@ trait SearchableTrait
         return $this;
     }
 
-
-    public function with(string | array $include): self
-    {
-        if (!is_array($include)) {
-            $include = [$include];
-        }
-
-        foreach ($include as $item) {
-            $this->addRelationToFetch($item);
-        }
-
-        return $this;
-    }
-
-    public function reset(): self
-    {
-        static::$filter_params = [];
-        return $this;
-    }
-
+    /**
+     * Adds a starting date range filter to the query.
+     *
+     * @param CarbonInterface $date
+     * @param string $date_field
+     * @return SearchableTrait|AbstractRepository|CacheableRepository
+     */
     public function from(CarbonInterface $date, string $date_field = self::COMMON_FILTER_UPDATED_ON): self
     {
-        static::$filter_params[RepositoryInterface::SEARCH_PARAM_FROM][$date_field] = $date;
+        static::$filter_params[$date_field][RepositoryInterface::SEARCH_PARAM_FROM] = $date;
         return $this;
     }
 
+    /**
+     * Adds an ending date range filter to the query.
+     *
+     * @param CarbonInterface $date
+     * @param string $date_field
+     * @return SearchableTrait|AbstractRepository|CacheableRepository
+     */
     public function to(CarbonInterface $date, string $date_field = self::COMMON_FILTER_UPDATED_ON): self
     {
-        static::$filter_params[RepositoryInterface::SEARCH_PARAM_TO][$date_field] = $date;
+        static::$filter_params[$date_field][RepositoryInterface::SEARCH_PARAM_TO] = $date;
         return $this;
     }
 
+    /**
+     * Adds sorting field and sorting direction to the query.
+     *
+     * @param string $field_name
+     * @param string $direction
+     * @return SearchableTrait|AbstractRepository|CacheableRepository
+     */
     public function sortBy(string $field_name, string $direction = RepositoryInterface::SORT_DIRECTION_ASC): self
     {
         static::$sort_params[$field_name] = $direction;
         return $this;
     }
 
+    /**
+     * Adds limit to the query.
+     *
+     * @param int $limit
+     * @return SearchableTrait|AbstractRepository|CacheableRepository
+     */
     public function limit(int $limit): self
     {
         $this->limit = $limit;
         return $this;
     }
 
+    /**
+     * Adds starting results offset to the query.
+     *
+     * @param int $offset
+     * @return SearchableTrait|AbstractRepository|CacheableRepository
+     */
     public function offset(int $offset): self
     {
         $this->offset = $offset;
@@ -94,10 +116,28 @@ trait SearchableTrait
     }
 
     /**
+     * Executes the search query.
+     *
+     * @return Collection
+     * @throws AbstractApiException
+     * @throws JsonException
+     */
+    public function search(): Collection
+    {
+        return $this->doSearch();
+    }
+
+    protected function reset(): self
+    {
+        static::$filter_params = [];
+        return $this;
+    }
+
+    /**
      * @throws JsonException
      * @throws AbstractApiException
      */
-    protected function doSearch(): ArrayCollection
+    protected function doSearch(): Collection
     {
         $ret = new ArrayCollection();
 
@@ -133,27 +173,6 @@ trait SearchableTrait
         }
 
         return $ret;
-    }
-
-    protected function getCollection(array $items): ArrayCollection
-    {
-        $elements = [];
-
-        foreach ($items as $item) {
-            $object_class = $this->getModelClass();
-            $object = new $object_class();
-            $object->fromArray($item);
-
-            $this->hydrateRelations($object);
-
-            $elements[] = $object;
-        }
-
-        if (!empty($elements) && $elements[0] instanceof Identity) {
-            return new IdentityCollection($elements);
-        }
-
-        return new ArrayCollection($elements);
     }
 
     protected function isValidParameter(mixed $parameter, string $parameter_name): bool
@@ -212,11 +231,36 @@ trait SearchableTrait
                     }
                     break;
                 case CarbonInterface::class:
-                    $params[$parameter_name] = $raw_value->format("Y-m-d");
+                    $params[$parameter_name] = $this->addDateFilters($raw_value);
             }
         }
 
         return $params;
+    }
+
+    protected function addDateFilters(array | CarbonInterface $value): ?string
+    {
+        if ($value instanceof CarbonInterface) {
+            return $value->format("Y-m-d");
+        }
+
+        if (isset($value[RepositoryInterface::SEARCH_PARAM_FROM], $value[RepositoryInterface::SEARCH_PARAM_TO])) {
+            $from = $value[RepositoryInterface::SEARCH_PARAM_FROM]->format("Y-m-d");
+            $to = $value[RepositoryInterface::SEARCH_PARAM_TO]->format("Y-m-d");
+            return "><" .  $from . "|" . $to;
+        }
+
+        if (isset($value[RepositoryInterface::SEARCH_PARAM_FROM])) {
+            $from = $value[RepositoryInterface::SEARCH_PARAM_FROM]->format("Y-m-d");
+            return ">=" . $from;
+        }
+
+        if (isset($value[RepositoryInterface::SEARCH_PARAM_TO])) {
+            $to = $value[RepositoryInterface::SEARCH_PARAM_TO]->format("Y-m-d");
+            return "<=" . $to;
+        }
+
+        return null;
     }
 
     protected function addOrdering(array $params): array
@@ -232,15 +276,6 @@ trait SearchableTrait
             }
 
             $params[RepositoryInterface::SEARCH_PARAM_SORT] = implode(",", $ordering);
-        }
-
-        return $params;
-    }
-
-    protected function addRelations(array $params): array
-    {
-        if (!empty($this->fetch_relations)) {
-            $params["include"] = implode(",", $this->fetch_relations);
         }
 
         return $params;
@@ -269,10 +304,41 @@ trait SearchableTrait
         return $is_valid;
     }
 
+    /**
+     * @return ClientInterface
+     * @ignore
+     */
     abstract public function getClient(): ClientInterface;
+
+    /**
+     * @return string
+     * @ignore
+     */
     abstract public function getEndpoint(): string;
+
+    /**
+     * @param string $endpoint
+     * @param array $params
+     * @return string
+     * @ignore
+     */
     abstract public function constructEndpointUrl(string $endpoint, array $params): string;
+
+    /**
+     * @return string
+     * @ignore
+     */
     abstract public function getModelClass(): string;
+
+    /**
+     * @return array
+     * @ignore
+     */
     abstract public function getAllowedFilters(): array;
+
+    /**
+     * @param string $relation
+     * @ignore
+     */
     abstract public function addRelationToFetch(string $relation): void;
 }

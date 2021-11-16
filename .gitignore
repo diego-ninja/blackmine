@@ -1,3 +1,5 @@
 .idea
+.phpdoc
+src/.phpdoc
 vendor
 tester.php
