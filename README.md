@@ -5,7 +5,7 @@
 ![Scrutinizer build (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/build/g/diego-ninja/blackmine/main)
 ![GitHub](https://img.shields.io/github/license/diego-ninja/blackmine)
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/diego-ninja/blackmine?include_prereleases)
-![BlackMagic](https://img.shields.io/badge/built%20with-blackmagic-black?style=flat&color=blueviolet)
+![Black Magic](https://img.shields.io/badge/crafted%20with-blackmagic-black?style=flat&color=blueviolet)
 
 # Blackmine
 

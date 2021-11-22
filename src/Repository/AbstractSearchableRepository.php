@@ -2,7 +2,7 @@
 
 namespace Blackmine\Repository;
 
-use Blackmine\Client\Client;
+use Blackmine\Client\ClientInterface;
 use Blackmine\Client\ClientOptions;
 use JsonException;
 
@@ -11,11 +11,11 @@ abstract class AbstractSearchableRepository extends AbstractRepository implement
     use SearchableTrait;
 
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      * @param array|array[] $options
      */
     public function __construct(
-        protected Client $client,
+        protected ClientInterface $client,
         protected array $options = [
             ClientOptions::CLIENT_OPTION_REQUEST_HEADERS => []
         ]

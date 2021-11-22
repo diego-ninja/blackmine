@@ -36,9 +36,6 @@ return [
         "all" => [
             "__error" => \Blackmine\Exception\MethodNotImplementedException::class
         ],
-        "search" => [
-            "__error" => \Blackmine\Exception\MethodNotImplementedException::class
-        ],
         "create" => [
             "__error" => \Blackmine\Exception\MethodNotImplementedException::class
         ],

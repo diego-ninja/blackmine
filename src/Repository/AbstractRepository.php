@@ -6,7 +6,6 @@ namespace Blackmine\Repository;
 
 use Blackmine\Client\ClientInterface;
 use Blackmine\Client\ClientOptions;
-use Blackmine\Client\Client;
 use Blackmine\Model\AbstractModel;
 use Blackmine\Model\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,11 +23,11 @@ abstract class AbstractRepository implements RepositoryInterface
     protected static array $relation_class_map = [];
 
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      * @param array|array[] $options
      */
     public function __construct(
-        protected Client $client,
+        protected ClientInterface $client,
         protected array $options = [
             ClientOptions::CLIENT_OPTION_REQUEST_HEADERS => []
         ]
