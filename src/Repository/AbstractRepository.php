@@ -137,7 +137,7 @@ abstract class AbstractRepository implements RepositoryInterface
 
             if ($model_data) {
                 $model->fromArray($model_data);
-                $this->hydrateRelations($model);
+                $this->updateRelations($model);
 
                 return $model;
             }
