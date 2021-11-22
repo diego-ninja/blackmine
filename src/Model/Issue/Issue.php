@@ -41,6 +41,7 @@ use Blackmine\Model\Identity;
  * @method void setNotes(string $notes)
  * @method void setPrivateNotes(bool $private_notes)
  * @method void setParentIssue(Issue $parent_issue)
+ * @method void setIsPrivate(bool $is_private)
  *
  * @method Project getProject()
  * @method Tracker getTracker()
@@ -71,6 +72,8 @@ use Blackmine\Model\Identity;
  * @method CarbonImmutable getUpdatedOn()
  * @method CarbonImmutable getClosedOn()
  *
+ * @method bool isPrivate()
+ *
  * @method void addWatcher(User $watcher)
  * @method void removeWatcher(User $watcher)
  * @method void addAttachment(Attachment $attachment)
@@ -94,6 +97,7 @@ class Issue extends Identity implements FetchableInterface, MutableInterface
     protected Version $fixed_version;
     protected string $subject;
     protected string $description;
+    protected bool $is_private;
     protected CarbonImmutable $start_date;
     protected CarbonImmutable $due_date;
 
