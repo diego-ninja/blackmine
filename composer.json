@@ -55,5 +55,11 @@
         "issues": "https://github.com/diego-ninja/blackmine/issues",
         "source": "https://github.com/diego-ninja/blackmine",
         "docs": "https://github.com/diego-ninja/blackmine/tree/main/docs"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

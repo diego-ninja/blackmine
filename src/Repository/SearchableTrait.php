@@ -6,12 +6,10 @@ namespace Blackmine\Repository;
 
 use Blackmine\Client\ClientInterface;
 use Blackmine\Exception\Api\AbstractApiException;
-use Blackmine\Model\AbstractModel;
 use Carbon\CarbonInterface;
 use Blackmine\Collection\IdentityCollection;
 use Blackmine\Model\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
-use JsonException;
 use Blackmine\Model\CustomField;
 
 trait SearchableTrait
@@ -94,7 +92,6 @@ trait SearchableTrait
     }
 
     /**
-     * @throws JsonException
      * @throws AbstractApiException
      */
     protected function doSearch(): ArrayCollection

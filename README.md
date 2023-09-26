@@ -1,5 +1,7 @@
 ![Blackmine Logo](docs/assets/blackmine-logo-0001.png)
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/blackmine/blackmine.svg?style=flat)](https://packagist.org/packages/diego-ninja/docker)
+[![Total Downloads](https://img.shields.io/packagist/dt/blackmine/blackmine.svg?style=flat)](https://packagist.org/packages/diego-ninja/docker)
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/blackmine/blackmine) 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/diego-ninja/blackmine/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/diego-ninja/blackmine/?branch=main)
 ![Scrutinizer build (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/build/g/diego-ninja/blackmine/main)

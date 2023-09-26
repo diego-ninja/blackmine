@@ -92,7 +92,7 @@ trait RepositoryTrait
         $relation_class = $this->getRelationClassMap()[$relation_name];
 
         if ($args[0] instanceof AbstractModel) {
-            $endpoint = $this->getEndpoint() . "/" . $args[0]->getId() . "/" . $relation_name . "." . $this->getClient()->getFormat();
+            $endpoint = $this->getEndpoint() . "/" . $args[0]->getId() . "/" . $relation_name . "." . $this->getClient()->getFormat(); //phpcs:ignore
             $response = $this->getClient()->get($endpoint);
 
             if ($response->isSuccess()) {
@@ -119,7 +119,7 @@ trait RepositoryTrait
     {
         $relation = Inflect::pluralize(strtolower(Inflect::snakeize(substr($method, 3))));
         if ($args[0] instanceof AbstractModel && $args[1] instanceof AbstractModel) {
-            $endpoint = $this->getEndpoint() . "/" . $args[0]->getId() . "/" . $relation . "." . $this->getClient()->getFormat();
+            $endpoint = $this->getEndpoint() . "/" . $args[0]->getId() . "/" . $relation . "." . $this->getClient()->getFormat(); //phpcs:ignore
             $response = $this->getClient()->post($endpoint, json_encode($args[1]->getPayload(), JSON_THROW_ON_ERROR));
 
             if ($response->isSuccess()) {
